@@ -15,6 +15,7 @@ const sections = [
   { id: "transmutacoes", label: "Transmutações" },
   { id: "bonus", label: "Lista de Bônus" },
   { id: "gameplay", label: "Gameplay" },
+  { id: "mapa-vip", label: "Mapa VIP" },
   { id: "conclusao", label: "Conclusão" },
 ];
 
@@ -644,6 +645,31 @@ const gameplayList = [
   "Sem restrição de tempo para sair de guilda",
   "Chefes não sofrem knockback ao serem atacados",
   "Clicar no nome no chat abre janela de PM",
+];
+
+const mapaVipMiniBosses = [
+  { name: "Chefe Orc", icon: "/chefe-orc.png", color: "#c084fc", respawn: "1 Hr", drops: ["Baú Do Tier II", "Pedra Da Fundação 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
+  { name: "Tartaruga De Pedra", icon: "/tartaruga-pedra.png", color: "#86efac", respawn: "1 Hr", drops: ["Baú Do Tier II", "Compensado 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
+  { name: "Líder Fanático Zen", icon: "/lider-fanatico.png", color: "#a78bfa", respawn: "1 Hr", drops: ["Baú Do Tier II", "Compensado 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
+  { name: "Comandante Tigre", icon: "/comandante-tigre.png", color: "#fb923c", respawn: "1 Hr", drops: ["Baú Do Tier II", "Pedra Da Fundação 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
+  { name: "Nove Caudas", icon: "/nove-caudas.png", color: "#f9a8d4", respawn: "1 Hr", drops: ["Baú Do Tier II", "Pedra Da Fundação 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
+  { name: "Rei Flamejante", icon: "/rei-flamejante.png", color: "#f87171", respawn: "1 Hr", drops: ["Baú Do Tier II", "Compensado 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
+  { name: "Aranha Rainha", icon: "/rainha-aranha.png", color: "#94a3b8", respawn: "1 Hr", drops: ["Baú Do Tier II", "Tronco 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
+];
+
+const mapaVipBosses = [
+  { name: "Dragão D'Água", icon: "/dragao-dagua.png", color: "#38bdf8", respawn: "6 Hrs", drops: ["Tesouro Do Dragão D'Agua", "Máscara da Fortuna 1x", "Moedas da Conquista 15x", "Esfera da Bênção 2x"] },
+  { name: "Dragão De Fogo", icon: "/dragao-vermelho.png", color: "#f87171", respawn: "6 Hrs", drops: ["Tesouro Do Dragão De Fogo", "Máscara da Fortuna 1x", "Moedas da Conquista 15x", "Esfera da Bênção 2x"] },
+];
+
+const mapaVipMetins = [
+  { name: "Metin Da Visibilidade", level: "Lv 85", icon: "/metin-lv85.png", color: "#a78bfa", count: "x15", respawn: "10 Min", drops: ["Gold — 8.5kk", "Moedas da Conquista 3x", "Perg. do Novo Aprimoramento 3~5x", "Perg. do Aprimoramento 3~5x", "Pergaminho Da Paz 1x", "Anel Da Experiência 1x", "Luva Do Ladrão 1x", "Armaduras do 61", "Itens entre +3 e +6"] },
+  { name: "Metin Do Trovão", level: "Lv 90", icon: "/metin-lv90.png", color: "#fbbf24", count: "x15", respawn: "10 Min", drops: ["Gold — 10kk", "Moedas da Conquista 3x", "Perg. do Novo Aprimoramento 3~5x", "Perg. do Aprimoramento 3~5x", "Pergaminho Da Paz 1x", "Anel Da Experiência 1x", "Luva Do Ladrão 1x", "Esfera Da Bênção 1x", "Armaduras do 66", "Itens entre +3 e +6"] },
+];
+
+const mapaVipEspeciais = [
+  { name: "Tocha", icon: "/tochas.png", color: "#fb923c", count: "x5", respawn: "2 Hrs", drops: ["Armas Do 75", "Armaduras Do 66", "Perola Branca 1x", "Perola Azul 1x", "Perola Vermelha 1x", "Esfera Da Bênção 1x", "Pedra Arco-iris 1x"] },
+  { name: "Sapo De Ouro", icon: "🐸", color: "#86efac", count: "x5", respawn: "2 Hrs", drops: ["Mascara da Fortuna 1~2x"] },
 ];
 
 const armorPairs = [
@@ -2186,6 +2212,116 @@ export default function Wiki() {
                 </li>
               ))}
             </ul>
+          </section>
+
+          {/* MAPA VIP */}
+          <section id="mapa-vip">
+            <SectionTitle>MAPA VIP</SectionTitle>
+            <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
+              Área exclusiva com spawns de elite — Bosses, Mini-Bosses e Metins especiais reservados para jogadores VIP.
+            </p>
+
+            {/* Mini-Bosses VIP */}
+            <h3 className="text-primary font-bold uppercase tracking-wider text-sm mb-3 flex items-center gap-2">
+              <span>⚔️</span> Mini-Boss VIP <span className="text-muted-foreground font-normal normal-case tracking-normal text-xs">/ Respawn 1 Hr</span>
+            </h3>
+            <div className="grid md:grid-cols-2 gap-4 mb-8">
+              {mapaVipMiniBosses.map((boss) => (
+                <div key={boss.name} className="border rounded-xl overflow-visible" style={{ borderColor: boss.color + "40" }}>
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-t-xl" style={{ backgroundColor: boss.color + "15", borderBottom: `1px solid ${boss.color}25` }}>
+                    {boss.icon.startsWith("/") ? (
+                      <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10" />
+                    ) : (
+                      <span className="text-2xl">{boss.icon}</span>
+                    )}
+                    <p className="font-bold text-foreground text-sm">{boss.name}</p>
+                  </div>
+                  <div className="px-4 py-3 space-y-1.5">
+                    {boss.drops.map((d) => (
+                      <DropRow key={d} label={d} color={boss.color} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Bosses VIP */}
+            <h3 className="text-primary font-bold uppercase tracking-wider text-sm mb-3 flex items-center gap-2">
+              <span>👑</span> Boss VIP <span className="text-muted-foreground font-normal normal-case tracking-normal text-xs">/ Respawn 6 Hrs</span>
+            </h3>
+            <div className="grid md:grid-cols-2 gap-4 mb-8">
+              {mapaVipBosses.map((boss) => (
+                <div key={boss.name} className="border rounded-xl overflow-visible" style={{ borderColor: boss.color + "40" }}>
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-t-xl" style={{ backgroundColor: boss.color + "15", borderBottom: `1px solid ${boss.color}25` }}>
+                    {boss.icon.startsWith("/") ? (
+                      <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10" />
+                    ) : (
+                      <span className="text-2xl">{boss.icon}</span>
+                    )}
+                    <p className="font-bold text-foreground text-sm">{boss.name}</p>
+                  </div>
+                  <div className="px-4 py-3 space-y-1.5">
+                    {boss.drops.map((d) => (
+                      <DropRow key={d} label={d} color={boss.color} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Metins VIP */}
+            <h3 className="text-primary font-bold uppercase tracking-wider text-sm mb-3 flex items-center gap-2">
+              <span>🗿</span> Metins VIP <span className="text-muted-foreground font-normal normal-case tracking-normal text-xs">/ Respawn 10 Minutos</span>
+            </h3>
+            <div className="grid md:grid-cols-2 gap-4 mb-8">
+              {mapaVipMetins.map((metin) => (
+                <div key={metin.name} className="border rounded-xl overflow-visible" style={{ borderColor: metin.color + "40" }}>
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-t-xl" style={{ backgroundColor: metin.color + "15", borderBottom: `1px solid ${metin.color}25` }}>
+                    {metin.icon.startsWith("/") ? (
+                      <img src={metin.icon} alt={metin.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10" />
+                    ) : (
+                      <span className="text-2xl">{metin.icon}</span>
+                    )}
+                    <div>
+                      <p className="font-bold text-foreground text-sm">{metin.name}</p>
+                      <p className="text-xs" style={{ color: metin.color }}>{metin.level} — {metin.count}</p>
+                    </div>
+                  </div>
+                  <div className="px-4 py-3 space-y-1.5">
+                    {metin.drops.map((d) => (
+                      <DropRow key={d} label={d} color={metin.color} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Tocha e Sapo */}
+            <h3 className="text-primary font-bold uppercase tracking-wider text-sm mb-3 flex items-center gap-2">
+              <span>🗿</span> Tocha e Sapo <span className="text-muted-foreground font-normal normal-case tracking-normal text-xs">/ Respawn 2 Hrs</span>
+            </h3>
+            <div className="grid md:grid-cols-2 gap-4 mb-4">
+              {mapaVipEspeciais.map((mob) => (
+                <div key={mob.name} className="border rounded-xl overflow-visible" style={{ borderColor: mob.color + "40" }}>
+                  <div className="flex items-center gap-3 px-4 py-3 rounded-t-xl" style={{ backgroundColor: mob.color + "15", borderBottom: `1px solid ${mob.color}25` }}>
+                    {mob.icon.startsWith("/") ? (
+                      <img src={mob.icon} alt={mob.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10" />
+                    ) : (
+                      <span className="text-2xl">{mob.icon}</span>
+                    )}
+                    <div>
+                      <p className="font-bold text-foreground text-sm">{mob.name}</p>
+                      <p className="text-xs" style={{ color: mob.color }}>{mob.count}</p>
+                    </div>
+                  </div>
+                  <div className="px-4 py-3 space-y-1.5">
+                    {mob.drops.map((d) => (
+                      <DropRow key={d} label={d} color={mob.color} />
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
           </section>
 
           {/* CONCLUSÃO */}
