@@ -850,6 +850,7 @@ export default function Wiki() {
   const [transmutTab, setTransmutTab] = useState<"armas" | "armaduras" | "pvm">(
     "armas",
   );
+  const [vipTab, setVipTab] = useState<"miniboss" | "boss" | "metins" | "especiais">("miniboss");
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -2217,111 +2218,169 @@ export default function Wiki() {
           {/* MAPA VIP */}
           <section id="mapa-vip">
             <SectionTitle>MAPA VIP</SectionTitle>
-            <p className="text-muted-foreground text-sm mb-6 leading-relaxed">
-              Área exclusiva com spawns de elite — Bosses, Mini-Bosses e Metins especiais reservados para jogadores VIP.
-            </p>
 
-            {/* Mini-Bosses VIP */}
-            <h3 className="text-primary font-bold uppercase tracking-wider text-sm mb-3 flex items-center gap-2">
-              <span>⚔️</span> Mini-Boss VIP <span className="text-muted-foreground font-normal normal-case tracking-normal text-xs">/ Respawn 1 Hr</span>
-            </h3>
-            <div className="grid md:grid-cols-2 gap-4 mb-8">
-              {mapaVipMiniBosses.map((boss) => (
-                <div key={boss.name} className="border rounded-xl overflow-visible" style={{ borderColor: boss.color + "40" }}>
-                  <div className="flex items-center gap-3 px-4 py-3 rounded-t-xl" style={{ backgroundColor: boss.color + "15", borderBottom: `1px solid ${boss.color}25` }}>
-                    {boss.icon.startsWith("/") ? (
-                      <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10" />
-                    ) : (
-                      <span className="text-2xl">{boss.icon}</span>
-                    )}
-                    <p className="font-bold text-foreground text-sm">{boss.name}</p>
-                  </div>
-                  <div className="px-4 py-3 space-y-1.5">
-                    {boss.drops.map((d) => (
-                      <DropRow key={d} label={d} color={boss.color} />
-                    ))}
-                  </div>
-                </div>
+            {/* VIP banner */}
+            <div className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-5 py-4 mb-6 flex items-center gap-4">
+              <span className="text-3xl shrink-0">👑</span>
+              <div>
+                <p className="font-bold text-amber-400 text-sm uppercase tracking-widest mb-0.5">Área Exclusiva VIP</p>
+                <p className="text-muted-foreground text-xs leading-relaxed">
+                  Mapa reservado para jogadores VIP com spawns de elite — Mini-Bosses, Bosses, Metins e mobs especiais com drops diferenciados.
+                </p>
+              </div>
+            </div>
+
+            {/* Tab selector */}
+            <div className="flex flex-wrap gap-2 mb-6">
+              {([ 
+                { key: "miniboss", label: "Mini-Bosses", icon: "⚔️", respawn: "Respawn 1h" },
+                { key: "boss",     label: "Bosses",      icon: "🐉", respawn: "Respawn 6h" },
+                { key: "metins",   label: "Metins",      icon: "🗿", respawn: "Respawn 10min" },
+                { key: "especiais",label: "Tocha & Sapo",icon: "🔥", respawn: "Respawn 2h" },
+              ] as const).map((t) => (
+                <button
+                  key={t.key}
+                  onClick={() => setVipTab(t.key)}
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold uppercase tracking-wider transition-all ${
+                    vipTab === t.key
+                      ? "bg-amber-500 text-black shadow-[0_0_12px_rgba(245,158,11,0.4)]"
+                      : "border border-amber-500/30 text-muted-foreground hover:border-amber-500/60 hover:text-amber-400"
+                  }`}
+                >
+                  <span>{t.icon}</span>
+                  {t.label}
+                  <span className={`ml-1 text-[10px] font-normal normal-case tracking-normal ${vipTab === t.key ? "text-black/60" : "text-muted-foreground/60"}`}>
+                    / {t.respawn}
+                  </span>
+                </button>
               ))}
             </div>
 
-            {/* Bosses VIP */}
-            <h3 className="text-primary font-bold uppercase tracking-wider text-sm mb-3 flex items-center gap-2">
-              <span>👑</span> Boss VIP <span className="text-muted-foreground font-normal normal-case tracking-normal text-xs">/ Respawn 6 Hrs</span>
-            </h3>
-            <div className="grid md:grid-cols-2 gap-4 mb-8">
-              {mapaVipBosses.map((boss) => (
-                <div key={boss.name} className="border rounded-xl overflow-visible" style={{ borderColor: boss.color + "40" }}>
-                  <div className="flex items-center gap-3 px-4 py-3 rounded-t-xl" style={{ backgroundColor: boss.color + "15", borderBottom: `1px solid ${boss.color}25` }}>
-                    {boss.icon.startsWith("/") ? (
-                      <img src={boss.icon} alt={boss.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10" />
-                    ) : (
-                      <span className="text-2xl">{boss.icon}</span>
-                    )}
-                    <p className="font-bold text-foreground text-sm">{boss.name}</p>
-                  </div>
-                  <div className="px-4 py-3 space-y-1.5">
-                    {boss.drops.map((d) => (
-                      <DropRow key={d} label={d} color={boss.color} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            {/* Metins VIP */}
-            <h3 className="text-primary font-bold uppercase tracking-wider text-sm mb-3 flex items-center gap-2">
-              <span>🗿</span> Metins VIP <span className="text-muted-foreground font-normal normal-case tracking-normal text-xs">/ Respawn 10 Minutos</span>
-            </h3>
-            <div className="grid md:grid-cols-2 gap-4 mb-8">
-              {mapaVipMetins.map((metin) => (
-                <div key={metin.name} className="border rounded-xl overflow-visible" style={{ borderColor: metin.color + "40" }}>
-                  <div className="flex items-center gap-3 px-4 py-3 rounded-t-xl" style={{ backgroundColor: metin.color + "15", borderBottom: `1px solid ${metin.color}25` }}>
-                    {metin.icon.startsWith("/") ? (
-                      <img src={metin.icon} alt={metin.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10" />
-                    ) : (
-                      <span className="text-2xl">{metin.icon}</span>
-                    )}
-                    <div>
-                      <p className="font-bold text-foreground text-sm">{metin.name}</p>
-                      <p className="text-xs" style={{ color: metin.color }}>{metin.level} — {metin.count}</p>
+            {/* Mini-Bosses */}
+            {vipTab === "miniboss" && (
+              <div className="space-y-3">
+                {mapaVipMiniBosses.map((mob) => (
+                  <div key={mob.name} className="rounded-xl border border-amber-500/20 bg-card overflow-hidden flex">
+                    <div className="w-28 shrink-0 flex flex-col items-center justify-center gap-2 py-4 px-3 bg-amber-500/8 border-r border-amber-500/15">
+                      {mob.icon.startsWith("/") ? (
+                        <img src={mob.icon} alt={mob.name} className="w-16 h-16 object-contain drop-shadow-[0_0_6px_rgba(245,158,11,0.35)] hover:scale-110 transition-transform duration-200" />
+                      ) : (
+                        <span className="text-5xl">{mob.icon}</span>
+                      )}
+                      <span className="text-[10px] font-semibold text-amber-400/70 uppercase tracking-wider text-center leading-tight">
+                        {mob.respawn}
+                      </span>
+                    </div>
+                    <div className="flex-1 px-4 py-3">
+                      <p className="font-bold text-amber-300 text-sm mb-2">{mob.name}</p>
+                      <div className="space-y-1">
+                        {mob.drops.map((d) => (
+                          <div key={d} className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <span className="w-1 h-1 rounded-full bg-amber-500/60 shrink-0" />
+                            {d}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                  <div className="px-4 py-3 space-y-1.5">
-                    {metin.drops.map((d) => (
-                      <DropRow key={d} label={d} color={metin.color} />
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
 
-            {/* Tocha e Sapo */}
-            <h3 className="text-primary font-bold uppercase tracking-wider text-sm mb-3 flex items-center gap-2">
-              <span>🗿</span> Tocha e Sapo <span className="text-muted-foreground font-normal normal-case tracking-normal text-xs">/ Respawn 2 Hrs</span>
-            </h3>
-            <div className="grid md:grid-cols-2 gap-4 mb-4">
-              {mapaVipEspeciais.map((mob) => (
-                <div key={mob.name} className="border rounded-xl overflow-visible" style={{ borderColor: mob.color + "40" }}>
-                  <div className="flex items-center gap-3 px-4 py-3 rounded-t-xl" style={{ backgroundColor: mob.color + "15", borderBottom: `1px solid ${mob.color}25` }}>
-                    {mob.icon.startsWith("/") ? (
-                      <img src={mob.icon} alt={mob.name} className="w-8 h-8 object-contain cursor-pointer transition-transform duration-200 hover:scale-[2.5] hover:drop-shadow-[0_0_8px_rgba(255,200,0,0.8)] relative z-10" />
-                    ) : (
-                      <span className="text-2xl">{mob.icon}</span>
-                    )}
-                    <div>
-                      <p className="font-bold text-foreground text-sm">{mob.name}</p>
-                      <p className="text-xs" style={{ color: mob.color }}>{mob.count}</p>
+            {/* Bosses */}
+            {vipTab === "boss" && (
+              <div className="space-y-3">
+                {mapaVipBosses.map((mob) => (
+                  <div key={mob.name} className="rounded-xl border border-amber-500/20 bg-card overflow-hidden flex">
+                    <div className="w-28 shrink-0 flex flex-col items-center justify-center gap-2 py-4 px-3 bg-amber-500/8 border-r border-amber-500/15">
+                      {mob.icon.startsWith("/") ? (
+                        <img src={mob.icon} alt={mob.name} className="w-16 h-16 object-contain drop-shadow-[0_0_6px_rgba(245,158,11,0.35)] hover:scale-110 transition-transform duration-200" />
+                      ) : (
+                        <span className="text-5xl">{mob.icon}</span>
+                      )}
+                      <span className="text-[10px] font-semibold text-amber-400/70 uppercase tracking-wider text-center leading-tight">
+                        {mob.respawn}
+                      </span>
+                    </div>
+                    <div className="flex-1 px-4 py-3">
+                      <p className="font-bold text-amber-300 text-sm mb-2">{mob.name}</p>
+                      <div className="space-y-1">
+                        {mob.drops.map((d) => (
+                          <div key={d} className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <span className="w-1 h-1 rounded-full bg-amber-500/60 shrink-0" />
+                            {d}
+                          </div>
+                        ))}
+                      </div>
                     </div>
                   </div>
-                  <div className="px-4 py-3 space-y-1.5">
-                    {mob.drops.map((d) => (
-                      <DropRow key={d} label={d} color={mob.color} />
-                    ))}
+                ))}
+              </div>
+            )}
+
+            {/* Metins */}
+            {vipTab === "metins" && (
+              <div className="space-y-3">
+                {mapaVipMetins.map((mob) => (
+                  <div key={mob.name} className="rounded-xl border border-amber-500/20 bg-card overflow-hidden flex">
+                    <div className="w-28 shrink-0 flex flex-col items-center justify-center gap-2 py-4 px-3 bg-amber-500/8 border-r border-amber-500/15">
+                      {mob.icon.startsWith("/") ? (
+                        <img src={mob.icon} alt={mob.name} className="w-16 h-16 object-contain drop-shadow-[0_0_6px_rgba(245,158,11,0.35)] hover:scale-110 transition-transform duration-200" />
+                      ) : (
+                        <span className="text-5xl">{mob.icon}</span>
+                      )}
+                      <span className="text-[10px] font-semibold text-amber-400/70 uppercase tracking-wider text-center leading-tight">
+                        {mob.level}
+                      </span>
+                      <span className="text-[10px] text-amber-400/50 uppercase tracking-wider">{mob.count}</span>
+                    </div>
+                    <div className="flex-1 px-4 py-3">
+                      <p className="font-bold text-amber-300 text-sm mb-0.5">{mob.name}</p>
+                      <p className="text-[10px] text-amber-400/60 mb-2 uppercase tracking-wider">Respawn {mob.respawn}</p>
+                      <div className="space-y-1">
+                        {mob.drops.map((d) => (
+                          <div key={d} className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <span className="w-1 h-1 rounded-full bg-amber-500/60 shrink-0" />
+                            {d}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                </div>
-              ))}
-            </div>
+                ))}
+              </div>
+            )}
+
+            {/* Tocha & Sapo */}
+            {vipTab === "especiais" && (
+              <div className="space-y-3">
+                {mapaVipEspeciais.map((mob) => (
+                  <div key={mob.name} className="rounded-xl border border-amber-500/20 bg-card overflow-hidden flex">
+                    <div className="w-28 shrink-0 flex flex-col items-center justify-center gap-2 py-4 px-3 bg-amber-500/8 border-r border-amber-500/15">
+                      {mob.icon.startsWith("/") ? (
+                        <img src={mob.icon} alt={mob.name} className="w-16 h-16 object-contain drop-shadow-[0_0_6px_rgba(245,158,11,0.35)] hover:scale-110 transition-transform duration-200" />
+                      ) : (
+                        <span className="text-5xl">{mob.icon}</span>
+                      )}
+                      <span className="text-[10px] font-semibold text-amber-400/70 uppercase tracking-wider text-center leading-tight">
+                        {mob.count} / {mob.respawn}
+                      </span>
+                    </div>
+                    <div className="flex-1 px-4 py-3">
+                      <p className="font-bold text-amber-300 text-sm mb-2">{mob.name}</p>
+                      <div className="space-y-1">
+                        {mob.drops.map((d) => (
+                          <div key={d} className="flex items-center gap-2 text-xs text-muted-foreground">
+                            <span className="w-1 h-1 rounded-full bg-amber-500/60 shrink-0" />
+                            {d}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
 
           {/* CONCLUSÃO */}
