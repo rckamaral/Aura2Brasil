@@ -2208,7 +2208,9 @@ export default function Wiki() {
                 Baixar Agora
               </a>
               <a
-                href="#"
+                href="https://discord.gg/BN6XbbqsM"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="px-6 py-3 border border-primary/40 text-primary font-bold rounded uppercase tracking-wider text-sm hover:border-primary hover:bg-primary/10 transition-colors"
               >
                 Discord
