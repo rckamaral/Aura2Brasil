@@ -53,7 +53,7 @@ const ALL_VIDEOS: { key: VideoKey; src: string }[] = CLASSES.flatMap((cls) =>
   })),
 );
 
-const TABS = ["Fase Beta", "Eventos", "Notícias", "Atualizações"] as const;
+const TABS = ["Fase Beta", "Notícias", "Atualizações"] as const;
 type Tab = (typeof TABS)[number];
 
 type Post = {
@@ -119,55 +119,6 @@ const POSTS: Record<Tab, Post[]> = {
 
       desc: "Respeite os outros testadores, não explore bugs intencionalmente e colabore com a equipe. Violações podem resultar em exclusão e perda da recompensa.",
       fullContent: `Para garantir que a Fase Beta Fechada seja produtiva e justa, todos os testadores selecionados devem seguir as regras abaixo.\n\nRegras obrigatórias:\n• Não explore bugs intencionalmente para obter vantagem sobre outros testadores\n• Reporte qualquer exploit encontrado imediatamente no Discord\n• Respeite todos os outros testadores — sem ofensas, racismo ou toxicidade\n• Não utilize programas externos (bots, hacks, speed hacks)\n• Não compartilhe o cliente ou acesso do servidor com terceiros — o beta é fechado\n• Não faça spam no chat do servidor ou no Discord\n\nConsequências de violações:\n• Aviso: infrações leves (primeira vez)\n• Exclusão do beta: exploits intencionais ou comportamento tóxico grave\n• Banimento permanente: uso de hacks ou exploits que prejudiquem outros\n• Perda da recompensa de Cash: qualquer violação das regras\n\nNossa missão na Fase Beta Fechada é simples: testar, reportar e colaborar. Cada testador foi escolhido a dedo — honre essa confiança!\n\nEm caso de dúvidas sobre as regras, fale com um membro da equipe no Discord.`,
-    },
-  ],
-  "Eventos": [
-    {
-      id: 5,
-      category: "Eventos",
-      categoryColor: "#c0392b",
-      title: "Cronograma de Eventos",
-      ago: "há 1 mês",
-      gradient: "linear-gradient(135deg, #8a1010ee 0%, #d42020dd 60%, #aa1818ee 100%)",
-      image: "/posts/evento.png",
-
-      desc: "Veja todos os eventos programados para a Fase Beta da Temporada 1.",
-      fullContent: `Confira abaixo todos os eventos programados para a Temporada 1 do Aura2:\n\nBosses com Respawn Fixo:\n• Dragão D'Água — reaparece a cada 6 horas. Drop: Tesouro do Dragão, Máscara Da Fortuna, Moedas da Conquista x15\n• Dragão de Fogo — reaparece a cada 6 horas. Drop: Tesouro do Dragão De Fogo, Máscara Da Fortuna, Moedas da Conquista x15\n• Minotauro — reaparece a cada 12 horas. Drop: Tesouro do Minotauro, Máscara Da Fortuna x2, Moedas da Conquista x30\n\nWorld Boss (evento especial):\n• Grande Ogro — modo Paz: combate cooperativo, sem PvP. Drop: Baú do World Boss, Máscara Da Fortuna x5, Moedas da Conquista x100\n• Jotun — modo PvP: combate livre entre jogadores. Drop: Baú do World Boss, Máscara Da Fortuna x5, Moedas da Conquista x100\n\nEventos de Drop Dobrado:\n• Finais de semana — drop dobrado nas Dungeons (Torre Sakita e Caverna Demoníaca)\n• Invasão de Metins: Metins especiais com drop elevado aparecem periodicamente em todos os mapas\n\nFique atento ao Discord para anúncios de datas e horários exatos. Todos os horários são em horário de Brasília (GMT-3).`,
-    },
-    {
-      id: 6,
-      category: "Eventos",
-      categoryColor: "#c0392b",
-      title: "Boas-Vindas aos Testadores Selecionados",
-      ago: "há 2 dias",
-      gradient: "linear-gradient(135deg, #780a0aee 0%, #cc1818dd 100%)",
-      image: "/posts/boas-vindas.png",
-
-      desc: "Cada testador convidado recebe um kit exclusivo de boas-vindas para iniciar sua jornada na Fase Beta Fechada.",
-      fullContent: `Para celebrar o início da Fase Beta Fechada, cada testador selecionado receberá um kit especial de boas-vindas!\n\nO que cada testador recebe ao entrar:\n• Kit iniciante com equipamentos de nível básico\n• 3 poções de experiência (dobra o XP por 1 hora cada)\n• Acesso ao canal exclusivo de testadores no Discord\n\nComo resgatar:\nO kit é entregue automaticamente ao entrar no servidor pela primeira vez com a conta de testador. Nenhuma ação adicional é necessária.\n\nLembre-se:\nA Fase Beta é FECHADA — apenas os 15 a 20 testadores convidados pela equipe têm acesso. O cliente do jogo não deve ser compartilhado com terceiros. Após o encerramento do beta, o servidor oficial será aberto ao público.`,
-    },
-    {
-      id: 7,
-      category: "Eventos",
-      categoryColor: "#c0392b",
-      title: "World Boss — Grande Ogro e Jotun",
-      ago: "há 5 dias",
-      gradient: "linear-gradient(135deg, #700808ee 0%, #b81515dd 100%)",
-      image: "/posts/world-boss.png",
-      desc: "O World Boss do Aura2 aparece em dois modos: Paz (cooperativo) e PvP (combate livre). Drops exclusivos para os participantes.",
-      fullContent: `O Aura2 conta com dois World Bosses exclusivos — os mais poderosos e recompensadores do servidor!\n\nGrande Ogro (Modo Paz):\nBoss cooperativo — todos os jogadores lutam juntos sem PvP ativo. Ideal para quem prefere focar no combate contra o boss sem se preocupar com outros jogadores.\n\nJotun (Modo PvP):\nBoss com combate livre — além de derrotar o boss, você precisa se defender dos outros jogadores que disputam os drops. Alto risco, alta recompensa.\n\nDrops do World Boss (ambos os modos):\n• Baú do World Boss\n• Máscara Da Fortuna x5\n• Moedas da Conquista x100\n• Metal Mágico+ x3\n\nO que há no Baú do World Boss:\n• Pacote do Sábio\n• Brinco do Tigre (30 dias)\n• Pets Cash (30 dias)\n• Cupons de Moedas (5k a 50k)\n• Escudo Sangrento ou Escudo dos Imperadores\n• Montaria PvM (30 dias)\n\nComo saber quando vai aparecer:\nOs horários de spawn dos World Bosses são anunciados no Discord oficial. Fique atento ao canal #anúncios para não perder!`,
-    },
-    {
-      id: 8,
-      category: "Eventos",
-      categoryColor: "#c0392b",
-      title: "Drop Dobrado — Dungeons",
-      ago: "há 1 semana",
-      gradient: "linear-gradient(135deg, #6a0808ee 0%, #b01010dd 100%)",
-      image: "/posts/drop-dobrado.png",
-
-      desc: "Todos os finais de semana o drop de itens em dungeons é dobrado.",
-      fullContent: `Todo final de semana (sábado e domingo), o drop de itens em todas as dungeons do servidor é dobrado!\n\nDungeons participantes:\n• Torre Sakita — boss: Ceifadora da Morte. Drop: Tesouro do Ceifador, Armas do Nível 75, Metal Mágico+, Pérolas\n• Caverna Demoníaca — boss: Lord Gahnasel. Drop: Tesouro do Lord Gahnasel, cosméticos exclusivos, Coração do Ghanasel\n\nO que dobra durante o evento:\n• Drop de itens normais e mágicos\n• Drop de materiais de craft\n• Drop de Yang\n• Chance de drop de itens raros e únicos dos baús de tesouro\n\nHorário:\nO evento começa automaticamente à 00h01 do sábado e termina às 23h59 do domingo (horário de Brasília).\n\nDicas para aproveitar:\n• Forme grupos para maior eficiência — as dungeons foram feitas para equipes\n• Use poções de sorte para aumentar ainda mais suas chances\n• A Caverna Demoníaca tem cosméticos exclusivos (trajes e pet do Ghanasel) que só dropam lá\n\nBom farming para todos!`,
     },
   ],
   "Notícias": [
