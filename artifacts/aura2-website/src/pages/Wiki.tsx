@@ -669,7 +669,7 @@ const mapaVipMetins = [
 
 const mapaVipEspeciais = [
   { name: "Tocha", icon: "/tochas.png", color: "#fb923c", count: "x5", respawn: "2 Hrs", drops: ["Armas Do 75", "Armaduras Do 66", "Perola Branca 1x", "Perola Azul 1x", "Perola Vermelha 1x", "Esfera Da Bênção 1x", "Pedra Arco-iris 1x"] },
-  { name: "Sapo De Ouro", icon: "🐸", color: "#86efac", count: "x5", respawn: "2 Hrs", drops: ["Mascara da Fortuna 1~2x"] },
+  { name: "Sapo De Ouro", icon: "/sapo-dourado.png", color: "#86efac", count: "x5", respawn: "2 Hrs", drops: ["Mascara da Fortuna 1~2x"] },
 ];
 
 const armorPairs = [
