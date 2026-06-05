@@ -648,13 +648,13 @@ const gameplayList = [
 ];
 
 const mapaVipMiniBosses = [
-  { name: "Chefe Orc", icon: "/chefe-orc.png", color: "#c084fc", respawn: "1:30h", drops: ["Baú Do Tier II", "Pedra Da Fundação 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
-  { name: "Tartaruga De Pedra", icon: "/tartaruga-pedra.png", color: "#86efac", respawn: "1:30h", drops: ["Baú Do Tier II", "Compensado 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
-  { name: "Líder Fanático Zen", icon: "/lider-fanatico.png", color: "#a78bfa", respawn: "1:30h", drops: ["Baú Do Tier II", "Compensado 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
-  { name: "Comandante Tigre", icon: "/comandante-tigre.png", color: "#fb923c", respawn: "1:30h", drops: ["Baú Do Tier II", "Pedra Da Fundação 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
-  { name: "Nove Caudas", icon: "/nove-caudas.png", color: "#f9a8d4", respawn: "1:30h", drops: ["Baú Do Tier II", "Pedra Da Fundação 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
-  { name: "Rei Flamejante", icon: "/rei-flamejante.png", color: "#f87171", respawn: "1:30h", drops: ["Baú Do Tier II", "Compensado 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
-  { name: "Aranha Rainha", icon: "/rainha-aranha.png", color: "#94a3b8", respawn: "1:30h", drops: ["Baú Do Tier II", "Tronco 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
+  { name: "Chefe Orc", icon: "/chefe-orc.png", color: "#c084fc", respawn: "a cada 1h30", drops: ["Baú Do Tier II", "Pedra Da Fundação 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
+  { name: "Tartaruga De Pedra", icon: "/tartaruga-pedra.png", color: "#86efac", respawn: "a cada 1h30", drops: ["Baú Do Tier II", "Compensado 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
+  { name: "Líder Fanático Zen", icon: "/lider-fanatico.png", color: "#a78bfa", respawn: "a cada 1h30", drops: ["Baú Do Tier II", "Compensado 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
+  { name: "Comandante Tigre", icon: "/comandante-tigre.png", color: "#fb923c", respawn: "a cada 1h30", drops: ["Baú Do Tier II", "Pedra Da Fundação 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
+  { name: "Nove Caudas", icon: "/nove-caudas.png", color: "#f9a8d4", respawn: "a cada 1h30", drops: ["Baú Do Tier II", "Pedra Da Fundação 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
+  { name: "Rei Flamejante", icon: "/rei-flamejante.png", color: "#f87171", respawn: "a cada 1h30", drops: ["Baú Do Tier II", "Compensado 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
+  { name: "Aranha Rainha", icon: "/rainha-aranha.png", color: "#94a3b8", respawn: "a cada 1h30", drops: ["Baú Do Tier II", "Tronco 1x", "Esfera Da Bênção 1x", "Soro Da Persuação 1x", "Moedas Da Conquista 3x"] },
 ];
 
 const mapaVipBosses = [
@@ -1200,7 +1200,7 @@ export default function Wiki() {
                         {boss.name}
                       </p>
                       <p className="text-xs" style={{ color: boss.color }}>
-                        Mini Boss • Respawn 1:30h
+                        Mini Boss • Respawn a cada 1h30
                       </p>
                     </div>
                   </div>
