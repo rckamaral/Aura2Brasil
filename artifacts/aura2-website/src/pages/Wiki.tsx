@@ -623,12 +623,12 @@ const sistemasAutomacao = [
   {
     icon: "🤖",
     name: "Bot de Rodar",
-    desc: "Sistema integrado de rotação automática — o personagem farma sozinho sem precisar de programas externos.",
+    desc: "Rode itens automaticamente sem precisar clicar manualmente — o sistema gira os itens sozinho enquanto você joga.",
   },
   {
     icon: "⌨️",
     name: "Macro",
-    desc: "Execute sequências de ações com um único comando. Configure combos e rotinas de habilidades de forma prática.",
+    desc: "Use poção regeneradora automaticamente — o macro pota sozinho quando necessário, sem precisar apertar tecla.",
   },
 ];
 
