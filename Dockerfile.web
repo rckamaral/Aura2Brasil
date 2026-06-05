@@ -7,7 +7,7 @@ RUN pnpm --filter @workspace/aura2-website run build
 
 FROM node:20-slim
 WORKDIR /app
-RUN npm install -g serve
+RUN npm install -g serve@13
 COPY --from=builder /app/artifacts/aura2-website/dist/public ./public
 EXPOSE 3000
 CMD ["sh", "-c", "serve -s public -l ${PORT:-3000}"]
