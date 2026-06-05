@@ -663,8 +663,8 @@ const mapaVipBosses = [
 ];
 
 const mapaVipMetins = [
-  { name: "Metin Da Visibilidade", level: "Lv 85", icon: "/metin-lv85.png", color: "#a78bfa", count: "x15", respawn: "10 Min", drops: ["Gold — 8.5kk", "Moedas da Conquista 3x", "Perg. do Novo Aprimoramento 3~5x", "Perg. do Aprimoramento 3~5x", "Pergaminho Da Paz 1x", "Anel Da Experiência 1x", "Luva Do Ladrão 1x", "Armaduras do 61", "Itens entre +3 e +6"] },
-  { name: "Metin Do Trovão", level: "Lv 90", icon: "/metin-lv90.png", color: "#fbbf24", count: "x15", respawn: "10 Min", drops: ["Gold — 10kk", "Moedas da Conquista 3x", "Perg. do Novo Aprimoramento 3~5x", "Perg. do Aprimoramento 3~5x", "Pergaminho Da Paz 1x", "Anel Da Experiência 1x", "Luva Do Ladrão 1x", "Esfera Da Bênção 1x", "Armaduras do 66", "Itens entre +3 e +6"] },
+  { name: "Metin Da Visibilidade", level: "Lv 85", icon: "/metin-lv85.png", color: "#a78bfa", count: "15 nascem no mapa", respawn: "10 Min", drops: ["Gold — 8.5kk", "Moedas da Conquista 3x", "Perg. do Novo Aprimoramento 3~5x", "Perg. do Aprimoramento 3~5x", "Pergaminho Da Paz 1x", "Anel Da Experiência 1x", "Luva Do Ladrão 1x", "Armaduras do 61", "Itens entre +3 e +6"] },
+  { name: "Metin Do Trovão", level: "Lv 90", icon: "/metin-lv90.png", color: "#fbbf24", count: "15 nascem no mapa", respawn: "10 Min", drops: ["Gold — 10kk", "Moedas da Conquista 3x", "Perg. do Novo Aprimoramento 3~5x", "Perg. do Aprimoramento 3~5x", "Pergaminho Da Paz 1x", "Anel Da Experiência 1x", "Luva Do Ladrão 1x", "Esfera Da Bênção 1x", "Armaduras do 66", "Itens entre +3 e +6"] },
 ];
 
 const mapaVipEspeciais = [
