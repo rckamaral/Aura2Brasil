@@ -15,8 +15,9 @@ router.post("/partners/apply", async (req, res) => {
       .values({ channelName, platform, channelUrl, avgViewers, schedule, motivation, discordTag })
       .returning();
 
-    sendPartnerApplicationEmail({ channelName, platform, channelUrl, avgViewers, schedule, motivation, discordTag })
-      .catch(err => req.log.error(err, "Failed to send partner application e-mail"));
+    req.log.info({ channelName }, "Sending partner application e-mail");
+    await sendPartnerApplicationEmail({ channelName, platform, channelUrl, avgViewers, schedule, motivation, discordTag });
+    req.log.info({ channelName }, "Partner application e-mail sent");
 
     return res.status(201).json({ message: "Candidatura enviada com sucesso!", id: app.id });
   } catch (err) {
