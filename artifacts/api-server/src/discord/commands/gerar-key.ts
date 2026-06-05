@@ -42,12 +42,12 @@ export const gerarKey: Command = {
     )) as Command["data"],
 
   async execute(interaction: ChatInputCommandInteraction): Promise<void> {
-    await interaction.deferReply({ ephemeral: true });
-
     if (!isAllowedAdmin(interaction)) {
-      await interaction.editReply("Apenas o admin autorizado pode gerar beta keys.");
+      await interaction.reply({ content: "Apenas o admin autorizado pode gerar beta keys.", ephemeral: true });
       return;
     }
+
+    await interaction.reply({ content: "Gerando beta key...", ephemeral: true });
 
     const count = interaction.options.getInteger("quantidade") ?? 1;
 
