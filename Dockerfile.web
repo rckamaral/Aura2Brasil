@@ -1,0 +1,12 @@
+FROM node:20-slim AS builder
+WORKDIR /app
+COPY . .
+RUN npm install -g pnpm@10
+RUN pnpm install --frozen-lockfile
+RUN pnpm --filter @workspace/aura2-website run build
+
+FROM node:20-slim
+WORKDIR /app
+RUN npm install -g serve
+COPY --from=builder /app/artifacts/aura2-website/dist/public ./public
+CMD serve -s public -l $PORT
