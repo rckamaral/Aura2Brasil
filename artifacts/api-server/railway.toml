@@ -1,10 +1,8 @@
 [build]
 builder = "nixpacks"
-buildCommand = "pnpm install --frozen-lockfile && pnpm --filter @workspace/api-server run build"
+buildCommand = "npm install -g pnpm && pnpm install --frozen-lockfile && pnpm --filter @workspace/api-server run build"
 
 [deploy]
 startCommand = "node artifacts/api-server/dist/index.mjs"
 restartPolicyType = "on_failure"
 restartPolicyMaxRetries = 10
-healthcheckPath = "/api/healthz"
-healthcheckTimeout = 30
