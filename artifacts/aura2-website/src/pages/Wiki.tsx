@@ -1200,7 +1200,7 @@ export default function Wiki() {
                         {boss.name}
                       </p>
                       <p className="text-xs" style={{ color: boss.color }}>
-                        Mini Boss • Respawn 1h
+                        Mini Boss • Respawn 1:30h
                       </p>
                     </div>
                   </div>
