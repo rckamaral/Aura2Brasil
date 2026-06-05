@@ -1,0 +1,8 @@
+[build]
+builder = "nixpacks"
+buildCommand = "pnpm install --frozen-lockfile && pnpm --filter @workspace/aura2-website run build"
+
+[deploy]
+startCommand = "npx serve -s artifacts/aura2-website/dist/public -l $PORT"
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 10
