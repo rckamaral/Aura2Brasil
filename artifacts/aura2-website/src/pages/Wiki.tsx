@@ -2233,10 +2233,10 @@ export default function Wiki() {
             {/* Tab selector */}
             <div className="flex flex-wrap gap-2 mb-6">
               {([ 
-                { key: "miniboss", label: "Mini-Bosses", icon: "⚔️", respawn: "Respawn 1h" },
-                { key: "boss",     label: "Bosses",      icon: "🐉", respawn: "Respawn 6h" },
-                { key: "metins",   label: "Metins",      icon: "🗿", respawn: "Respawn 10min" },
-                { key: "especiais",label: "Tocha & Sapo",icon: "🔥", respawn: "Respawn 2h" },
+                { key: "miniboss", label: "Mini-Bosses", icon: "⚔️", respawn: "a cada 1h" },
+                { key: "boss",     label: "Bosses",      icon: "🐉", respawn: "a cada 6h" },
+                { key: "metins",   label: "Metins",      icon: "🗿", respawn: "a cada 10min" },
+                { key: "especiais",label: "Tocha & Sapo",icon: "🔥", respawn: "a cada 2h" },
               ] as const).map((t) => (
                 <button
                   key={t.key}
