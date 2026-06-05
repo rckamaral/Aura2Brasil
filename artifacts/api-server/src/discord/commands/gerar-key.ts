@@ -5,9 +5,9 @@ import {
   SlashCommandBuilder,
 } from "discord.js";
 import { randomBytes } from "crypto";
-import { sql } from "drizzle-orm";
-import { db } from "@workspace/db";
+import { db, betaKeysTable } from "@workspace/db";
 import type { Command } from "../client.js";
+import { logger } from "../../lib/logger.js";
 
 function generateCode(): string {
   const part = () => randomBytes(3).toString("hex").toUpperCase();
@@ -50,29 +50,26 @@ export const gerarKey: Command = {
     }
 
     const count = interaction.options.getInteger("quantidade") ?? 1;
-    const codes = Array.from({ length: count }, () => generateCode());
 
     try {
-      const inserted: string[] = [];
-      for (const code of codes) {
-        const result = await db.execute<{ code: string }>(sql`
-          INSERT INTO beta_keys (code)
-          VALUES (${code})
-          RETURNING code
-        `);
-        inserted.push(result.rows[0]?.code ?? code);
-      }
+      const inserted = await db
+        .insert(betaKeysTable)
+        .values(Array.from({ length: count }, () => ({ code: generateCode() })))
+        .returning();
+
+      const codes = inserted.map((key) => key.code);
 
       const embed = new EmbedBuilder()
         .setTitle(count === 1 ? "Beta key gerada" : "Beta keys geradas")
-        .setDescription(inserted.map((code) => `\`${code}\``).join("\n"))
+        .setDescription(codes.map((code) => `\`${code}\``).join("\n"))
         .setColor(0xd4a017)
         .setFooter({ text: "Essas keys aparecem so para voce." })
         .setTimestamp();
 
       await interaction.editReply({ embeds: [embed] });
-    } catch {
-      await interaction.editReply("Nao consegui gerar a key agora. Verifique se a tabela beta_keys existe no Neon.");
+    } catch (err) {
+      logger.warn({ err }, "Discord: failed to generate beta key");
+      await interaction.editReply("Nao consegui gerar a key agora. Veja os logs da API no Railway.");
     }
   },
 };
