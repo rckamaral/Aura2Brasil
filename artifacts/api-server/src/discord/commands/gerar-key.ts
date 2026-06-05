@@ -50,30 +50,29 @@ export const gerarKey: Command = {
     }
 
     const count = interaction.options.getInteger("quantidade") ?? 1;
-    const rows = Array.from({ length: count }, () => ({ code: generateCode() }));
+    const codes = Array.from({ length: count }, () => generateCode());
 
     try {
-      const result = await db.execute<{ code: string }>(sql`
-        INSERT INTO beta_keys (code)
-        SELECT * FROM unnest(${codesArray(rows.map((row) => row.code))}::text[])
-        RETURNING code
-      `);
-      const codes = result.rows.map((key) => key.code);
+      const inserted: string[] = [];
+      for (const code of codes) {
+        const result = await db.execute<{ code: string }>(sql`
+          INSERT INTO beta_keys (code)
+          VALUES (${code})
+          RETURNING code
+        `);
+        inserted.push(result.rows[0]?.code ?? code);
+      }
 
       const embed = new EmbedBuilder()
         .setTitle(count === 1 ? "Beta key gerada" : "Beta keys geradas")
-        .setDescription(codes.map((code) => `\`${code}\``).join("\n"))
+        .setDescription(inserted.map((code) => `\`${code}\``).join("\n"))
         .setColor(0xd4a017)
         .setFooter({ text: "Essas keys aparecem so para voce." })
         .setTimestamp();
 
       await interaction.editReply({ embeds: [embed] });
     } catch {
-      await interaction.editReply("Nao consegui gerar a key agora. Verifique o DATABASE_URL da API.");
+      await interaction.editReply("Nao consegui gerar a key agora. Verifique se a tabela beta_keys existe no Neon.");
     }
   },
 };
-
-function codesArray(codes: string[]): string[] {
-  return codes;
-}
