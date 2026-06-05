@@ -1,4 +1,5 @@
 import http from "http";
+import https from "https";
 import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
@@ -6,6 +7,7 @@ import { fileURLToPath } from "url";
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = parseInt(process.env.PORT || "3000", 10);
 const PUBLIC_DIR = path.join(__dirname, "public");
+const API_URL = process.env.API_URL?.replace(/\/$/, "");
 
 const MIME = {
   ".html": "text/html",
@@ -25,6 +27,33 @@ const MIME = {
 };
 
 function serve(req, res) {
+  if (API_URL && req.url.startsWith("/api")) {
+    const upstream = new URL(req.url, API_URL);
+    const client = upstream.protocol === "https:" ? https : http;
+    const proxyReq = client.request(
+      upstream,
+      {
+        method: req.method,
+        headers: {
+          ...req.headers,
+          host: upstream.host,
+        },
+      },
+      (proxyRes) => {
+        res.writeHead(proxyRes.statusCode || 500, proxyRes.headers);
+        proxyRes.pipe(res);
+      },
+    );
+
+    proxyReq.on("error", () => {
+      res.writeHead(502, { "Content-Type": "application/json" });
+      res.end(JSON.stringify({ error: "API unavailable" }));
+    });
+
+    req.pipe(proxyReq);
+    return;
+  }
+
   const url = req.url.split("?")[0];
   const filePath = path.join(PUBLIC_DIR, url === "/" ? "index.html" : url);
 
