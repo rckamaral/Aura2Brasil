@@ -619,6 +619,19 @@ const sistemas = [
   },
 ];
 
+const sistemasAutomacao = [
+  {
+    icon: "🤖",
+    name: "Bot de Rodar",
+    desc: "Sistema integrado de rotação automática — o personagem farma sozinho sem precisar de programas externos.",
+  },
+  {
+    icon: "⌨️",
+    name: "Macro",
+    desc: "Execute sequências de ações com um único comando. Configure combos e rotinas de habilidades de forma prática.",
+  },
+];
+
 const bonusData = [
   { name: "HP Máximo", min: "+500", max: "+2.000" },
   { name: "MP Máximo", min: "+10", max: "+80" },
@@ -1558,8 +1571,30 @@ export default function Wiki() {
           {/* SISTEMAS */}
           <section id="sistemas">
             <SectionTitle>SISTEMAS</SectionTitle>
-            <div className="grid md:grid-cols-2 gap-4">
+            <div className="grid md:grid-cols-2 gap-4 mb-8">
               {sistemas.map((s) => (
+                <div
+                  key={s.name}
+                  className="border border-primary/15 rounded-lg p-4 hover:border-primary/30 hover:bg-primary/5 transition-all"
+                >
+                  <div className="flex items-center gap-3 mb-2">
+                    <span className="text-xl">{s.icon}</span>
+                    <p className="font-semibold text-foreground text-sm">
+                      {s.name}
+                    </p>
+                  </div>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {s.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+
+            <h3 className="text-primary font-bold uppercase tracking-wider text-sm mb-3 flex items-center gap-2">
+              <span>🤖</span> Automação
+            </h3>
+            <div className="grid md:grid-cols-2 gap-4">
+              {sistemasAutomacao.map((s) => (
                 <div
                   key={s.name}
                   className="border border-primary/15 rounded-lg p-4 hover:border-primary/30 hover:bg-primary/5 transition-all"
