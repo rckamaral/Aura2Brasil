@@ -1174,7 +1174,7 @@ export default function Wiki() {
             <SectionTitle>MINI BOSS</SectionTitle>
             <div className="flex items-center gap-2 mb-6 text-xs text-muted-foreground border border-primary/15 rounded-lg px-4 py-2 w-fit bg-primary/5">
               <span className="text-primary">⏱</span> Respawn:{" "}
-              <span className="text-primary font-bold ml-1">1 hora</span>
+              <span className="text-primary font-bold ml-1">a cada 1h30</span>
             </div>
             <div className="grid md:grid-cols-2 xl:grid-cols-3 gap-4">
               {miniBosses.map((boss) => (
