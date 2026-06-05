@@ -88,7 +88,7 @@ export async function notifyNewTicket(
       .addFields({ name: "Usuário", value: username, inline: true })
       .setColor(0xd4a017)
       .setTimestamp()
-      .setFooter({ text: "Aberto via site aura2.com.br" });
+      .setFooter({ text: "Aberto via site www.aura2.com.br" });
 
     const closeButton = new ButtonBuilder()
       .setCustomId("close_ticket")

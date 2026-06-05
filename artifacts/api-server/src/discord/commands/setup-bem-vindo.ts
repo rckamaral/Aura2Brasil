@@ -33,7 +33,7 @@ export const setupBemVindo = {
           "❌ Sem trajes e pets pagos.\n" +
           "✅ Balanceado e justo para todos.\n\n" +
           "🌐 Acompanhe nossas Redes Sociais:\n" +
-          "• https://aura2.com.br\n" +
+          "• https://www.aura2.com.br\n" +
           "• https://discord.gg/aura2",
         )
         .setColor(0xd4a017)

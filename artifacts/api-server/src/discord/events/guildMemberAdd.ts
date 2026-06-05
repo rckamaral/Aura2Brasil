@@ -14,7 +14,7 @@ export async function onGuildMemberAdd(member: GuildMember): Promise<void> {
       .setDescription(
         `Olá, **${member.displayName}**! Seja bem-vindo ao servidor oficial do **Aura2**.\n\n` +
         "📜 Leia as **#regras** para conviver bem na comunidade.\n" +
-        "🎮 Crie sua conta em **aura2.com.br** e entre na aventura!\n" +
+        "🎮 Crie sua conta em **www.aura2.com.br** e entre na aventura!\n" +
         "🆘 Precisa de ajuda? Abra um ticket em **#suporte**.",
       )
       .setThumbnail(member.user.displayAvatarURL())

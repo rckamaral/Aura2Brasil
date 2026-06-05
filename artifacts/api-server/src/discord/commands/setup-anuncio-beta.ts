@@ -45,7 +45,7 @@ export const setupAnuncioBeta = {
           },
           {
             name: "🌐 Site oficial",
-            value: "https://aura2.com.br",
+            value: "https://www.aura2.com.br",
             inline: true,
           },
           {
@@ -95,7 +95,7 @@ export const setupAnuncioBeta = {
           {
             name: "📋 Passo a passo",
             value:
-              "1. Abra um ticket no site **aura2.com.br** ou no canal `#abrir-ticket`\n" +
+              "1. Abra um ticket no site **www.aura2.com.br** ou no canal `#abrir-ticket`\n" +
               "2. Informe: **Nome**, **Classe**, **Descrição do bug**, **Print ou vídeo**\n" +
               "3. Aguarde a confirmação da equipe",
             inline: false,
