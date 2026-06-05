@@ -8,7 +8,7 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const publicDir = join(__dirname, "public");
 
 app.use(express.static(publicDir));
-app.get("*", (_req, res) => {
+app.get(/(.*)/, (_req, res) => {
   res.sendFile(join(publicDir, "index.html"));
 });
 
