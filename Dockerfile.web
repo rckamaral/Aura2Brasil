@@ -9,4 +9,5 @@ FROM node:20-slim
 WORKDIR /app
 RUN npm install -g serve
 COPY --from=builder /app/artifacts/aura2-website/dist/public ./public
-CMD serve -s public -l $PORT
+EXPOSE 3000
+CMD ["sh", "-c", "serve -s public -l ${PORT:-3000}"]
