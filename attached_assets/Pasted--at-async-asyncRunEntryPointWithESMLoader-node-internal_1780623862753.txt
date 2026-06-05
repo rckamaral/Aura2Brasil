@@ -1,0 +1,115 @@
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+Node.js v20.20.2
+file:///usr/local/lib/node_modules/serve/build/main.js:377
+      throw new Error(
+            ^
+Error: Unknown --listen endpoint scheme (protocol): undefined
+    at parseEndpoint (file:///usr/local/lib/node_modules/serve/build/main.js:377:13)
+    at type (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:70:15)
+    at arg (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:170:24)
+    at parseArguments (file:///usr/local/lib/node_modules/serve/build/main.js:414:28)
+    at file:///usr/local/lib/node_modules/serve/build/main.js:503:40
+Node.js v20.20.2
+file:///usr/local/lib/node_modules/serve/build/main.js:377
+      throw new Error(
+            ^
+Error: Unknown --listen endpoint scheme (protocol): undefined
+    at parseEndpoint (file:///usr/local/lib/node_modules/serve/build/main.js:377:13)
+    at type (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:70:15)
+    at arg (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:170:24)
+    at parseArguments (file:///usr/local/lib/node_modules/serve/build/main.js:414:28)
+    at file:///usr/local/lib/node_modules/serve/build/main.js:503:40
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+file:///usr/local/lib/node_modules/serve/build/main.js:377
+      throw new Error(
+            ^
+Error: Unknown --listen endpoint scheme (protocol): undefined
+    at parseEndpoint (file:///usr/local/lib/node_modules/serve/build/main.js:377:13)
+    at type (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:70:15)
+    at arg (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:170:24)
+    at parseArguments (file:///usr/local/lib/node_modules/serve/build/main.js:414:28)
+    at file:///usr/local/lib/node_modules/serve/build/main.js:503:40
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+Node.js v20.20.2
+file:///usr/local/lib/node_modules/serve/build/main.js:377
+      throw new Error(
+            ^
+Error: Unknown --listen endpoint scheme (protocol): undefined
+    at parseEndpoint (file:///usr/local/lib/node_modules/serve/build/main.js:377:13)
+    at type (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:70:15)
+    at arg (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:170:24)
+    at parseArguments (file:///usr/local/lib/node_modules/serve/build/main.js:414:28)
+    at file:///usr/local/lib/node_modules/serve/build/main.js:503:40
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+Node.js v20.20.2
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+file:///usr/local/lib/node_modules/serve/build/main.js:377
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+      throw new Error(
+Node.js v20.20.2
+            ^
+    at parseEndpoint (file:///usr/local/lib/node_modules/serve/build/main.js:377:13)
+    at type (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:70:15)
+    at arg (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:170:24)
+    at parseArguments (file:///usr/local/lib/node_modules/serve/build/main.js:414:28)
+    at file:///usr/local/lib/node_modules/serve/build/main.js:503:40
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+Error: Unknown --listen endpoint scheme (protocol): undefined
+Node.js v20.20.2
+file:///usr/local/lib/node_modules/serve/build/main.js:377
+    at file:///usr/local/lib/node_modules/serve/build/main.js:503:40
+      throw new Error(
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+            ^
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+Error: Unknown --listen endpoint scheme (protocol): undefined
+    at parseEndpoint (file:///usr/local/lib/node_modules/serve/build/main.js:377:13)
+    at type (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:70:15)
+    at arg (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:170:24)
+    at parseArguments (file:///usr/local/lib/node_modules/serve/build/main.js:414:28)
+file:///usr/local/lib/node_modules/serve/build/main.js:377
+      throw new Error(
+            ^
+Error: Unknown --listen endpoint scheme (protocol): undefined
+    at parseEndpoint (file:///usr/local/lib/node_modules/serve/build/main.js:377:13)
+    at type (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:70:15)
+    at arg (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:170:24)
+    at parseArguments (file:///usr/local/lib/node_modules/serve/build/main.js:414:28)
+    at file:///usr/local/lib/node_modules/serve/build/main.js:503:40
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+Node.js v20.20.2
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+Node.js v20.20.2
+file:///usr/local/lib/node_modules/serve/build/main.js:377
+      throw new Error(
+            ^
+Error: Unknown --listen endpoint scheme (protocol): undefined
+    at parseEndpoint (file:///usr/local/lib/node_modules/serve/build/main.js:377:13)
+    at type (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:70:15)
+    at arg (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:170:24)
+    at parseArguments (file:///usr/local/lib/node_modules/serve/build/main.js:414:28)
+    at file:///usr/local/lib/node_modules/serve/build/main.js:503:40
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+file:///usr/local/lib/node_modules/serve/build/main.js:377
+      throw new Error(
+            ^
+Error: Unknown --listen endpoint scheme (protocol): undefined
+    at parseEndpoint (file:///usr/local/lib/node_modules/serve/build/main.js:377:13)
+    at type (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:70:15)
+    at arg (/usr/local/lib/node_modules/serve/node_modules/arg/index.js:170:24)
+    at parseArguments (file:///usr/local/lib/node_modules/serve/build/main.js:414:28)
+    at file:///usr/local/lib/node_modules/serve/build/main.js:503:40
+    at ModuleJob.run (node:internal/modules/esm/module_job:325:25)
+    at async ModuleLoader.import (node:internal/modules/esm/loader:606:24)
+    at async asyncRunEntryPointWithESMLoader (node:internal/modules/run_main:117:5)
+Node.js v20.20.2
