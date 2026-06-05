@@ -7,7 +7,7 @@ RUN pnpm --filter @workspace/aura2-website run build
 
 FROM node:20-slim
 WORKDIR /app
-RUN npm install express
+RUN npm install express@4
 COPY static-server.mjs ./
 COPY --from=builder /app/artifacts/aura2-website/dist/public ./public
 EXPOSE 3000
