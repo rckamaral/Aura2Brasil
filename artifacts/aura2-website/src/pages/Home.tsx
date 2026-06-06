@@ -350,7 +350,7 @@ export default function Home() {
               muted
               loop
               playsInline
-              preload="auto"
+              preload="none"
               className="absolute w-full h-full object-cover transition-opacity duration-500"
               style={{ opacity: activeKey === key ? 0.85 : 0 }}
             />
