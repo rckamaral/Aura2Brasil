@@ -73,8 +73,6 @@ router.get("/ranking/players", async (req, res) => {
       params.push(`%${search}%`, `%${search}%`);
     }
 
-    params.push(limit);
-
     const [rows] = await pool.execute(
       `
         SELECT
@@ -91,7 +89,7 @@ router.get("/ranking/players", async (req, res) => {
         ${joins}
         WHERE ${where.join(" AND ")}
         ORDER BY p.level DESC, p.exp DESC, p.playtime DESC, p.id ASC
-        LIMIT ?
+        LIMIT ${limit}
       `,
       params
     ) as [any[], unknown];
