@@ -13,6 +13,7 @@ import { notifyNewUser } from "../discord/notifications.js";
 const router = Router();
 const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
 const JWT_EXPIRES = "7d";
+const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
 const SITE_URL = (process.env.SITE_URL || "https://www.aura2.com.br").replace(/\/$/, "");
 
 function apiBaseUrl(): string {
@@ -436,8 +437,7 @@ router.post("/auth/forgot-password", async (req, res) => {
 
     if (userEmail && username) {
       const token = createResetToken(userEmail, username);
-      const domains = process.env.REPLIT_DOMAINS?.split(",")[0] || "aura2.com.br";
-      const resetUrl = `https://${domains}/redefinir-senha?token=${token}`;
+      const resetUrl = `${SITE_URL}/redefinir-senha?token=${token}`;
       try {
         await sendPasswordResetEmail(userEmail, resetUrl);
         req.log.info({ username }, "Password reset requested");

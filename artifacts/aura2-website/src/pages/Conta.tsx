@@ -44,9 +44,28 @@ type Section =
 
 export default function Conta() {
   const { user, logout, token } = useAuth();
-  const [, navigate] = useLocation();
+  const [location, navigate] = useLocation();
+  const { toast } = useToast();
   const [section, setSection] = useState<Section>("inicio");
   const [cashBalance, setCashBalance] = useState<number | null>(null);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const emailChange = params.get("emailChange");
+    if (!emailChange) return;
+
+    if (emailChange === "success") {
+      toast({ title: "E-mail alterado!", description: "A troca de e-mail da conta foi confirmada." });
+    } else if (emailChange === "used") {
+      toast({ title: "E-mail em uso", description: "Esse e-mail ja esta vinculado a outra conta.", variant: "destructive" });
+    } else if (emailChange === "invalid") {
+      toast({ title: "Link expirado", description: "Solicite a troca de e-mail novamente.", variant: "destructive" });
+    } else {
+      toast({ title: "Erro", description: "Nao foi possivel confirmar a troca de e-mail.", variant: "destructive" });
+    }
+
+    window.history.replaceState(null, "", location);
+  }, [location, toast]);
 
   useEffect(() => {
     if (!token) return;
@@ -797,7 +816,7 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
             <span className="text-sm text-zinc-400 leading-snug">
               Li e concordo com os{" "}
               <a
-                href="/termos"
+                href="/termos-de-uso"
                 target="_blank"
                 className="text-primary underline hover:text-primary/80"
                 onClick={e => e.stopPropagation()}
@@ -806,7 +825,7 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
               </a>
               {" "}e a{" "}
               <a
-                href="/privacidade"
+                href="/politicas-de-privacidade"
                 target="_blank"
                 className="text-primary underline hover:text-primary/80"
                 onClick={e => e.stopPropagation()}

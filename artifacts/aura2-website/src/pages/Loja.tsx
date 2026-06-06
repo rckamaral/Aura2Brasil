@@ -163,7 +163,7 @@ function PayModal({
           <span className="text-sm text-zinc-400 leading-snug">
             Li e concordo com os{" "}
             <a
-              href="/termos"
+              href="/termos-de-uso"
               target="_blank"
               className="text-primary underline hover:text-primary/80"
               onClick={e => e.stopPropagation()}
@@ -172,7 +172,7 @@ function PayModal({
             </a>
             {" "}e a{" "}
             <a
-              href="/privacidade"
+              href="/politicas-de-privacidade"
               target="_blank"
               className="text-primary underline hover:text-primary/80"
               onClick={e => e.stopPropagation()}
