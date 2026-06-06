@@ -6,6 +6,7 @@ import newsRouter from "./news";
 import ticketsRouter from "./tickets";
 import partnersRouter from "./partners";
 import adminBetaKeysRouter from "./admin-beta-keys";
+import rankingRouter from "./ranking";
 
 const router: IRouter = Router();
 
@@ -16,5 +17,6 @@ router.use(newsRouter);
 router.use(ticketsRouter);
 router.use(partnersRouter);
 router.use(adminBetaKeysRouter);
+router.use(rankingRouter);
 
 export default router;

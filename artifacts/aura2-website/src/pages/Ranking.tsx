@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -320,14 +320,56 @@ const MOCK_BOSSES = [
 
 const RANK_MEDAL: Record<number, string> = { 1: "🥇", 2: "🥈", 3: "🥉" };
 
-const TABS = ["Players", "Guilds", "PvP", "Bosses"] as const;
-type Tab = (typeof TABS)[number];
+type RankedPlayer = {
+  rank: number;
+  id: number;
+  name: string;
+  class: string;
+  level: number;
+  guild: string;
+  kingdom: string;
+  playtime: number;
+};
+
+const TABS = ["Players"] as const;
+type Tab = "Players" | "Guilds" | "PvP" | "Bosses";
+
+function formatPlaytime(minutes: number) {
+  if (!minutes) return "0h";
+  const hours = Math.floor(minutes / 60);
+  return `${hours.toLocaleString("pt-BR")}h`;
+}
 
 export default function Ranking() {
   const [activeTab, setActiveTab] = useState<Tab>("Players");
   const [search, setSearch] = useState("");
+  const [players, setPlayers] = useState<RankedPlayer[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const filteredPlayers = MOCK_PLAYERS.filter(
+  useEffect(() => {
+    const controller = new AbortController();
+    const params = new URLSearchParams();
+    params.set("limit", "100");
+    if (search.trim()) params.set("search", search.trim());
+
+    setLoading(true);
+    setError(null);
+
+    fetch(`/api/ranking/players?${params.toString()}`, { signal: controller.signal })
+      .then((res) => res.ok ? res.json() : Promise.reject())
+      .then((data: { players?: RankedPlayer[] }) => setPlayers(data.players || []))
+      .catch((err) => {
+        if (err?.name !== "AbortError") setError("Nao foi possivel carregar o ranking agora.");
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+
+    return () => controller.abort();
+  }, [search]);
+
+  const filteredPlayers = players.filter(
     (p) =>
       p.name.toLowerCase().includes(search.toLowerCase()) ||
       p.guild.toLowerCase().includes(search.toLowerCase()),
@@ -424,12 +466,30 @@ export default function Ranking() {
                     Reino
                   </TableHead>
                   <TableHead className="text-primary font-bold text-right">
-                    Kills
+                    Tempo
                   </TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredPlayers.length === 0 ? (
+                {loading ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={7}
+                      className="text-center text-muted-foreground py-8"
+                    >
+                      Carregando ranking...
+                    </TableCell>
+                  </TableRow>
+                ) : error ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={7}
+                      className="text-center text-red-400 py-8"
+                    >
+                      {error}
+                    </TableCell>
+                  </TableRow>
+                ) : filteredPlayers.length === 0 ? (
                   <TableRow>
                     <TableCell
                       colSpan={7}
@@ -489,7 +549,7 @@ export default function Ranking() {
                         </div>
                       </TableCell>
                       <TableCell className="text-right font-mono text-red-400 font-bold">
-                        {player.kills.toLocaleString()}
+                        {formatPlaytime(player.playtime)}
                       </TableCell>
                     </TableRow>
                   ))
