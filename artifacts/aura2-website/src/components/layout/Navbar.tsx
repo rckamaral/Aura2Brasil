@@ -58,7 +58,7 @@ export default function Navbar() {
           />
           <div className="flex flex-col">
             <span className="font-display font-bold text-2xl text-primary leading-none tracking-wider">
-              AURA 2 <span className="text-sm font-normal text-muted-foreground normal-case tracking-normal">- Fase Beta</span>
+              AURA 2 <span className="text-sm font-normal text-muted-foreground uppercase tracking-normal">- Legacy</span>
             </span>
             <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
               Reviva a essência do Metin2
