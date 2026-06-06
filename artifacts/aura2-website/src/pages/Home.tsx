@@ -288,6 +288,7 @@ export default function Home() {
   const [gender, setGender] = useState<Gender>("M");
   const [activeTab, setActiveTab] = useState<Tab>("Fase Beta");
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [heroVideoReady, setHeroVideoReady] = useState(false);
   const videoRefs = useRef<Partial<Record<VideoKey, HTMLVideoElement>>>({});
 
   useEffect(() => {
@@ -340,6 +341,12 @@ export default function Home() {
       {/* HERO */}
       <div className="relative flex flex-col">
         <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+          <img
+            src="/opengraph.jpg"
+            alt=""
+            aria-hidden="true"
+            className="absolute w-full h-full object-cover"
+          />
           {ALL_VIDEOS.map(({ key, src }) => (
             <video
               key={key}
@@ -350,7 +357,7 @@ export default function Home() {
               muted
               loop
               playsInline
-              preload="auto"
+              preload="none"
               className="absolute w-full h-full object-cover transition-opacity duration-500"
               style={{ opacity: activeKey === key ? 0.85 : 0 }}
             />
@@ -370,8 +377,12 @@ export default function Home() {
             loop
             playsInline
             muted
+            preload="metadata"
+            poster="/opengraph.jpg"
+            onCanPlay={() => setHeroVideoReady(true)}
+            onError={() => setHeroVideoReady(false)}
             className="absolute w-full h-full object-cover transition-opacity duration-500"
-            style={{ opacity: activeClass ? 0 : 0.5 }}
+            style={{ opacity: activeClass || !heroVideoReady ? 0 : 0.5 }}
           />
           <div
             className="absolute inset-0 bg-background/60 transition-opacity duration-500"
