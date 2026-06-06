@@ -331,7 +331,38 @@ type RankedPlayer = {
   playtime: number;
 };
 
-const TABS = ["Players"] as const;
+type RankedGuild = {
+  rank: number;
+  id: number;
+  name: string;
+  leader: string;
+  members: number;
+  kingdom: string;
+  wins: number;
+  level: number;
+};
+
+type RankedPvp = {
+  rank: number;
+  id: number;
+  name: string;
+  class: string;
+  kingdom: string;
+  kills: number;
+  deaths: number;
+  ratio: string;
+};
+
+type RankedBoss = {
+  rank: number;
+  id: number;
+  name: string;
+  class: string;
+  kingdom: string;
+  bosses: number;
+};
+
+const TABS = ["Players", "Guilds", "PvP", "Bosses"] as const;
 type Tab = "Players" | "Guilds" | "PvP" | "Bosses";
 
 function formatPlaytime(minutes: number) {
@@ -344,10 +375,15 @@ export default function Ranking() {
   const [activeTab, setActiveTab] = useState<Tab>("Players");
   const [search, setSearch] = useState("");
   const [players, setPlayers] = useState<RankedPlayer[]>([]);
+  const [guilds, setGuilds] = useState<RankedGuild[]>([]);
+  const [pvpPlayers, setPvpPlayers] = useState<RankedPvp[]>([]);
+  const [bossPlayers, setBossPlayers] = useState<RankedBoss[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (activeTab !== "Players") return;
+
     const controller = new AbortController();
     const params = new URLSearchParams();
     params.set("limit", "100");
@@ -367,7 +403,79 @@ export default function Ranking() {
       });
 
     return () => controller.abort();
-  }, [search]);
+  }, [activeTab, search]);
+
+  useEffect(() => {
+    if (activeTab !== "Guilds") return;
+
+    const controller = new AbortController();
+    const params = new URLSearchParams();
+    params.set("limit", "100");
+    if (search.trim()) params.set("search", search.trim());
+
+    setLoading(true);
+    setError(null);
+
+    fetch(`/api/ranking/guilds?${params.toString()}`, { signal: controller.signal })
+      .then((res) => res.ok ? res.json() : Promise.reject())
+      .then((data: { guilds?: RankedGuild[] }) => setGuilds(data.guilds || []))
+      .catch((err) => {
+        if (err?.name !== "AbortError") setError("Nao foi possivel carregar o ranking agora.");
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+
+    return () => controller.abort();
+  }, [activeTab, search]);
+
+  useEffect(() => {
+    if (activeTab !== "PvP") return;
+
+    const controller = new AbortController();
+    const params = new URLSearchParams();
+    params.set("limit", "100");
+    if (search.trim()) params.set("search", search.trim());
+
+    setLoading(true);
+    setError(null);
+
+    fetch(`/api/ranking/pvp?${params.toString()}`, { signal: controller.signal })
+      .then((res) => res.ok ? res.json() : Promise.reject())
+      .then((data: { players?: RankedPvp[] }) => setPvpPlayers(data.players || []))
+      .catch((err) => {
+        if (err?.name !== "AbortError") setError("Nao foi possivel carregar o ranking agora.");
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+
+    return () => controller.abort();
+  }, [activeTab, search]);
+
+  useEffect(() => {
+    if (activeTab !== "Bosses") return;
+
+    const controller = new AbortController();
+    const params = new URLSearchParams();
+    params.set("limit", "100");
+    if (search.trim()) params.set("search", search.trim());
+
+    setLoading(true);
+    setError(null);
+
+    fetch(`/api/ranking/bosses?${params.toString()}`, { signal: controller.signal })
+      .then((res) => res.ok ? res.json() : Promise.reject())
+      .then((data: { players?: RankedBoss[] }) => setBossPlayers(data.players || []))
+      .catch((err) => {
+        if (err?.name !== "AbortError") setError("Nao foi possivel carregar o ranking agora.");
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setLoading(false);
+      });
+
+    return () => controller.abort();
+  }, [activeTab, search]);
 
   const filteredPlayers = players.filter(
     (p) =>
@@ -375,17 +483,17 @@ export default function Ranking() {
       p.guild.toLowerCase().includes(search.toLowerCase()),
   );
 
-  const filteredGuilds = MOCK_GUILDS.filter(
+  const filteredGuilds = guilds.filter(
     (g) =>
       g.name.toLowerCase().includes(search.toLowerCase()) ||
       g.leader.toLowerCase().includes(search.toLowerCase()),
   );
 
-  const filteredPvP = MOCK_PVP.filter((p) =>
+  const filteredPvP = pvpPlayers.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase()),
   );
 
-  const filteredBosses = MOCK_BOSSES.filter((p) =>
+  const filteredBosses = bossPlayers.filter((p) =>
     p.name.toLowerCase().includes(search.toLowerCase()),
   );
 
@@ -588,7 +696,25 @@ export default function Ranking() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredGuilds.length === 0 ? (
+                {loading ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={7}
+                      className="text-center text-muted-foreground py-8"
+                    >
+                      Carregando ranking...
+                    </TableCell>
+                  </TableRow>
+                ) : error ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={7}
+                      className="text-center text-red-400 py-8"
+                    >
+                      {error}
+                    </TableCell>
+                  </TableRow>
+                ) : filteredGuilds.length === 0 ? (
                   <TableRow>
                     <TableCell
                       colSpan={7}
@@ -674,7 +800,25 @@ export default function Ranking() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredPvP.length === 0 ? (
+                {loading ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={7}
+                      className="text-center text-muted-foreground py-8"
+                    >
+                      Carregando ranking...
+                    </TableCell>
+                  </TableRow>
+                ) : error ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={7}
+                      className="text-center text-red-400 py-8"
+                    >
+                      {error}
+                    </TableCell>
+                  </TableRow>
+                ) : filteredPvP.length === 0 ? (
                   <TableRow>
                     <TableCell
                       colSpan={7}
@@ -763,7 +907,25 @@ export default function Ranking() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredBosses.length === 0 ? (
+                {loading ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={5}
+                      className="text-center text-muted-foreground py-8"
+                    >
+                      Carregando ranking...
+                    </TableCell>
+                  </TableRow>
+                ) : error ? (
+                  <TableRow>
+                    <TableCell
+                      colSpan={5}
+                      className="text-center text-red-400 py-8"
+                    >
+                      {error}
+                    </TableCell>
+                  </TableRow>
+                ) : filteredBosses.length === 0 ? (
                   <TableRow>
                     <TableCell
                       colSpan={5}
