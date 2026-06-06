@@ -16,6 +16,7 @@ const JWT_EXPIRES = "7d";
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
 const SITE_URL = (process.env.SITE_URL || "https://www.aura2.com.br").replace(/\/$/, "");
 const MYSQL_GAME_ACCOUNT_DB = process.env.MYSQL_GAME_ACCOUNT_DB || "account";
+const REQUIRE_METIN_MYSQL = process.env.REQUIRE_METIN_MYSQL !== "false";
 
 function mysqlIdent(name: string): string {
   if (!/^[a-zA-Z0-9_]+$/.test(name)) {
@@ -118,6 +119,11 @@ router.post("/auth/register", async (req, res) => {
     }
   }
 
+  if (REQUIRE_METIN_MYSQL) {
+    res.status(503).json({ error: "Banco do jogo indisponivel. A conta nao foi criada." });
+    return;
+  }
+
   // Fallback: PostgreSQL
   try {
     const existing = await db.select().from(accountsTable).where(
@@ -179,6 +185,11 @@ router.post("/auth/login", async (req, res) => {
       res.status(503).json({ error: "Erro ao consultar o banco do jogo. Tenta novamente em breve." });
       return;
     }
+  }
+
+  if (REQUIRE_METIN_MYSQL) {
+    res.status(503).json({ error: "Banco do jogo indisponivel. Tenta novamente em breve." });
+    return;
   }
 
   // Fallback: PostgreSQL
