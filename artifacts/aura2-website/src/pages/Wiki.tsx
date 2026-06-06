@@ -2435,7 +2435,7 @@ export default function Wiki() {
                 href="/download"
                 className="px-6 py-3 bg-primary text-black font-bold rounded uppercase tracking-wider text-sm hover:bg-primary/90 transition-colors"
               >
-                Baixar Agora
+                Download em breve
               </a>
               <a
                 href="https://discord.gg/BN6XbbqsM"

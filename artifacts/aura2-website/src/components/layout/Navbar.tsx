@@ -444,7 +444,7 @@ function ForgotPasswordForm({
             disabled={loading}
             className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"
           >
-            {loading ? "A enviar..." : "Enviar Link de Recuperação"}
+            {loading ? "Enviando..." : "Enviar Link de Recuperação"}
           </Button>
           <div className="text-center">
             <button
@@ -461,7 +461,7 @@ function ForgotPasswordForm({
           <div className="text-4xl">📧</div>
           <p className="text-white font-bold text-lg">E-mail enviado!</p>
           <p className="text-sm text-muted-foreground">
-            Verifique a tua caixa de entrada e segue as instruções para redefinir a senha.
+            Verifique sua caixa de entrada e siga as instruções para redefinir a senha.
           </p>
           <Button
             className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"

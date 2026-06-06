@@ -61,14 +61,14 @@ export default function ResetPassword() {
         <div className="text-center mb-8">
           <img src="/a2-logo.png" alt="Aura2" className="w-16 h-16 object-contain mx-auto mb-4" />
           <h1 className="font-display text-3xl text-primary font-bold">Redefinir Senha</h1>
-          <p className="text-muted-foreground text-sm mt-2">Cria uma nova senha para a tua conta</p>
+          <p className="text-muted-foreground text-sm mt-2">Crie uma nova senha para sua conta</p>
         </div>
 
         {done ? (
           <div className="text-center space-y-6">
             <div className="text-5xl">✅</div>
             <p className="text-white font-bold text-lg">Senha redefinida com sucesso!</p>
-            <p className="text-sm text-muted-foreground">Já podes fazer login com a tua nova senha.</p>
+            <p className="text-sm text-muted-foreground">Você já pode fazer login com sua nova senha.</p>
             <Button
               className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"
               onClick={() => navigate("/")}

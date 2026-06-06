@@ -238,7 +238,7 @@ function NewsTab({ token }: { token: string | null }) {
       });
       const data = await res.json();
       if (res.ok) {
-        toast({ title: editing ? "Notícia actualizada!" : "Notícia criada!" });
+        toast({ title: editing ? "Notícia atualizada!" : "Notícia criada!" });
         setShowForm(false);
         if (editing) {
           setNews(prev => prev.map(n => n.id === editing.id ? data.news : n));
@@ -305,7 +305,7 @@ function NewsTab({ token }: { token: string | null }) {
           </div>
           <div className="space-y-1.5">
             <Label className="text-xs text-muted-foreground uppercase tracking-wider">Conteúdo</Label>
-            <Textarea value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} className="bg-black/40 border-primary/20 text-white min-h-[120px]" placeholder="Escreve o conteúdo da notícia..." />
+            <Textarea value={form.content} onChange={e => setForm(f => ({ ...f, content: e.target.value }))} className="bg-black/40 border-primary/20 text-white min-h-[120px]" placeholder="Escreva o conteúdo da notícia..." />
           </div>
           <div className="space-y-1.5">
             <Label className="text-xs text-muted-foreground uppercase tracking-wider">URL da Imagem (opcional)</Label>
@@ -491,7 +491,7 @@ function TicketsTab({ token }: { token: string | null }) {
                           <Textarea
                             value={replies[t.id] || ""}
                             onChange={e => setReplies(r => ({ ...r, [t.id]: e.target.value }))}
-                            placeholder="Escreve a tua resposta..."
+                            placeholder="Escreva sua resposta..."
                             className="bg-black/40 border-primary/20 text-white text-sm min-h-[80px]"
                           />
                           <div className="flex gap-2">

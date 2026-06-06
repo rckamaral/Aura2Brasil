@@ -844,7 +844,7 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
               </div>
               <div>
                 <p className="text-green-400 font-display font-black text-2xl">Pagamento confirmado!</p>
-                <p className="text-green-400/70 text-sm mt-1">{selected.amount} Moedas Cash foram creditadas na tua conta.</p>
+                <p className="text-green-400/70 text-sm mt-1">{selected.amount} Moedas Cash foram creditadas na sua conta.</p>
               </div>
               <Button onClick={() => { setStep("select"); setSelected(null); setPixData(null); setPayStatus("pending"); }} variant="outline" className="border-primary/30 text-primary hover:bg-primary/10">
                 Comprar mais
@@ -895,7 +895,7 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
               <div className="rounded-xl border border-yellow-500/20 bg-yellow-950/20 p-4 text-sm text-yellow-400/80 space-y-1">
                 <p className="font-semibold text-yellow-400">Instruções:</p>
                 <p>1. Escaneia o QR code acima ou copia o código</p>
-                <p>2. Abre o app do teu banco e escolhe PIX</p>
+                <p>2. Abra o app do seu banco e escolha PIX</p>
                 <p>3. Usa o valor exato: <strong className="text-white">{selected.price}</strong></p>
                 <p>4. As moedas serão creditadas <strong className="text-white">automaticamente</strong></p>
               </div>
@@ -1072,7 +1072,7 @@ function SectionSuporte({ token }: { token: string | null }) {
             <Textarea
               value={form.message}
               onChange={e => setForm(f => ({ ...f, message: e.target.value }))}
-              placeholder="Descreve o teu problema com o máximo de detalhes..."
+              placeholder="Descreva seu problema com o máximo de detalhes..."
               minLength={10}
               maxLength={2000}
               required
@@ -1113,7 +1113,7 @@ function SectionSuporte({ token }: { token: string | null }) {
               {expanded === t.id && (
                 <div className="border-t border-white/10 px-4 py-3 space-y-3">
                   <div className="bg-black/30 rounded-lg p-3">
-                    <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wider">A tua mensagem</p>
+                    <p className="text-xs text-muted-foreground mb-1 uppercase tracking-wider">Sua mensagem</p>
                     <p className="text-sm text-white/90 whitespace-pre-wrap">{t.message}</p>
                   </div>
                   {t.adminReply && (

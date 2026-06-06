@@ -217,7 +217,7 @@ export default function Parceiros() {
         <div className="text-center mb-10">
           <p className="text-xs text-muted-foreground uppercase tracking-widest font-semibold mb-2">Junte-se a nós</p>
           <h2 className="font-display text-3xl md:text-4xl font-bold text-white tracking-wide">Candidatura</h2>
-          <p className="text-sm text-gray-400 mt-3">Preencha o formulário abaixo e entraremos em contacto pelo Discord em até 48 horas.</p>
+          <p className="text-sm text-gray-400 mt-3">Preencha o formulário abaixo e entraremos em contato pelo Discord em até 48 horas.</p>
         </div>
 
         {sent ? (
@@ -225,7 +225,7 @@ export default function Parceiros() {
             <div className="text-6xl">🎉</div>
             <h3 className="font-display text-2xl font-bold text-primary">Candidatura Enviada!</h3>
             <p className="text-gray-300 max-w-md mx-auto">
-              Recebemos a tua candidatura! Vamos analisar e entrar em contato pelo Discord em até 48 horas. Obrigado pelo interesse em ser parceiro do Aura2!
+              Recebemos a sua candidatura! Vamos analisar e entrar em contato pelo Discord em até 48 horas. Obrigado pelo interesse em ser parceiro do Aura2!
             </p>
           </div>
         ) : (
@@ -321,7 +321,7 @@ export default function Parceiros() {
               <textarea
                 id="motivation"
                 name="motivation"
-                placeholder="Conta-nos um pouco sobre o teu canal e por que o Aura2 faz sentido para o teu conteúdo..."
+                placeholder="Conte um pouco sobre o seu canal e por que o Aura2 faz sentido para o seu conteúdo..."
                 value={form.motivation}
                 onChange={handleChange}
                 rows={4}
@@ -339,7 +339,7 @@ export default function Parceiros() {
             </Button>
 
             <p className="text-xs text-center text-gray-600">
-              Ao enviar, concordas com os termos do programa de parceiros do Aura2.
+              Ao enviar, você concorda com os termos do programa de parceiros do Aura2.
             </p>
           </form>
         )}
