@@ -69,14 +69,11 @@ export default function Conta() {
 
   useEffect(() => {
     if (!token) return;
-    fetch("/api/donations/mine", { headers: { Authorization: `Bearer ${token}` } })
+    fetch("/api/auth/me", { headers: { Authorization: `Bearer ${token}` } })
       .then(r => r.ok ? r.json() : null)
       .then(data => {
         if (!data) return;
-        const total = (data.donations as { status: string; coinsAmount: number }[])
-          .filter(d => d.status === "approved")
-          .reduce((s, d) => s + d.coinsAmount, 0);
-        setCashBalance(total);
+        if (typeof data.cash === "number") setCashBalance(data.cash);
       })
       .catch(() => {});
   }, [token]);
@@ -694,14 +691,9 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
         if (data.status === "approved") {
           setPayStatus("approved");
           clearInterval(interval);
-          const mineRes = await fetch("/api/donations/mine", { headers: { Authorization: `Bearer ${token}` } });
-          const mineData = await mineRes.json() as { donations: { status: string; coinsAmount: number }[] };
-          if (mineData.donations) {
-            const total = mineData.donations
-              .filter(d => d.status === "approved")
-              .reduce((s, d) => s + d.coinsAmount, 0);
-            onBalanceUpdate(total);
-          }
+          const meRes = await fetch("/api/auth/me", { headers: { Authorization: `Bearer ${token}` } });
+          const meData = await meRes.json() as { cash?: number };
+          if (typeof meData.cash === "number") onBalanceUpdate(meData.cash);
         } else if (data.status === "rejected" || data.status === "cancelled") {
           setPayStatus(data.status as "rejected" | "cancelled");
           clearInterval(interval);

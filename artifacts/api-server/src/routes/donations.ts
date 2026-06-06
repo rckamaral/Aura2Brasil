@@ -4,11 +4,22 @@ import { z } from "zod";
 import { db, donationsTable, accountsTable } from "@workspace/db";
 import { eq, desc } from "drizzle-orm";
 import { notifyDonation } from "../discord/notifications.js";
+import pool from "../lib/mysql";
 
 const router = Router();
 const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
 const MP_ACCESS_TOKEN = process.env.MP_ACCESS_TOKEN || "";
+const MYSQL_GAME_ACCOUNT_DB = process.env.MYSQL_GAME_ACCOUNT_DB || "account";
+
+function mysqlIdent(name: string): string {
+  if (!/^[a-zA-Z0-9_]+$/.test(name)) {
+    throw new Error(`Invalid MySQL identifier: ${name}`);
+  }
+  return `\`${name}\``;
+}
+
+const METIN_ACCOUNT_TABLE = `${mysqlIdent(MYSQL_GAME_ACCOUNT_DB)}.\`account\``;
 
 function verifyToken(authHeader: string | undefined): string | null {
   if (!authHeader?.startsWith("Bearer ")) return null;
@@ -23,6 +34,67 @@ function verifyToken(authHeader: string | undefined): string | null {
 function getWebhookUrl(): string {
   const domain = process.env.REPLIT_DOMAINS?.split(",")[0] || "aura2.com.br";
   return `https://${domain}/api/webhooks/mercadopago`;
+}
+
+type RouteLogger = {
+  error: (obj: unknown, msg?: string) => void;
+  info: (obj: unknown, msg?: string) => void;
+};
+
+async function creditGameCash(username: string, amount: number): Promise<boolean> {
+  const [result] = await pool.execute(
+    `UPDATE ${METIN_ACCOUNT_TABLE} SET cash = COALESCE(cash, 0) + ? WHERE login = ?`,
+    [amount, username]
+  ) as [{ affectedRows?: number }, unknown];
+
+  return (result.affectedRows || 0) > 0;
+}
+
+async function approveDonationAndCreditCash(
+  donation: typeof donationsTable.$inferSelect,
+  notes: string,
+  log: RouteLogger,
+) {
+  const [updated] = await db
+    .update(donationsTable)
+    .set({ status: "approved", notes, updatedAt: new Date() })
+    .where(eq(donationsTable.id, donation.id))
+    .returning();
+
+  if (!updated) return null;
+
+  try {
+    const credited = await creditGameCash(updated.username, updated.coinsAmount);
+    if (!credited) {
+      await db.update(donationsTable)
+        .set({
+          notes: `${notes} | Cash NAO creditado: conta nao encontrada no MySQL do jogo.`,
+          updatedAt: new Date(),
+        })
+        .where(eq(donationsTable.id, updated.id));
+      log.error({ donationId: updated.id, username: updated.username }, "Donation approved but game account was not found");
+      return updated;
+    }
+
+    await db.update(donationsTable)
+      .set({
+        notes: `${notes} | Cash creditado no jogo: ${updated.coinsAmount}`,
+        updatedAt: new Date(),
+      })
+      .where(eq(donationsTable.id, updated.id));
+
+    log.info({ donationId: updated.id, username: updated.username, cash: updated.coinsAmount }, "Donation cash credited to game account");
+    return updated;
+  } catch (err) {
+    await db.update(donationsTable)
+      .set({
+        notes: `${notes} | Cash NAO creditado: erro ao acessar MySQL do jogo.`,
+        updatedAt: new Date(),
+      })
+      .where(eq(donationsTable.id, updated.id));
+    log.error({ err, donationId: updated.id, username: updated.username }, "Donation approved but cash credit failed");
+    throw err;
+  }
 }
 
 const createPixSchema = z.object({
@@ -149,10 +221,14 @@ router.post("/webhooks/mercadopago", async (req, res) => {
     if (!donations.length || donations[0].status !== "pending") return;
 
     const newStatus = mpStatus === "approved" ? "approved" : "cancelled";
-    await db
-      .update(donationsTable)
-      .set({ status: newStatus, notes: `Atualizado via webhook MP: ${mpStatus}`, updatedAt: new Date() })
-      .where(eq(donationsTable.id, donations[0].id));
+    if (newStatus === "approved") {
+      await approveDonationAndCreditCash(donations[0], `Atualizado via webhook MP: ${mpStatus}`, req.log);
+    } else {
+      await db
+        .update(donationsTable)
+        .set({ status: newStatus, notes: `Atualizado via webhook MP: ${mpStatus}`, updatedAt: new Date() })
+        .where(eq(donationsTable.id, donations[0].id));
+    }
 
     req.log.info({ donationId: donations[0].id, paymentId, newStatus }, "Donation updated via webhook");
 
@@ -187,9 +263,7 @@ router.get("/donations/:id/status", async (req, res) => {
           const mpData = await mpRes.json() as { status?: string };
           const mpStatus = mpData.status;
           if (mpStatus === "approved") {
-            await db.update(donationsTable)
-              .set({ status: "approved", notes: "Confirmado via polling", updatedAt: new Date() })
-              .where(eq(donationsTable.id, donation.id));
+            await approveDonationAndCreditCash(donation, "Confirmado via polling", req.log);
             res.json({ status: "approved" });
             return;
           } else if (mpStatus === "cancelled" || mpStatus === "rejected" || mpStatus === "expired") {
@@ -272,6 +346,22 @@ router.post("/admin/donations/:id/approve", async (req, res) => {
   const notes = actionSchema.safeParse(req.body).success ? actionSchema.parse(req.body).notes : undefined;
 
   try {
+    const [currentDonation] = await db
+      .select()
+      .from(donationsTable)
+      .where(eq(donationsTable.id, id))
+      .limit(1);
+
+    if (!currentDonation) {
+      res.status(404).json({ error: "Doacao nao encontrada." });
+      return;
+    }
+
+    if (currentDonation.status !== "pending") {
+      res.json({ message: "Doacao ja processada.", donation: currentDonation });
+      return;
+    }
+
     const [updated] = await db
       .update(donationsTable)
       .set({ status: "approved", notes: notes ?? null, updatedAt: new Date() })
@@ -279,6 +369,23 @@ router.post("/admin/donations/:id/approve", async (req, res) => {
       .returning();
 
     if (!updated) { res.status(404).json({ error: "Doação não encontrada." }); return; }
+    try {
+      const credited = await creditGameCash(updated.username, updated.coinsAmount);
+      await db.update(donationsTable)
+        .set({
+          notes: credited
+            ? `${notes ?? "Aprovado manualmente"} | Cash creditado no jogo: ${updated.coinsAmount}`
+            : `${notes ?? "Aprovado manualmente"} | Cash NAO creditado: conta nao encontrada no MySQL do jogo.`,
+          updatedAt: new Date(),
+        })
+        .where(eq(donationsTable.id, updated.id));
+      if (!credited) {
+        req.log.error({ donationId: updated.id, username: updated.username }, "Donation approved but game account was not found");
+      }
+    } catch (cashErr) {
+      req.log.error({ cashErr, donationId: updated.id, username: updated.username }, "Donation approved but cash credit failed");
+      throw cashErr;
+    }
     req.log.info({ adminUsername: username, donationId: id }, "Donation approved manually");
     res.json({ message: "Doação aprovada!", donation: updated });
     notifyDonation(updated.username, updated.packageLabel, updated.coinsAmount, updated.priceBrl).catch(() => {});

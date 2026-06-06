@@ -429,7 +429,7 @@ router.get("/auth/confirm-email-change", async (req, res) => {
   }
 });
 
-router.get("/auth/me", (req, res) => {
+router.get("/auth/me", async (req, res) => {
   const authHeader = req.headers.authorization;
   if (!authHeader?.startsWith("Bearer ")) {
     res.status(401).json({ error: "Não autenticado." });
@@ -439,7 +439,17 @@ router.get("/auth/me", (req, res) => {
   const token = authHeader.slice(7);
   try {
     const payload = jwt.verify(token, JWT_SECRET) as { username: string };
-    res.json({ username: payload.username });
+    let cash: number | null = null;
+    try {
+      const [rows] = await pool.execute(
+        `SELECT cash FROM ${METIN_ACCOUNT_TABLE} WHERE login = ? LIMIT 1`,
+        [payload.username]
+      ) as [{ cash: number | string | null }[], unknown];
+      if (rows.length > 0) cash = Number(rows[0].cash || 0);
+    } catch (err) {
+      req.log.warn({ err, username: payload.username }, "Could not fetch account cash");
+    }
+    res.json({ username: payload.username, cash });
   } catch {
     res.status(401).json({ error: "Token inválido ou expirado." });
   }
