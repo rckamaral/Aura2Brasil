@@ -18,8 +18,8 @@ const CLASS_ICONS: Record<string, string> = {
 
 const KINGDOM_FLAGS: Record<string, string> = {
   Chunjo: "/kingdoms/chunjo.webp",
-  Jinno: "/kingdoms/jinno.webp",
-  Shinsoo: "/kingdoms/shinsoo.webp",
+  Jinno: "/kingdoms/shinsoo.webp",
+  Shinsoo: "/kingdoms/jinno.webp",
 };
 
 const MOCK_PLAYERS = [
