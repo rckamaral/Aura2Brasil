@@ -117,6 +117,24 @@ CREATE TABLE IF NOT EXISTS site_settings (
   PRIMARY KEY (setting_key)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
+CREATE OR REPLACE VIEW site_accounts AS
+SELECT
+  id,
+  login AS usuario,
+  password AS senha_hash,
+  email,
+  social_id,
+  status,
+  cash,
+  coins,
+  mileage,
+  web_admin,
+  user_admin,
+  create_time AS criado_em,
+  last_play AS ultimo_login,
+  register_ip
+FROM account.account;
+
 -- Optional permission setup.
 -- If your Railway/API user is named "website", run these as a MySQL root/admin user
 -- and change the password before running.

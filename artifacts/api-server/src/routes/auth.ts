@@ -15,6 +15,21 @@ const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
 const JWT_EXPIRES = "7d";
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
 const SITE_URL = (process.env.SITE_URL || "https://www.aura2.com.br").replace(/\/$/, "");
+const MYSQL_GAME_ACCOUNT_DB = process.env.MYSQL_GAME_ACCOUNT_DB || "account";
+
+function mysqlIdent(name: string): string {
+  if (!/^[a-zA-Z0-9_]+$/.test(name)) {
+    throw new Error(`Invalid MySQL identifier: ${name}`);
+  }
+  return `\`${name}\``;
+}
+
+const METIN_ACCOUNT_TABLE = `${mysqlIdent(MYSQL_GAME_ACCOUNT_DB)}.\`account\``;
+const METIN_PASSWORD_EXPR = "CONCAT('*', UPPER(SHA1(UNHEX(SHA1(?)))))";
+
+function createSocialId(): string {
+  return String(Math.floor(1000000 + Math.random() * 9000000));
+}
 
 function apiBaseUrl(): string {
   const domain = process.env.REPLIT_DOMAINS?.split(",")[0];
@@ -22,14 +37,14 @@ function apiBaseUrl(): string {
 }
 
 const registerSchema = z.object({
-  username: z.string().min(3).max(50),
+  username: z.string().min(3).max(30).regex(/^[a-zA-Z0-9_]+$/),
   email: z.string().email(),
   password: z.string().min(6),
   betaKey: z.string().min(1),
 });
 
 const loginSchema = z.object({
-  username: z.string().min(1),
+  username: z.string().min(1).max(30),
   password: z.string().min(1),
 });
 
@@ -74,7 +89,7 @@ router.post("/auth/register", async (req, res) => {
   if (mysqlOk) {
     try {
       const [existing] = await pool.execute(
-        "SELECT id FROM accounts WHERE username = ? OR email = ? LIMIT 1",
+        `SELECT id FROM ${METIN_ACCOUNT_TABLE} WHERE login = ? OR email = ? LIMIT 1`,
         [username, email]
       ) as [any[], any];
 
@@ -83,10 +98,12 @@ router.post("/auth/register", async (req, res) => {
         return;
       }
 
-      const passwordHash = await bcrypt.hash(password, 10);
+      const socialId = createSocialId();
       await pool.execute(
-        "INSERT INTO accounts (username, email, password_hash) VALUES (?, ?, ?)",
-        [username, email, passwordHash]
+        `INSERT INTO ${METIN_ACCOUNT_TABLE}
+          (login, password, social_id, email, create_time, status, securitycode, deletion_token, passlost_token, email_token, new_email)
+         VALUES (?, ${METIN_PASSWORD_EXPR}, ?, ?, NOW(), 'OK', '', '', '', '', '')`,
+        [username, password, socialId, email]
       );
       await db.update(betaKeysTable).set({ usedBy: username, usedAt: new Date() }).where(eq(betaKeysTable.id, key[0].id));
       req.log.info({ username }, "New beta account registered (MySQL)");
@@ -96,6 +113,8 @@ router.post("/auth/register", async (req, res) => {
       return;
     } catch (err) {
       req.log.error({ err }, "MySQL error during register");
+      res.status(503).json({ error: "Erro ao criar conta no banco do jogo. Verifique o MySQL do Metin2." });
+      return;
     }
   }
 
@@ -136,8 +155,8 @@ router.post("/auth/login", async (req, res) => {
   if (mysqlOk) {
     try {
       const [rows] = await pool.execute(
-        "SELECT id, password_hash FROM accounts WHERE username = ? LIMIT 1",
-        [username]
+        `SELECT id, login, status FROM ${METIN_ACCOUNT_TABLE} WHERE login = ? AND password = ${METIN_PASSWORD_EXPR} LIMIT 1`,
+        [username, password]
       ) as [any[], any];
 
       if (rows.length === 0) {
@@ -145,8 +164,7 @@ router.post("/auth/login", async (req, res) => {
         return;
       }
 
-      const valid = await bcrypt.compare(password, rows[0].password_hash);
-      if (!valid) {
+      if (rows[0].status !== "OK") {
         res.status(401).json({ error: "Usuário ou senha incorretos." });
         return;
       }
@@ -158,6 +176,8 @@ router.post("/auth/login", async (req, res) => {
       return;
     } catch (err) {
       req.log.error({ err }, "MySQL error during login");
+      res.status(503).json({ error: "Erro ao consultar o banco do jogo. Tenta novamente em breve." });
+      return;
     }
   }
 
@@ -218,10 +238,10 @@ router.post("/auth/change-password", async (req, res) => {
 
     if (mysqlOk) {
       const [rows] = await pool.execute(
-        "SELECT password_hash FROM accounts WHERE username = ? LIMIT 1",
-        [username]
+        `SELECT id FROM ${METIN_ACCOUNT_TABLE} WHERE login = ? AND password = ${METIN_PASSWORD_EXPR} LIMIT 1`,
+        [username, currentPassword]
       ) as [any[], any];
-      if (rows.length > 0) { storedHash = rows[0].password_hash; isMySQL = true; }
+      if (rows.length > 0) { storedHash = "__metin_password_ok__"; isMySQL = true; }
     }
 
     if (!storedHash) {
@@ -234,17 +254,19 @@ router.post("/auth/change-password", async (req, res) => {
       return;
     }
 
-    const valid = await bcrypt.compare(currentPassword, storedHash);
+    const valid = isMySQL || await bcrypt.compare(currentPassword, storedHash);
     if (!valid) {
       res.status(401).json({ error: "Senha atual incorreta." });
       return;
     }
 
-    const newHash = await bcrypt.hash(newPassword, 10);
-
     if (isMySQL) {
-      await pool.execute("UPDATE accounts SET password_hash = ? WHERE username = ?", [newHash, username]);
+      await pool.execute(
+        `UPDATE ${METIN_ACCOUNT_TABLE} SET password = ${METIN_PASSWORD_EXPR} WHERE login = ?`,
+        [newPassword, username]
+      );
     } else {
+      const newHash = await bcrypt.hash(newPassword, 10);
       await db.update(accountsTable).set({ passwordHash: newHash }).where(eq(accountsTable.username, username));
     }
 
@@ -293,14 +315,14 @@ router.post("/auth/change-email", async (req, res) => {
 
     if (mysqlOk) {
       const [rows] = await pool.execute(
-        "SELECT password_hash, email FROM accounts WHERE username = ? LIMIT 1",
-        [username]
+        `SELECT id, email FROM ${METIN_ACCOUNT_TABLE} WHERE login = ? AND password = ${METIN_PASSWORD_EXPR} LIMIT 1`,
+        [username, currentPassword]
       ) as [any[], any];
-      if (rows.length > 0) { storedHash = rows[0].password_hash; currentEmail = rows[0].email; isMySQL = true; }
+      if (rows.length > 0) { storedHash = "__metin_password_ok__"; currentEmail = rows[0].email; isMySQL = true; }
 
       if (storedHash) {
         const [emailCheck] = await pool.execute(
-          "SELECT id FROM accounts WHERE email = ? AND username != ? LIMIT 1",
+          `SELECT id FROM ${METIN_ACCOUNT_TABLE} WHERE email = ? AND login != ? LIMIT 1`,
           [newEmail, username]
         ) as [any[], any];
         if (emailCheck.length > 0) {
@@ -328,7 +350,7 @@ router.post("/auth/change-email", async (req, res) => {
       return;
     }
 
-    const valid = await bcrypt.compare(currentPassword, storedHash);
+    const valid = isMySQL || await bcrypt.compare(currentPassword, storedHash);
     if (!valid) {
       res.status(401).json({ error: "Senha atual incorreta." });
       return;
@@ -364,7 +386,7 @@ router.get("/auth/confirm-email-change", async (req, res) => {
   try {
     if (mysqlOk) {
       const [emailCheck] = await pool.execute(
-        "SELECT id FROM accounts WHERE email = ? AND username != ? LIMIT 1",
+        `SELECT id FROM ${METIN_ACCOUNT_TABLE} WHERE email = ? AND login != ? LIMIT 1`,
         [entry.newEmail, entry.username]
       ) as [any[], any];
       if (emailCheck.length > 0) {
@@ -373,8 +395,8 @@ router.get("/auth/confirm-email-change", async (req, res) => {
       }
 
       const [result] = await pool.execute(
-        "UPDATE accounts SET email = ? WHERE username = ? AND email = ?",
-        [entry.newEmail, entry.username, entry.oldEmail]
+        `UPDATE ${METIN_ACCOUNT_TABLE} SET email = ?, new_email = ? WHERE login = ? AND email = ?`,
+        [entry.newEmail, entry.newEmail, entry.username, entry.oldEmail]
       ) as [any, any];
       if (result.affectedRows > 0) {
         res.redirect(`${SITE_URL}/conta?emailChange=success`);
@@ -426,7 +448,7 @@ router.post("/auth/forgot-password", async (req, res) => {
 
     if (mysqlOk) {
       const [rows] = await pool.execute(
-        "SELECT username, email FROM accounts WHERE email = ? LIMIT 1",
+        `SELECT login AS username, email FROM ${METIN_ACCOUNT_TABLE} WHERE email = ? LIMIT 1`,
         [email]
       ) as [any[], any];
       if (rows.length > 0) { userEmail = rows[0].email; username = rows[0].username; }
@@ -465,13 +487,16 @@ router.post("/auth/reset-password", async (req, res) => {
     return;
   }
 
-  const passwordHash = await bcrypt.hash(password, 10);
   const mysqlOk = await isMySQLAvailable();
 
   try {
     if (mysqlOk) {
-      await pool.execute("UPDATE accounts SET password_hash = ? WHERE email = ?", [passwordHash, entry.email]);
+      await pool.execute(
+        `UPDATE ${METIN_ACCOUNT_TABLE} SET password = ${METIN_PASSWORD_EXPR} WHERE email = ?`,
+        [password, entry.email]
+      );
     } else {
+      const passwordHash = await bcrypt.hash(password, 10);
       await db.update(accountsTable).set({ passwordHash }).where(eq(accountsTable.email, entry.email));
     }
     req.log.info({ username: entry.username }, "Password reset successfully");

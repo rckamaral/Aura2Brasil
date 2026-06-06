@@ -12,16 +12,8 @@ const pool = mysql.createPool({
 });
 
 export async function initMySQL() {
-  await pool.execute(`
-    CREATE TABLE IF NOT EXISTS accounts (
-      id INT AUTO_INCREMENT PRIMARY KEY,
-      username VARCHAR(50) NOT NULL UNIQUE,
-      email VARCHAR(100) NOT NULL UNIQUE,
-      password_hash TEXT NOT NULL,
-      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-    )
-  `);
-  logger.info("MySQL connected and accounts table ready");
+  await pool.execute("SELECT 1");
+  logger.info("MySQL connected");
 }
 
 export default pool;
