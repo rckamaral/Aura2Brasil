@@ -6,12 +6,19 @@ import pool from "../lib/mysql";
 import { db, accountsTable, betaKeysTable } from "@workspace/db";
 import { eq, or } from "drizzle-orm";
 import { createResetToken, consumeResetToken } from "../lib/resetTokens";
-import { sendPasswordResetEmail } from "../lib/mailer";
+import { createEmailChangeToken, consumeEmailChangeToken } from "../lib/emailChangeTokens";
+import { sendEmailChangeConfirmationEmail, sendPasswordResetEmail } from "../lib/mailer";
 import { notifyNewUser } from "../discord/notifications.js";
 
 const router = Router();
 const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
 const JWT_EXPIRES = "7d";
+const SITE_URL = (process.env.SITE_URL || "https://www.aura2.com.br").replace(/\/$/, "");
+
+function apiBaseUrl(): string {
+  const domain = process.env.REPLIT_DOMAINS?.split(",")[0];
+  return domain ? `https://${domain}` : "https://api.aura2.com.br";
+}
 
 const registerSchema = z.object({
   username: z.string().min(3).max(50),
@@ -280,14 +287,15 @@ router.post("/auth/change-email", async (req, res) => {
 
   try {
     let storedHash: string | null = null;
+    let currentEmail: string | null = null;
     let isMySQL = false;
 
     if (mysqlOk) {
       const [rows] = await pool.execute(
-        "SELECT password_hash FROM accounts WHERE username = ? LIMIT 1",
+        "SELECT password_hash, email FROM accounts WHERE username = ? LIMIT 1",
         [username]
       ) as [any[], any];
-      if (rows.length > 0) { storedHash = rows[0].password_hash; isMySQL = true; }
+      if (rows.length > 0) { storedHash = rows[0].password_hash; currentEmail = rows[0].email; isMySQL = true; }
 
       if (storedHash) {
         const [emailCheck] = await pool.execute(
@@ -303,7 +311,7 @@ router.post("/auth/change-email", async (req, res) => {
 
     if (!storedHash) {
       const rows = await db.select().from(accountsTable).where(eq(accountsTable.username, username)).limit(1);
-      if (rows.length > 0) storedHash = rows[0].passwordHash;
+      if (rows.length > 0) { storedHash = rows[0].passwordHash; currentEmail = rows[0].email; }
 
       if (storedHash) {
         const emailCheck = await db.select().from(accountsTable).where(eq(accountsTable.email, newEmail)).limit(1);
@@ -325,17 +333,65 @@ router.post("/auth/change-email", async (req, res) => {
       return;
     }
 
-    if (isMySQL) {
-      await pool.execute("UPDATE accounts SET email = ? WHERE username = ?", [newEmail, username]);
-    } else {
-      await db.update(accountsTable).set({ email: newEmail }).where(eq(accountsTable.username, username));
+    if (!currentEmail) {
+      res.status(404).json({ error: "E-mail atual nao encontrado." });
+      return;
     }
 
-    req.log.info({ username }, "Email changed successfully");
-    res.json({ message: "E-mail alterado com sucesso!" });
+    const emailToken = createEmailChangeToken(username, currentEmail, newEmail);
+    const confirmUrl = `${apiBaseUrl()}/api/auth/confirm-email-change?token=${emailToken}`;
+    await sendEmailChangeConfirmationEmail(currentEmail, username, newEmail, confirmUrl);
+
+    req.log.info({ username }, "Email change confirmation sent");
+    res.json({ message: "Enviamos um link de confirmacao para o e-mail atual da conta." });
   } catch (err) {
     req.log.error({ err }, "DB error during change-email");
     res.status(503).json({ error: "Servidor em manutenção. Tenta novamente em breve." });
+  }
+});
+
+router.get("/auth/confirm-email-change", async (req, res) => {
+  const token = typeof req.query.token === "string" ? req.query.token : "";
+  const entry = consumeEmailChangeToken(token);
+  if (!entry) {
+    res.redirect(`${SITE_URL}/conta?emailChange=invalid`);
+    return;
+  }
+
+  const mysqlOk = await isMySQLAvailable();
+
+  try {
+    if (mysqlOk) {
+      const [emailCheck] = await pool.execute(
+        "SELECT id FROM accounts WHERE email = ? AND username != ? LIMIT 1",
+        [entry.newEmail, entry.username]
+      ) as [any[], any];
+      if (emailCheck.length > 0) {
+        res.redirect(`${SITE_URL}/conta?emailChange=used`);
+        return;
+      }
+
+      const [result] = await pool.execute(
+        "UPDATE accounts SET email = ? WHERE username = ? AND email = ?",
+        [entry.newEmail, entry.username, entry.oldEmail]
+      ) as [any, any];
+      if (result.affectedRows > 0) {
+        res.redirect(`${SITE_URL}/conta?emailChange=success`);
+        return;
+      }
+    }
+
+    const emailCheck = await db.select().from(accountsTable).where(eq(accountsTable.email, entry.newEmail)).limit(1);
+    if (emailCheck.length > 0 && emailCheck[0].username !== entry.username) {
+      res.redirect(`${SITE_URL}/conta?emailChange=used`);
+      return;
+    }
+
+    await db.update(accountsTable).set({ email: entry.newEmail }).where(eq(accountsTable.username, entry.username));
+    res.redirect(`${SITE_URL}/conta?emailChange=success`);
+  } catch (err) {
+    req.log.error({ err, username: entry.username }, "DB error during confirm-email-change");
+    res.redirect(`${SITE_URL}/conta?emailChange=error`);
   }
 });
 

@@ -91,6 +91,30 @@ export async function sendPasswordResetEmail(to: string, resetUrl: string) {
   );
 }
 
+export async function sendEmailChangeConfirmationEmail(to: string, username: string, newEmail: string, confirmUrl: string) {
+  await sendEmail(
+    to,
+    "Confirmacao de troca de e-mail - Aura2",
+    `
+      <div style="background:#0d0a06;color:#fff;font-family:Arial,sans-serif;padding:40px;max-width:540px;margin:auto;border-radius:8px">
+        <h1 style="color:#d4a017;text-align:center">AURA 2</h1>
+        <h2 style="text-align:center;margin-bottom:24px">Confirmacao de troca de e-mail</h2>
+        <p>Ola, <strong>${username}</strong>.</p>
+        <p>Recebemos um pedido para trocar o e-mail da sua conta para:</p>
+        <p style="color:#d4a017;font-weight:bold">${newEmail}</p>
+        <p>Se foi voce, clique no botao abaixo para confirmar a alteracao.</p>
+        <div style="text-align:center;margin:32px 0">
+          <a href="${confirmUrl}" style="background:#d4a017;color:#000;padding:14px 28px;border-radius:6px;text-decoration:none;font-weight:bold;font-size:16px;display:inline-block">
+            Confirmar troca de e-mail
+          </a>
+        </div>
+        <p style="color:#888;font-size:12px">Este link expira em 1 hora. Se voce nao pediu essa troca, ignore este e-mail.</p>
+      </div>
+    `,
+    "Email change confirmation",
+  );
+}
+
 export async function sendPartnerApplicationEmail(data: {
   channelName: string;
   platform: string;
