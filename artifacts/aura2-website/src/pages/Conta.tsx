@@ -42,6 +42,16 @@ type Section =
   | "historico"
   | "suporte";
 
+type AccountCharacter = {
+  id: number;
+  name: string;
+  class: string;
+  level: number;
+  guild: string;
+  playtime: number;
+  lastPlay: string | null;
+};
+
 export default function Conta() {
   const { user, logout, token } = useAuth();
   const [location, navigate] = useLocation();
@@ -281,7 +291,7 @@ function SectionContent({
     case "senha-armazem":
       return <SectionSenhaArmazem />;
     case "personagens":
-      return <SectionPersonagens />;
+      return <SectionPersonagens token={token} />;
     case "senha-personagem":
       return <SectionSenhaPersonagem />;
     case "comprar-cash":
@@ -562,10 +572,119 @@ function SectionSenhaArmazem() {
   );
 }
 
-function SectionPersonagens() {
+function formatPlaytime(minutes: number) {
+  if (!minutes) return "0h";
+  const hours = Math.floor(minutes / 60);
+  const mins = minutes % 60;
+  if (!hours) return `${mins}min`;
+  if (!mins) return `${hours}h`;
+  return `${hours}h ${mins}min`;
+}
+
+function SectionPersonagens({ token }: { token: string | null }) {
+  const [characters, setCharacters] = useState<AccountCharacter[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadCharacters() {
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch("/api/account/characters", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(data.error || "Nao foi possivel carregar os personagens agora.");
+        }
+
+        if (!cancelled) {
+          setCharacters(Array.isArray(data.characters) ? data.characters : []);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : "Nao foi possivel carregar os personagens agora.");
+          setCharacters([]);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    loadCharacters();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [token]);
+
   return (
     <FormSection title="Listar Personagens" icon={<Users className="w-5 h-5" />}>
-      <div className="bg-black/30 border border-white/10 rounded-lg p-8 text-center">
+      {loading && (
+        <div className="bg-black/30 border border-white/10 rounded-lg p-8 text-center">
+          <Users className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
+          <p className="text-muted-foreground text-sm">Carregando personagens...</p>
+        </div>
+      )}
+
+      {!loading && error && (
+        <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-5">
+          <p className="text-red-300 text-sm">{error}</p>
+        </div>
+      )}
+
+      {!loading && !error && characters.length === 0 && (
+        <div className="bg-black/30 border border-white/10 rounded-lg p-8 text-center">
+          <Users className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
+          <p className="text-muted-foreground text-sm">Nenhum personagem criado ainda.</p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Crie um personagem no jogo e ele aparecera aqui.
+          </p>
+        </div>
+      )}
+
+      {!loading && !error && characters.length > 0 && (
+        <div className="overflow-hidden rounded-lg border border-white/10 bg-black/30">
+          <div className="hidden md:grid grid-cols-[1.3fr_0.8fr_0.6fr_1fr_0.8fr] gap-4 px-4 py-3 border-b border-white/10 text-xs uppercase tracking-wider text-primary font-bold">
+            <span>Nome</span>
+            <span>Classe</span>
+            <span>Nivel</span>
+            <span>Guild</span>
+            <span>Tempo</span>
+          </div>
+          <div className="divide-y divide-white/10">
+            {characters.map((character) => (
+              <div
+                key={character.id}
+                className="grid gap-3 px-4 py-4 md:grid-cols-[1.3fr_0.8fr_0.6fr_1fr_0.8fr] md:gap-4"
+              >
+                <div>
+                  <p className="text-white font-bold">{character.name}</p>
+                  {character.lastPlay && (
+                    <p className="text-xs text-muted-foreground">
+                      Ultimo login: {new Date(character.lastPlay).toLocaleDateString("pt-BR")}
+                    </p>
+                  )}
+                </div>
+                <p className="text-sm text-muted-foreground md:text-white">{character.class}</p>
+                <p className="text-sm text-primary font-bold">Lv. {character.level}</p>
+                <p className="text-sm text-muted-foreground">{character.guild || "-"}</p>
+                <p className="text-sm text-muted-foreground">{formatPlaytime(character.playtime)}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+      <div className="hidden">
         <Users className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
         <p className="text-muted-foreground text-sm">
           A ligação ao servidor de jogo será necessária para mostrar os personagens.

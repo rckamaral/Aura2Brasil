@@ -7,6 +7,7 @@ import ticketsRouter from "./tickets";
 import partnersRouter from "./partners";
 import adminBetaKeysRouter from "./admin-beta-keys";
 import rankingRouter from "./ranking";
+import accountRouter from "./account";
 
 const router: IRouter = Router();
 
@@ -18,5 +19,6 @@ router.use(ticketsRouter);
 router.use(partnersRouter);
 router.use(adminBetaKeysRouter);
 router.use(rankingRouter);
+router.use(accountRouter);
 
 export default router;
