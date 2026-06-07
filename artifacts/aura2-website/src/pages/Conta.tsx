@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, type FormEvent } from "react";
 import { useLocation } from "wouter";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
@@ -29,6 +29,8 @@ import {
   LifeBuoy,
   Send,
   Shield,
+  Info,
+  KeyRound,
 } from "lucide-react";
 
 type Section =
@@ -293,7 +295,7 @@ function SectionContent({
     case "personagens":
       return <SectionPersonagens token={token} />;
     case "senha-personagem":
-      return <SectionSenhaPersonagem />;
+      return <SectionSenhaPersonagem token={token} />;
     case "comprar-cash":
       return <SectionComprarCash token={token} onBalanceUpdate={onBalanceUpdate} />;
     case "historico":
@@ -581,7 +583,20 @@ function formatPlaytime(minutes: number) {
   return `${hours}h ${mins}min`;
 }
 
-function SectionPersonagens({ token }: { token: string | null }) {
+function formatCharacterDate(value: string | null) {
+  if (!value) return "-";
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) return "-";
+  return parsed.toLocaleString("pt-BR", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function OldSectionPersonagens({ token }: { token: string | null }) {
   const [characters, setCharacters] = useState<AccountCharacter[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -697,7 +712,7 @@ function SectionPersonagens({ token }: { token: string | null }) {
   );
 }
 
-function SectionSenhaPersonagem() {
+function OldSectionSenhaPersonagem() {
   const { toast } = useToast();
   return (
     <FormSection title="Senha do Personagem" icon={<ShieldCheck className="w-5 h-5" />}>
@@ -720,6 +735,267 @@ function SectionSenhaPersonagem() {
           Definir Senha
         </Button>
       </div>
+    </FormSection>
+  );
+}
+
+function SectionPersonagens({ token }: { token: string | null }) {
+  const { toast } = useToast();
+  const [characters, setCharacters] = useState<AccountCharacter[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [movingId, setMovingId] = useState<number | null>(null);
+
+  useEffect(() => {
+    let cancelled = false;
+
+    async function loadCharacters() {
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      try {
+        setLoading(true);
+        setError(null);
+        const response = await fetch("/api/account/characters", {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        const data = await response.json().catch(() => ({}));
+
+        if (!response.ok) {
+          throw new Error(data.error || "Nao foi possivel carregar os personagens agora.");
+        }
+
+        if (!cancelled) {
+          setCharacters(Array.isArray(data.characters) ? data.characters : []);
+        }
+      } catch (err) {
+        if (!cancelled) {
+          setError(err instanceof Error ? err.message : "Nao foi possivel carregar os personagens agora.");
+          setCharacters([]);
+        }
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    }
+
+    loadCharacters();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [token]);
+
+  async function moveCharacterToCity(characterId: number) {
+    if (!token || movingId) return;
+
+    try {
+      setMovingId(characterId);
+      const response = await fetch(`/api/account/characters/${characterId}/move-city`, {
+        method: "POST",
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.error || "Nao foi possivel mover o personagem agora.");
+      }
+
+      toast({
+        title: "Personagem movido",
+        description: data.message || "O personagem foi enviado para a cidade.",
+      });
+    } catch (err) {
+      toast({
+        title: "Erro",
+        description: err instanceof Error ? err.message : "Nao foi possivel mover o personagem agora.",
+        variant: "destructive",
+      });
+    } finally {
+      setMovingId(null);
+    }
+  }
+
+  return (
+    <FormSection title="Listar Personagens" icon={<Users className="w-5 h-5" />}>
+      <div className="space-y-5">
+        <div className="flex items-start gap-3 rounded-lg border border-primary/30 bg-primary/10 p-4 text-sm text-muted-foreground">
+          <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
+          <p>Para mover o personagem para a cidade, aguarde 5 minutos apos deslogar.</p>
+        </div>
+
+        {loading && (
+          <div className="bg-black/30 border border-white/10 rounded-lg p-8 text-center">
+            <Users className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
+            <p className="text-muted-foreground text-sm">Carregando personagens...</p>
+          </div>
+        )}
+
+        {!loading && error && (
+          <div className="bg-red-500/10 border border-red-500/30 rounded-lg p-5">
+            <p className="text-red-300 text-sm">{error}</p>
+          </div>
+        )}
+
+        {!loading && !error && characters.length === 0 && (
+          <div className="bg-black/30 border border-white/10 rounded-lg p-8 text-center">
+            <Users className="w-10 h-10 text-muted-foreground mx-auto mb-3" />
+            <p className="text-muted-foreground text-sm">Nenhum personagem criado ainda.</p>
+            <p className="text-xs text-muted-foreground mt-1">Crie um personagem no jogo e ele aparecera aqui.</p>
+          </div>
+        )}
+
+        {!loading && !error && characters.length > 0 && (
+          <div className="space-y-4">
+            {characters.map((character) => (
+              <div key={character.id} className="rounded-lg border border-white/10 bg-black/30 p-5">
+                <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                  <div>
+                    <h3 className="font-serif text-2xl font-bold text-white uppercase">{character.name}</h3>
+                    <div className="mt-3 grid gap-2 text-sm text-muted-foreground sm:grid-cols-2 lg:grid-cols-5">
+                      <span><Star className="mr-1 inline h-4 w-4 text-primary" />Nivel {character.level}</span>
+                      <span>Classe: {character.class}</span>
+                      <span>Guild: {character.guild || "-"}</span>
+                      <span>Tempo: {formatPlaytime(character.playtime)}</span>
+                      <span>Ultimo login: {formatCharacterDate(character.lastPlay)}</span>
+                    </div>
+                  </div>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    disabled={movingId === character.id}
+                    onClick={() => moveCharacterToCity(character.id)}
+                    className="border-red-500/50 bg-red-500/10 text-red-300 hover:bg-red-500/20 hover:text-red-200 font-bold uppercase tracking-wider"
+                  >
+                    <Send className="mr-2 h-4 w-4" />
+                    {movingId === character.id ? "Movendo..." : "Mover para cidade"}
+                  </Button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+
+        <CharacterDeleteCodeForm token={token} />
+      </div>
+    </FormSection>
+  );
+}
+
+function CharacterDeleteCodeForm({ token }: { token: string | null }) {
+  const { toast } = useToast();
+  const [code, setCode] = useState("");
+  const [confirmCode, setConfirmCode] = useState("");
+  const [saving, setSaving] = useState(false);
+
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const cleanCode = code.trim();
+
+    if (!/^[0-9]{4,13}$/.test(cleanCode)) {
+      toast({
+        title: "Senha invalida",
+        description: "Use apenas numeros, com 4 a 13 digitos.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    if (cleanCode !== confirmCode.trim()) {
+      toast({
+        title: "Senhas diferentes",
+        description: "Digite a mesma senha nos dois campos.",
+        variant: "destructive",
+      });
+      return;
+    }
+
+    try {
+      setSaving(true);
+      const response = await fetch("/api/account/character-delete-code", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ code: cleanCode }),
+      });
+      const data = await response.json().catch(() => ({}));
+
+      if (!response.ok) {
+        throw new Error(data.error || "Nao foi possivel salvar a senha agora.");
+      }
+
+      setCode("");
+      setConfirmCode("");
+      toast({
+        title: "Senha salva",
+        description: data.message || "A senha de exclusao foi atualizada.",
+      });
+    } catch (err) {
+      toast({
+        title: "Erro",
+        description: err instanceof Error ? err.message : "Nao foi possivel salvar a senha agora.",
+        variant: "destructive",
+      });
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="rounded-lg border border-white/10 bg-black/30 p-5">
+      <div className="mb-4">
+        <h3 className="flex items-center gap-2 font-serif text-xl font-bold text-white">
+          <KeyRound className="h-5 w-5 text-primary" />
+          Senha para excluir personagem
+        </h3>
+        <p className="mt-2 text-sm text-muted-foreground">
+          Essa senha e usada dentro do jogo para confirmar a exclusao de personagens da conta.
+        </p>
+      </div>
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="space-y-2">
+          <Label>Nova senha numerica</Label>
+          <Input
+            type="password"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={code}
+            onChange={(event) => setCode(event.target.value)}
+            placeholder="4 a 13 digitos"
+            className="bg-black/50 border-primary/30 focus-visible:ring-primary"
+          />
+        </div>
+        <div className="space-y-2">
+          <Label>Confirmar senha</Label>
+          <Input
+            type="password"
+            inputMode="numeric"
+            pattern="[0-9]*"
+            value={confirmCode}
+            onChange={(event) => setConfirmCode(event.target.value)}
+            placeholder="Repita a senha"
+            className="bg-black/50 border-primary/30 focus-visible:ring-primary"
+          />
+        </div>
+      </div>
+      <Button
+        type="submit"
+        disabled={saving || !token}
+        className="mt-5 bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"
+      >
+        {saving ? "Salvando..." : "Salvar senha"}
+      </Button>
+    </form>
+  );
+}
+
+function SectionSenhaPersonagem({ token }: { token: string | null }) {
+  return (
+    <FormSection title="Senha do Personagem" icon={<ShieldCheck className="w-5 h-5" />}>
+      <CharacterDeleteCodeForm token={token} />
     </FormSection>
   );
 }
