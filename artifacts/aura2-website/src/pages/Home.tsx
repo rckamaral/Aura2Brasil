@@ -46,6 +46,29 @@ type ClassId = (typeof CLASSES)[number]["id"];
 type Gender = "M" | "F";
 type VideoKey = `${ClassId}-${"M" | "F"}`;
 
+type HomeRankedPlayer = {
+  rank: number;
+  id?: number;
+  name: string;
+  class: string;
+  level: number;
+  guild?: string;
+  kingdom?: string;
+};
+
+const HOME_CLASS_ICONS: Record<string, string> = {
+  Guerreiro: "/classes/guerreiro_m.png",
+  Ninja: "/classes/ninja_m.png",
+  Shura: "/classes/shura_m.png",
+  Shaman: "/classes/shaman_m.png",
+};
+
+const HOME_KINGDOM_FLAGS: Record<string, string> = {
+  Chunjo: "/kingdoms/chunjo.webp",
+  Jinno: "/kingdoms/shinsoo.webp",
+  Shinsoo: "/kingdoms/jinno.webp",
+};
+
 const ALL_VIDEOS: { key: VideoKey; src: string }[] = CLASSES.flatMap((cls) =>
   (["M", "F"] as Gender[]).map((g) => ({
     key: `${cls.id}-${g}` as VideoKey,
@@ -288,7 +311,35 @@ export default function Home() {
   const [gender, setGender] = useState<Gender>("M");
   const [activeTab, setActiveTab] = useState<Tab>("Fase Beta");
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [topPlayers, setTopPlayers] = useState<HomeRankedPlayer[]>([]);
+  const [topPlayersLoading, setTopPlayersLoading] = useState(true);
+  const [topPlayersError, setTopPlayersError] = useState(false);
   const videoRefs = useRef<Partial<Record<VideoKey, HTMLVideoElement>>>({});
+
+  useEffect(() => {
+    const controller = new AbortController();
+
+    setTopPlayersLoading(true);
+    fetch("/api/ranking/players?limit=5", { signal: controller.signal })
+      .then((res) => {
+        if (!res.ok) throw new Error("ranking");
+        return res.json();
+      })
+      .then((data: { players?: HomeRankedPlayer[] }) => {
+        setTopPlayers((data.players ?? []).slice(0, 5));
+        setTopPlayersError(false);
+      })
+      .catch((err) => {
+        if (err?.name === "AbortError") return;
+        setTopPlayers([]);
+        setTopPlayersError(true);
+      })
+      .finally(() => {
+        if (!controller.signal.aborted) setTopPlayersLoading(false);
+      });
+
+    return () => controller.abort();
+  }, []);
 
   useEffect(() => {
     if (selectedPost) {
@@ -777,52 +828,34 @@ export default function Home() {
               </tr>
             </thead>
             <tbody>
-              {[
-                {
-                  rank: 1,
-                  name: "DarkLord",
-                  class: "Guerreiro",
-                  level: 105,
-                  guild: "Immortals",
-                  kingdom: "jinno",
-                },
-                {
-                  rank: 2,
-                  name: "ShadowStep",
-                  class: "Ninja",
-                  level: 104,
-                  guild: "Shadows",
-                  kingdom: "shinsoo",
-                },
-                {
-                  rank: 3,
-                  name: "MagicWeaver",
-                  class: "Shura",
-                  level: 104,
-                  guild: "Immortals",
-                  kingdom: "jinno",
-                },
-                {
-                  rank: 4,
-                  name: "HealMe",
-                  class: "Shaman",
-                  level: 102,
-                  guild: "Support",
-                  kingdom: "chunjo",
-                },
-                {
-                  rank: 5,
-                  name: "BladeMaster",
-                  class: "Guerreiro",
-                  level: 101,
-                  guild: "Warriors",
-                  kingdom: "shinsoo",
-                },
-              ].map((player) => (
-                <tr
-                  key={player.rank}
+              {topPlayersLoading ? (
+                <tr>
+                  <td colSpan={6} className="py-8 px-4 text-center text-muted-foreground">
+                    Carregando Hall da Fama...
+                  </td>
+                </tr>
+              ) : topPlayersError ? (
+                <tr>
+                  <td colSpan={6} className="py-8 px-4 text-center text-red-400">
+                    Nao foi possivel carregar os top players agora.
+                  </td>
+                </tr>
+              ) : topPlayers.length === 0 ? (
+                <tr>
+                  <td colSpan={6} className="py-8 px-4 text-center text-muted-foreground">
+                    Nenhum personagem no ranking ainda.
+                  </td>
+                </tr>
+              ) : (
+                topPlayers.map((player) => {
+                  const classIcon = HOME_CLASS_ICONS[player.class];
+                  const kingdomFlag = player.kingdom ? HOME_KINGDOM_FLAGS[player.kingdom] : null;
+
+                  return (
+                    <tr
+                  key={player.id ?? `${player.rank}-${player.name}`}
                   className="border-b border-primary/10 hover:bg-primary/5 transition-colors"
-                >
+                    >
                   <td className="text-center py-4 px-4 font-bold text-lg">
                     {player.rank === 1 ? (
                       "🥇"
@@ -840,27 +873,45 @@ export default function Home() {
                     {player.name}
                   </td>
                   <td className="py-4 px-4 text-center">
-                    <img
-                      src={`/classes/${player.class.toLowerCase()}_m.png`}
-                      alt={player.class}
-                      className="w-9 h-9 rounded-lg object-cover mx-auto"
-                      style={{ border: "1px solid rgba(255,255,255,0.12)" }}
-                    />
+                    {classIcon ? (
+                      <img
+                        src={classIcon}
+                        alt={player.class}
+                        className="w-9 h-9 rounded-lg object-cover mx-auto"
+                        style={{
+                          border: "1px solid rgba(255,255,255,0.12)",
+                        }}
+                      />
+                    ) : (
+                      <span className="text-sm text-gray-300">
+                        {player.class}
+                      </span>
+                    )}
                   </td>
                   <td className="py-4 px-4 text-center font-mono text-primary font-bold">
                     {player.level}
                   </td>
-                  <td className="py-4 px-4 text-gray-300">{player.guild}</td>
-                  <td className="py-4 px-4 text-center">
-                    <img
-                      src={`/kingdoms/${player.kingdom}.webp`}
-                      alt={player.kingdom}
-                      className="h-5 rounded-sm object-cover shadow-sm mx-auto"
-                      style={{ width: "2.25rem" }}
-                    />
+                  <td className="py-4 px-4 text-gray-300">
+                    {player.guild && player.guild !== "-"
+                      ? player.guild
+                      : "-"}
                   </td>
-                </tr>
-              ))}
+                  <td className="py-4 px-4 text-center">
+                    {kingdomFlag ? (
+                      <img
+                        src={kingdomFlag}
+                        alt={player.kingdom}
+                        className="h-5 rounded-sm object-cover shadow-sm mx-auto"
+                        style={{ width: "2.25rem" }}
+                      />
+                    ) : (
+                      <span className="text-muted-foreground">-</span>
+                    )}
+                  </td>
+                    </tr>
+                  );
+                })
+              )}
             </tbody>
           </table>
         </div>
