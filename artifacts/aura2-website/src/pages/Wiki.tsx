@@ -1520,32 +1520,32 @@ export default function Wiki() {
               {[
                 {
                   lv: "Lv 30",
-                  time: "30min",
-                  reward: "Velocidade de Movimento +10%",
+                  time: "6h",
+                  reward: "Velocidade de Movimento +60%",
                 },
                 {
                   lv: "Lv 40",
-                  time: "30min",
-                  reward: "Velocidade de Ataque +5%",
+                  time: "6h",
+                  reward: "Bonus de Critico +10%",
                 },
-                { lv: "Lv 50", time: "30min", reward: "Defesa +60" },
-                { lv: "Lv 60", time: "1h", reward: "Ataque +50" },
+                { lv: "Lv 50", time: "6h", reward: "Defesa +60" },
+                { lv: "Lv 60", time: "6h", reward: "Ataque +50" },
                 {
                   lv: "Lv 70",
-                  time: "1h",
-                  reward: "Refletir Ataque Físico +10% / Defesa +10%",
+                  time: "6h",
+                  reward: "+10% Dano de Skill / Bonus Monstro +15%",
                 },
                 {
                   lv: "Lv 80",
-                  time: "2h",
-                  reward: "Bônus contra Monstros +10% / Ataque +10%",
+                  time: "6h",
+                  reward: "+1.500 HP / Bonus Humanoides +15%%",
                 },
                 {
                   lv: "Lv 85",
-                  time: "2h",
+                  time: "3h",
                   reward: "Resistência contra Classes +10%",
                 },
-                { lv: "Lv 90", time: "4h", reward: "Bônus contra Classes +8%" },
+                { lv: "Lv 90", time: "6h", reward: "Bônus contra Classes +15%" },
               ].map((m) => (
                 <div
                   key={m.lv}
