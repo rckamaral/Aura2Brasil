@@ -633,17 +633,17 @@ const sistemasAutomacao = [
 ];
 
 const bonusData = [
-  { name: "HP Máximo", min: "+500", max: "+2.000" },
+  { name: "HP Máximo", min: "+500", max: "+3.000" },
   { name: "MP Máximo", min: "+10", max: "+80" },
-  { name: "Velocidade de Ataque", min: "+1%", max: "+8%" },
-  { name: "Velocidade de Movimento", min: "+2%", max: "+20%" },
-  { name: "Chance de Ataque Crítico", min: "+1%", max: "+10%" },
-  { name: "Bônus contra Monstros", min: "+2%", max: "+20%" },
-  { name: "Refletir Ataque Físico", min: "+1%", max: "+10%" },
-  { name: "Resistência Magia", min: "+2%", max: "+15%" },
-  { name: "Resistência contra Classes", min: "+2%", max: "+10%" },
-  { name: "Bônus de Experiência", min: "+2%", max: "+20%" },
-  { name: "Taxa de Drop", min: "+2%", max: "+20%" },
+  { name: "Velocidade de Ataque", min: "+5%", max: "+8%" },
+  { name: "Velocidade de Movimento", min: "+5%", max: "+20%" },
+  { name: "Chance de Ataque Crítico", min: "+5%", max: "+10%" },
+  { name: "Bônus contra Monstros", min: "+5%", max: "+20%" },
+  { name: "Refletir Ataque Físico", min: "+5%", max: "+10%" },
+  { name: "Resistência Magia", min: "+5%", max: "+15%" },
+  { name: "Resistência contra Classes", min: "+5%", max: "+10%" },
+  { name: "Bônus de Experiência", min: "+5%", max: "+20%" },
+  { name: "Taxa de Drop", min: "+5%", max: "+20%" },
   { name: "Ataque", min: "+5", max: "+50" },
 ];
 
@@ -651,12 +651,9 @@ const gameplayList = [
   "Nível máximo: 99",
   "Dificuldade: Médio — desafiador mas acessível",
   "Sem Pay-to-Win — tudo pode ser conquistado jogando",
-  "Inventário organizado automaticamente",
   "Teletransporte entre mapas muito mais rápido",
   "Quantidade de Metins nos mapas aumentada",
-  "Pontos de status atribuídos de 10 em 10",
   "Sem restrição de tempo para sair de guilda",
-  "Chefes não sofrem knockback ao serem atacados",
   "Clicar no nome no chat abre janela de PM",
 ];
 
