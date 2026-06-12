@@ -856,10 +856,10 @@ function CharacterDeleteCodeForm({ token }: { token: string | null }) {
     event.preventDefault();
     const cleanCode = code.trim();
 
-    if (!/^[0-9]{4,13}$/.test(cleanCode)) {
+    if (!/^[0-9]{7}$/.test(cleanCode)) {
       toast({
         title: "Senha invalida",
-        description: "Use apenas numeros, com 4 a 13 digitos.",
+        description: "Use exatamente 7 numeros.",
         variant: "destructive",
       });
       return;
@@ -925,9 +925,11 @@ function CharacterDeleteCodeForm({ token }: { token: string | null }) {
             type="password"
             inputMode="numeric"
             pattern="[0-9]*"
+            minLength={7}
+            maxLength={7}
             value={code}
             onChange={(event) => setCode(event.target.value)}
-            placeholder="4 a 13 digitos"
+            placeholder="7 digitos"
             className="bg-black/50 border-primary/30 focus-visible:ring-primary"
           />
         </div>
@@ -937,6 +939,8 @@ function CharacterDeleteCodeForm({ token }: { token: string | null }) {
             type="password"
             inputMode="numeric"
             pattern="[0-9]*"
+            minLength={7}
+            maxLength={7}
             value={confirmCode}
             onChange={(event) => setConfirmCode(event.target.value)}
             placeholder="Repita a senha"

@@ -193,8 +193,8 @@ router.post("/account/character-delete-code", async (req, res) => {
   }
 
   const code = typeof req.body?.code === "string" ? req.body.code.trim() : "";
-  if (!/^[0-9]{4,13}$/.test(code)) {
-    res.status(400).json({ error: "Use uma senha numerica de 4 a 13 digitos." });
+  if (!/^[0-9]{7}$/.test(code)) {
+    res.status(400).json({ error: "Use uma senha numerica de exatamente 7 digitos." });
     return;
   }
 
