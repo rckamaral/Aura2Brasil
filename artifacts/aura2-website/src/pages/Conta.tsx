@@ -11,7 +11,6 @@ import {
   Home,
   Mail,
   Lock,
-  Warehouse,
   Users,
   ShieldCheck,
   ShoppingCart,
@@ -37,7 +36,6 @@ type Section =
   | "inicio"
   | "alterar-email"
   | "alterar-senha"
-  | "senha-armazem"
   | "personagens"
   | "senha-personagem"
   | "comprar-cash"
@@ -154,12 +152,6 @@ export default function Conta() {
                     label="Alterar Senha"
                     active={section === "alterar-senha"}
                     onClick={() => setSection("alterar-senha")}
-                  />
-                  <NavItem
-                    icon={<Warehouse className="w-4 h-4" />}
-                    label="Senha do Armazém"
-                    active={section === "senha-armazem"}
-                    onClick={() => setSection("senha-armazem")}
                   />
                 </NavGroup>
 
@@ -290,8 +282,6 @@ function SectionContent({
       return <SectionAlterarEmail token={token} />;
     case "alterar-senha":
       return <SectionAlterarSenha token={token} />;
-    case "senha-armazem":
-      return <SectionSenhaArmazem />;
     case "personagens":
       return <SectionPersonagens token={token} />;
     case "senha-personagem":
@@ -543,33 +533,6 @@ function SectionAlterarSenha({ token }: { token: string | null }) {
           {loading ? "Salvando..." : "Salvar Alteração"}
         </Button>
       </form>
-    </FormSection>
-  );
-}
-
-function SectionSenhaArmazem() {
-  const { toast } = useToast();
-  return (
-    <FormSection title="Senha do Armazém" icon={<Warehouse className="w-5 h-5" />}>
-      <div className="space-y-4 max-w-md">
-        <p className="text-sm text-muted-foreground">
-          A senha do armazém protege os seus itens guardados no cofre.
-        </p>
-        <div className="space-y-2">
-          <Label>Nova Senha do Armazém</Label>
-          <Input type="password" placeholder="••••••••" className="bg-black/50 border-primary/30 focus-visible:ring-primary" />
-        </div>
-        <div className="space-y-2">
-          <Label>Confirmar Senha</Label>
-          <Input type="password" placeholder="••••••••" className="bg-black/50 border-primary/30 focus-visible:ring-primary" />
-        </div>
-        <Button
-          className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"
-          onClick={() => toast({ title: "Em breve", description: "Esta funcionalidade estará disponível em breve." })}
-        >
-          Definir Senha
-        </Button>
-      </div>
     </FormSection>
   );
 }
@@ -1015,7 +978,7 @@ const CASH_PACKAGES = [
 const PIX_KEY = "aura2brasil@gmail.com";
 
 type CashPkg = (typeof CASH_PACKAGES)[number];
-type PayStep = "select" | "method" | "pix" | "card";
+type PayStep = "select" | "method" | "pix";
 
 function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; onBalanceUpdate: (n: number) => void }) {
   const [selected, setSelected] = useState<CashPkg | null>(null);
@@ -1043,7 +1006,7 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
   }
 
   function goBack() {
-    if (step === "pix" || step === "card") setStep("method");
+    if (step === "pix") setStep("method");
     else { setStep("select"); setSelected(null); }
   }
 
@@ -1131,7 +1094,7 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
             ))}
           </div>
           <p className="text-xs text-muted-foreground text-center pt-2">
-            Doações via <span className="text-primary font-semibold">PIX · Cartão de Crédito</span> — processadas com segurança.
+            Doações via <span className="text-primary font-semibold">PIX</span> — processadas com segurança.
           </p>
         </div>
       )}
@@ -1166,12 +1129,9 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
               </div>
             </button>
             <button
-              onClick={() => agreed && setStep("card")}
-              className={`flex items-center gap-4 p-4 rounded-xl border transition-all text-left ${
-                agreed
-                  ? "border-white/10 bg-black/30 hover:border-primary/40 hover:bg-primary/5 cursor-pointer"
-                  : "border-white/5 bg-black/20 opacity-40 cursor-not-allowed"
-              }`}
+              type="button"
+              disabled
+              className="flex items-center gap-4 p-4 rounded-xl border border-white/5 bg-black/20 opacity-40 cursor-not-allowed text-left"
             >
               <CreditCard className="w-6 h-6 text-primary shrink-0" />
               <div>
@@ -1318,23 +1278,6 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
         </div>
       )}
 
-      {step === "card" && selected && (
-        <div className="space-y-4 max-w-sm">
-          <button onClick={goBack} className="flex items-center gap-1.5 text-sm text-muted-foreground hover:text-primary transition-colors">
-            <ArrowLeft className="w-4 h-4" /> Voltar
-          </button>
-          <div className="rounded-xl border border-primary/20 bg-primary/5 p-4 flex items-center justify-between">
-            <div>
-              <p className="text-xs text-muted-foreground uppercase tracking-wider">Pacote selecionado</p>
-              <p className="font-display font-black text-xl text-primary">{selected.amount} Moedas Cash</p>
-            </div>
-            <p className="text-2xl font-bold text-white">{selected.price}</p>
-          </div>
-          <div className="rounded-xl border border-yellow-500/20 bg-yellow-950/20 p-4 text-sm text-yellow-400/80 text-center">
-            Integração com gateway de pagamento em breve.
-          </div>
-        </div>
-      )}
     </FormSection>
   );
 }

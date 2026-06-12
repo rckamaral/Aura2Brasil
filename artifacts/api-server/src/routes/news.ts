@@ -95,9 +95,17 @@ router.patch("/admin/news/:id", async (req, res) => {
   if (!parsed.success) { res.status(400).json({ error: "Dados inválidos." }); return; }
 
   try {
+    const changes: Record<string, unknown> = {
+      ...parsed.data,
+      updatedAt: new Date(),
+    };
+    if ("imageUrl" in parsed.data) {
+      changes.imageUrl = parsed.data.imageUrl || null;
+    }
+
     const [updated] = await db
       .update(newsTable)
-      .set({ ...parsed.data, imageUrl: parsed.data.imageUrl || null, updatedAt: new Date() })
+      .set(changes)
       .where(eq(newsTable.id, id))
       .returning();
 

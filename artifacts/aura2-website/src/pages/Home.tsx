@@ -93,6 +93,44 @@ type Post = {
   fullContent: string;
 };
 
+type ApiNewsItem = {
+  id: number;
+  title: string;
+  content: string;
+  imageUrl?: string | null;
+  createdAt: string;
+};
+
+function newsToPost(item: ApiNewsItem): Post {
+  const fullContent = item.content
+    .replace(/<br\s*\/?>/gi, "\n")
+    .replace(/<\/p>/gi, "\n\n")
+    .replace(/<[^>]*>/g, "")
+    .replace(/&nbsp;/gi, " ")
+    .trim();
+  const plainContent = fullContent.replace(/\s+/g, " ").trim();
+  const createdAt = new Date(item.createdAt);
+  const ago = Number.isNaN(createdAt.getTime())
+    ? "recente"
+    : new Intl.DateTimeFormat("pt-BR", {
+        day: "2-digit",
+        month: "short",
+        year: "numeric",
+      }).format(createdAt);
+
+  return {
+    id: item.id,
+    category: "Notícias",
+    categoryColor: "#2471a3",
+    title: item.title,
+    ago,
+    gradient: "linear-gradient(135deg, #071426 0%, #123b66 55%, #071426 100%)",
+    image: item.imageUrl || undefined,
+    desc: plainContent.slice(0, 180),
+    fullContent,
+  };
+}
+
 const POSTS: Record<Tab, Post[]> = {
   "Fase Beta": [
     {
@@ -311,6 +349,7 @@ export default function Home() {
   const [gender, setGender] = useState<Gender>("M");
   const [activeTab, setActiveTab] = useState<Tab>("Fase Beta");
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
+  const [liveNewsPosts, setLiveNewsPosts] = useState<Post[]>([]);
   const [topPlayers, setTopPlayers] = useState<HomeRankedPlayer[]>([]);
   const [topPlayersLoading, setTopPlayersLoading] = useState(true);
   const [topPlayersError, setTopPlayersError] = useState(false);
@@ -342,6 +381,24 @@ export default function Home() {
   }, []);
 
   useEffect(() => {
+    const controller = new AbortController();
+
+    fetch("/api/news", { signal: controller.signal })
+      .then((res) => {
+        if (!res.ok) throw new Error("news");
+        return res.json();
+      })
+      .then((data: { news?: ApiNewsItem[] }) => {
+        setLiveNewsPosts((data.news ?? []).slice(0, 4).map(newsToPost));
+      })
+      .catch((err) => {
+        if (err?.name !== "AbortError") setLiveNewsPosts([]);
+      });
+
+    return () => controller.abort();
+  }, []);
+
+  useEffect(() => {
     if (selectedPost) {
       document.body.style.overflow = "hidden";
     } else {
@@ -357,6 +414,10 @@ export default function Home() {
 
   const activeClass = CLASSES.find((c) => c.id === selected) ?? null;
   const activeKey: VideoKey | null = selected ? `${selected}-${gender}` : null;
+  const visiblePosts =
+    activeTab === "Notícias" && liveNewsPosts.length > 0
+      ? liveNewsPosts
+      : POSTS[activeTab];
 
   function showVideo(key: VideoKey) {
     for (const [k, v] of Object.entries(videoRefs.current)) {
@@ -605,7 +666,7 @@ export default function Home() {
 
             {/* Featured post */}
             {(() => {
-              const featured = POSTS[activeTab][0];
+              const featured = visiblePosts[0];
               return (
                 <div
                   key={featured.id}
@@ -661,7 +722,7 @@ export default function Home() {
 
             {/* 3 compact posts */}
             <div className="lg:col-span-2 flex flex-col gap-3">
-              {POSTS[activeTab].slice(1).map((post, idx) => (
+              {visiblePosts.slice(1, 4).map((post) => (
                 <div
                   key={post.id}
                   onClick={() => setSelectedPost(post)}
