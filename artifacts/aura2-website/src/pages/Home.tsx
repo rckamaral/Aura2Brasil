@@ -451,7 +451,7 @@ export default function Home() {
     <div className="w-full flex-1 flex flex-col">
       {/* HERO */}
       <div className="relative flex flex-col">
-        <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
           {ALL_VIDEOS.map(({ key, src }) => (
             <video
               key={key}
@@ -478,22 +478,23 @@ export default function Home() {
           <video
             id="hero-video"
             src="/trailer-metin2.mp4"
+            poster="/opengraph.jpg"
             autoPlay
             loop
             playsInline
             muted
             className="absolute w-full h-full object-cover transition-opacity duration-500"
-            style={{ opacity: activeClass ? 0 : 0.5 }}
+            style={{ opacity: activeClass ? 0 : 0.78 }}
           />
           <div
-            className="absolute inset-0 bg-background/60 transition-opacity duration-500"
+            className="absolute inset-0 bg-background/35 transition-opacity duration-500"
             style={{ opacity: activeClass ? 0 : 1 }}
           />
         </div>
 
         <VideoControls hidden={!!activeClass} />
 
-        <div className="container mx-auto px-4 pt-10 lg:pt-16 flex flex-col lg:flex-row items-start gap-8">
+        <div className="relative z-10 container mx-auto px-4 pt-10 lg:pt-16 flex flex-col lg:flex-row items-start gap-8">
           <div className="flex-1 max-w-2xl space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-1000">
             <div className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary backdrop-blur-sm">
               <span className="mr-2 flex h-2 w-2 rounded-full bg-primary animate-pulse" />
@@ -545,7 +546,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="container mx-auto px-4 pb-10 mt-10">
+        <div className="relative z-10 container mx-auto px-4 pb-10 mt-10">
           <div className="flex flex-col gap-3">
             <div
               className="flex items-center gap-2"
