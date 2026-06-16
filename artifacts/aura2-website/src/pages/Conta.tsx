@@ -164,7 +164,7 @@ export default function Conta() {
                   />
                   <NavItem
                     icon={<ShieldCheck className="w-4 h-4" />}
-                    label="Código de Exclusão"
+                    label="Senha do Personagem"
                     active={section === "senha-personagem"}
                     onClick={() => setSection("senha-personagem")}
                   />
@@ -912,15 +912,15 @@ function CharacterDeleteCodeForm({ token }: { token: string | null }) {
       <div className="mb-4">
         <h3 className="flex items-center gap-2 font-serif text-xl font-bold text-white">
           <KeyRound className="h-5 w-5 text-primary" />
-          Código para excluir personagem
+          Senha para excluir personagem
         </h3>
         <p className="mt-2 text-sm text-muted-foreground">
-          Esse código é separado da senha de login e é usado dentro do jogo para confirmar a exclusão de personagens da conta.
+          Essa senha e usada dentro do jogo para confirmar a exclusao de personagens da conta.
         </p>
       </div>
       <div className="grid gap-4 md:grid-cols-2">
         <div className="space-y-2">
-          <Label>Novo código numérico</Label>
+          <Label>Nova senha numerica</Label>
           <Input
             type="password"
             inputMode="numeric"
@@ -929,12 +929,12 @@ function CharacterDeleteCodeForm({ token }: { token: string | null }) {
             maxLength={7}
             value={code}
             onChange={(event) => setCode(event.target.value)}
-            placeholder="7 dígitos"
+            placeholder="7 digitos"
             className="bg-black/50 border-primary/30 focus-visible:ring-primary"
           />
         </div>
         <div className="space-y-2">
-          <Label>Confirmar código</Label>
+          <Label>Confirmar senha</Label>
           <Input
             type="password"
             inputMode="numeric"
@@ -943,7 +943,7 @@ function CharacterDeleteCodeForm({ token }: { token: string | null }) {
             maxLength={7}
             value={confirmCode}
             onChange={(event) => setConfirmCode(event.target.value)}
-            placeholder="Repita o código"
+            placeholder="Repita a senha"
             className="bg-black/50 border-primary/30 focus-visible:ring-primary"
           />
         </div>
@@ -953,7 +953,7 @@ function CharacterDeleteCodeForm({ token }: { token: string | null }) {
         disabled={saving || !token}
         className="mt-5 bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"
       >
-        {saving ? "Salvando..." : "Salvar código"}
+        {saving ? "Salvando..." : "Salvar senha"}
       </Button>
     </form>
   );
@@ -961,7 +961,7 @@ function CharacterDeleteCodeForm({ token }: { token: string | null }) {
 
 function SectionSenhaPersonagem({ token }: { token: string | null }) {
   return (
-    <FormSection title="Código de Exclusão" icon={<ShieldCheck className="w-5 h-5" />}>
+    <FormSection title="Senha do Personagem" icon={<ShieldCheck className="w-5 h-5" />}>
       <CharacterDeleteCodeForm token={token} />
     </FormSection>
   );
