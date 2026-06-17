@@ -293,10 +293,10 @@ const miniBosses = [
     color: "#8B4513",
     drops: [
       "Baú do Tier II",
-      "Pedra Da Fundação 1x",
-      "Esfera Da Benção 1x",
-      "Soro Da Persuação 1x",
-      "Moedas Da Conquista 3x",
+      "Pedra da Fundação 1x",
+      "Esfera da Benção 1x",
+      "Soro da Persuação 1x",
+      "Moedas da Conquista 3x",
     ],
   },
   {
@@ -306,9 +306,9 @@ const miniBosses = [
     drops: [
       "Baú do Tier II",
       "Compensado 1x",
-      "Esfera Da Benção 1x",
-      "Soro Da Persuação 1x",
-      "Moedas Da Conquista 3x",
+      "Esfera da Benção 1x",
+      "Soro da Persuação 1x",
+      "Moedas da Conquista 3x",
     ],
   },
   {
@@ -318,9 +318,9 @@ const miniBosses = [
     drops: [
       "Baú do Tier II",
       "Compensado 1x",
-      "Esfera Da Benção 1x",
-      "Soro Da Persuação 1x",
-      "Moedas Da Conquista 3x",
+      "Esfera da Benção 1x",
+      "Soro da Persuação 1x",
+      "Moedas da Conquista 3x",
     ],
   },
   {
@@ -329,10 +329,10 @@ const miniBosses = [
     color: "#D4700A",
     drops: [
       "Baú do Tier II",
-      "Pedra Da Fundação 1x",
-      "Esfera Da Benção 1x",
-      "Soro Da Persuação 1x",
-      "Moedas Da Conquista 3x",
+      "Pedra da Fundação 1x",
+      "Esfera da Benção 1x",
+      "Soro da Persuação 1x",
+      "Moedas da Conquista 3x",
     ],
   },
   {
@@ -341,10 +341,10 @@ const miniBosses = [
     color: "#C0392B",
     drops: [
       "Baú do Tier II",
-      "Pedra Da Fundação 1x",
-      "Esfera Da Benção 1x",
-      "Soro Da Persuação 1x",
-      "Moedas Da Conquista 3x",
+      "Pedra da Fundação 1x",
+      "Esfera da Benção 1x",
+      "Soro da Persuação 1x",
+      "Moedas da Conquista 3x",
     ],
   },
   {
@@ -354,9 +354,9 @@ const miniBosses = [
     drops: [
       "Baú do Tier II",
       "Compensado 1x",
-      "Esfera Da Benção 1x",
-      "Soro Da Persuação 1x",
-      "Moedas Da Conquista 3x",
+      "Esfera da Benção 1x",
+      "Soro da Persuação 1x",
+      "Moedas da Conquista 3x",
     ],
   },
   {
@@ -366,9 +366,9 @@ const miniBosses = [
     drops: [
       "Baú do Tier II",
       "Tronco 1x",
-      "Esfera Da Benção 1x",
-      "Soro Da Persuação 1x",
-      "Moedas Da Conquista 3x",
+      "Esfera da Benção 1x",
+      "Soro da Persuação 1x",
+      "Moedas da Conquista 3x",
     ],
   },
 ];
