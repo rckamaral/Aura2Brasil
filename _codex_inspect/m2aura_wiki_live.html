@@ -1,0 +1,2154 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0a0705">
+    <title>Metin2 Aura - Wiki</title>
+
+    <link rel="icon" href="https://m2aura.com.br/images/usuario.jpg" type="image/x-icon">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700;900&family=Cinzel+Decorative:wght@700&family=Crimson+Text:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+    <link rel="preload" as="style" href="https://m2aura.com.br/build/assets/app-CosnneMc.css" /><link rel="modulepreload" href="https://m2aura.com.br/build/assets/app-rs-2iwMW.js" /><link rel="modulepreload" href="https://m2aura.com.br/build/assets/index-ztdpVPaQ.js" /><link rel="stylesheet" href="https://m2aura.com.br/build/assets/app-CosnneMc.css" data-navigate-track="reload" /><script type="module" src="https://m2aura.com.br/build/assets/app-rs-2iwMW.js" data-navigate-track="reload"></script>
+<script>
+     window.addEventListener('load', () => window.setTimeout(() => {
+        const makeLink = (asset) => {
+            const link = document.createElement('link')
+
+            Object.keys(asset).forEach((attribute) => {
+                link.setAttribute(attribute, asset[attribute])
+            })
+
+            return link
+        }
+
+        const loadNext = (assets, count) => window.setTimeout(() => {
+            if (count > assets.length) {
+                count = assets.length
+
+                if (count === 0) {
+                    return
+                }
+            }
+
+            const fragment = new DocumentFragment
+
+            while (count > 0) {
+                const link = makeLink(assets.shift())
+                fragment.append(link)
+                count--
+
+                if (assets.length) {
+                    link.onload = () => loadNext(assets, 1)
+                    link.onerror = () => loadNext(assets, 1)
+                }
+            }
+
+            document.head.append(fragment)
+        })
+
+        loadNext([], 3)
+    }))
+</script>
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        :root {
+            --gold:         #c8a84b;
+            --gold-light:   #f0d080;
+            --gold-dark:    #7a5e1a;
+            --blood:        #8b1a1a;
+            --blood-dark:   #4a0a0a;
+            --bg-deep:      #0a0705;
+            --bg-panel:     #100c08;
+            --bg-card:      #16100b;
+            --bg-surface:   #1e160e;
+            --text-bright:  #f5e9c8;
+            --text-muted:   #9a8060;
+            --border:       #3a2a14;
+            --border-glow:  #5a3f18;
+            --accent-red:   #c0392b;
+            --font-title:   'Cinzel Decorative', 'Cinzel', serif;
+            --font-body:    'Crimson Text', Georgia, serif;
+            --font-ui:      'Cinzel', serif;
+            --transition:   .22s ease;
+            --radius:       0px;
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-deep);
+            background-image:
+                radial-gradient(ellipse at 50% 0%, rgba(139,26,26,0.15) 0%, transparent 60%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23c8a84b' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+            color: var(--text-bright);
+            font-family: var(--font-body);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* ─── TOP BAR ─── */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 24px;
+            background: #080503;
+            border-bottom: 1px solid var(--gold-dark);
+            font-family: var(--font-ui);
+            font-size: 11px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .top-bar a { color: var(--gold); text-decoration: none; transition: color .2s; }
+        .top-bar a:hover { color: var(--gold-light); }
+        .top-right { display: flex; gap: 16px; align-items: center; }
+        .top-right a { color: var(--text-muted); font-size: 14px; transition: color .2s, transform .2s; }
+        .top-right a:hover { color: var(--gold); transform: scale(1.15); }
+
+        /* ─── HERO ─── */
+        .site-hero {
+            text-align: center;
+            padding: 28px 20px 16px;
+            background: linear-gradient(180deg, #0d0806 0%, var(--bg-deep) 100%);
+            position: relative;
+        }
+        .site-hero::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse at 50% 30%, rgba(200,168,75,0.07) 0%, transparent 70%);
+            pointer-events: none;
+        }
+        .site-hero-kanjis {
+            font-family: var(--font-ui);
+            font-size: 11px;
+            letter-spacing: 6px;
+            color: var(--gold-dark);
+            text-transform: uppercase;
+            margin-bottom: 6px;
+        }
+        .site-hero h1 {
+            font-family: var(--font-title);
+            font-size: clamp(1.8rem, 5vw, 3.2rem);
+            font-weight: 700;
+            color: var(--gold);
+            text-shadow: 0 0 30px rgba(200,168,75,0.4), 0 2px 4px rgba(0,0,0,0.8);
+            letter-spacing: 4px;
+            line-height: 1.1;
+            margin-bottom: 4px;
+        }
+        .site-hero h1 span { color: var(--accent-red); text-shadow: 0 0 20px rgba(192,57,43,0.5); }
+        .site-hero-sub {
+            font-family: var(--font-ui);
+            font-size: 10px;
+            letter-spacing: 5px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            margin-bottom: 16px;
+        }
+        .ornament-divider { color: var(--gold-dark); font-size: 12px; letter-spacing: 4px; }
+
+        /* ─── MAIN MENU ─── */
+        .main-menu {
+            display: flex;
+            justify-content: center;
+            background: var(--bg-panel);
+            border-top: 1px solid var(--border);
+            border-bottom: 2px solid var(--gold-dark);
+            position: relative;
+        }
+        .main-menu::before {
+            content: '';
+            position: absolute;
+            bottom: -4px; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--blood), var(--gold), var(--blood), transparent);
+        }
+        .main-menu ul { display: flex; list-style: none; }
+        .main-menu li a {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 10px 22px;
+            font-family: var(--font-ui);
+            font-size: 9.5px;
+            letter-spacing: 2px;
+            font-weight: 600;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-decoration: none;
+            border-right: 1px solid var(--border);
+            border-left: 1px solid var(--border);
+            margin: 0 -1px;
+            transition: background .2s, color .2s;
+            position: relative;
+            gap: 2px;
+        }
+        .main-menu li a .kanji { font-size: 13px; color: var(--gold-dark); font-family: serif; transition: color .2s; }
+        .main-menu li a:hover { background: rgba(200,168,75,0.07); color: var(--gold-light); }
+        .main-menu li a:hover .kanji { color: var(--gold); }
+        .main-menu li a::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 50%; right: 50%;
+            height: 2px;
+            background: var(--gold);
+            transition: left .2s, right .2s;
+        }
+        .main-menu li a:hover::after { left: 10%; right: 10%; }
+
+        /* ─── WIKI MAIN ─── */
+        .wiki-main {
+            flex: 1;
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 28px 20px 60px;
+        }
+
+        /* ─── WIKI INTRO ─── */
+        .wiki-intro {
+            text-align: center;
+            padding: 38px 24px 34px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            margin-bottom: 24px;
+            position: relative;
+            overflow: hidden;
+        }
+        .wiki-intro::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            z-index: 2;
+        }
+        .wiki-intro::after {
+            content: '';
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--blood), transparent);
+            z-index: 2;
+        }
+        .wiki-intro-glow {
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(ellipse at 50% 0%, rgba(200,168,75,0.07) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .wiki-intro-inner { position: relative; z-index: 1; }
+
+        .wiki-intro-ornament {
+            font-size: 10px;
+            letter-spacing: 8px;
+            color: var(--gold-dark);
+            margin-bottom: 14px;
+        }
+        .wiki-intro-title {
+            font-family: var(--font-title);
+            font-size: clamp(1.7rem, 4vw, 2.8rem);
+            font-weight: 700;
+            letter-spacing: 6px;
+            color: var(--text-bright);
+            text-transform: uppercase;
+            text-shadow: 0 0 40px rgba(200,168,75,0.25), 0 2px 8px rgba(0,0,0,0.9);
+            margin-bottom: 18px;
+            line-height: 1.1;
+        }
+        .wiki-intro-divider {
+            width: 200px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+            margin: 0 auto 24px;
+        }
+        .wiki-intro-headline {
+            font-family: var(--font-ui);
+            font-size: clamp(1rem, 2.2vw, 1.35rem);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--text-bright);
+            line-height: 1.5;
+            margin-bottom: 18px;
+        }
+        .wiki-intro-desc {
+            font-family: var(--font-body);
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.75;
+            margin-bottom: 30px;
+            max-width: 580px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* ─── BADGES ─── */
+        .wiki-intro-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
+        }
+        .wiki-intro-badge {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-width: 115px;
+            padding: 10px 22px;
+            background: linear-gradient(135deg, #1a0f06, #0d0905);
+            border: 1px solid var(--border-glow);
+            position: relative;
+            transition: border-color .22s, background .22s, box-shadow .22s;
+            clip-path: polygon(
+                0 7px, 7px 0,
+                calc(100% - 7px) 0, 100% 7px,
+                100% calc(100% - 7px), calc(100% - 7px) 100%,
+                7px 100%, 0 calc(100% - 7px)
+            );
+        }
+        .wiki-intro-badge::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+        }
+        .wiki-intro-badge:hover {
+            border-color: var(--gold);
+            background: linear-gradient(135deg, #2a1608, #160a04);
+            box-shadow: 0 0 14px rgba(200,168,75,0.12);
+        }
+        .badge-label {
+            font-family: var(--font-ui);
+            font-size: 8px;
+            letter-spacing: 2.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            margin-bottom: 4px;
+        }
+        .badge-value {
+            font-family: var(--font-ui);
+            font-size: 13px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold-light);
+        }
+
+        /* ─── WIKI TABS ─── */
+        .wiki-tabs {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 8px;
+            margin-bottom: 24px;
+            padding: 14px 16px;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            position: sticky;
+            top: 0;
+            z-index: 30;
+        }
+        .wiki-tabs::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+        }
+
+        .wiki-tab {
+            border: 1px solid var(--border-glow);
+            background: linear-gradient(135deg, #1a0f06, #0d0905);
+            color: var(--text-muted);
+            font-family: var(--font-ui);
+            font-weight: 700;
+            padding: 8px 18px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 10px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+        }
+        .wiki-tab:hover {
+            border-color: var(--gold-dark);
+            color: var(--gold-light);
+            background: linear-gradient(135deg, #2a1608, #160a04);
+        }
+        .wiki-tab.active {
+            background: linear-gradient(135deg, #3a1a08, #1a0d04);
+            border-color: var(--gold);
+            color: var(--gold-light);
+            box-shadow: 0 0 10px rgba(200,168,75,0.15);
+        }
+
+        /* ─── WIKI SECTION ─── */
+        .wiki-section {
+            display: none;
+            animation: fadeIn .22s ease;
+            background: var(--bg-panel);
+            border: 1px solid var(--border);
+            padding: 24px 20px;
+            position: relative;
+        }
+        .wiki-section::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+        }
+        .wiki-section.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        .wiki-title {
+            font-family: var(--font-ui);
+            font-size: clamp(1.1rem, 2.5vw, 1.5rem);
+            font-weight: 700;
+            letter-spacing: 3px;
+            color: var(--gold);
+            margin-bottom: 6px;
+            text-transform: uppercase;
+        }
+        .wiki-subtitle {
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+        }
+
+        /* ─── TABLE ─── */
+        .wiki-table-wrap {
+            overflow-x: auto;
+            border: 1px solid var(--border);
+            background: var(--bg-card);
+        }
+        .wiki-table-wrap::-webkit-scrollbar { height: 5px; }
+        .wiki-table-wrap::-webkit-scrollbar-track { background: var(--bg-deep); }
+        .wiki-table-wrap::-webkit-scrollbar-thumb { background: var(--gold-dark); }
+
+        .wiki-table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 600px;
+            color: var(--text-bright);
+        }
+        .wiki-table th {
+            background: rgba(0,0,0,0.4);
+            color: var(--gold);
+            padding: 12px 16px;
+            text-align: left;
+            font-family: var(--font-ui);
+            font-size: 10px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            border-bottom: 1px solid var(--border);
+        }
+        .wiki-table td {
+            padding: 11px 16px;
+            border-bottom: 1px solid rgba(58,42,20,0.4);
+            font-family: var(--font-body);
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+        .wiki-table td:first-child { color: var(--gold-dark); font-family: var(--font-ui); font-size: 10px; letter-spacing: 1px; }
+        .wiki-table td:nth-child(2) { color: var(--text-bright); }
+        .wiki-table td:last-child { color: var(--gold); font-family: var(--font-ui); font-size: 11px; }
+        .wiki-table tbody tr:hover { background: rgba(200,168,75,0.04); }
+
+        /* ─── SECTION TITLE BANNER ─── */
+        .section-title,
+        .dungeon-section-title {
+            grid-column: 1 / -1;
+            text-align: center;
+            font-family: var(--font-ui);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: var(--gold);
+            padding: 10px 20px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--gold-dark);
+            margin: 16px 0 4px;
+            position: relative;
+        }
+        .section-title::before,
+        .dungeon-section-title::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, var(--gold-dark), transparent);
+        }
+
+        /* ─── MOB GRID ─── */
+        .mob-grid,
+        .dungeon-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+        }
+        .dungeon-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
+        /* ─── CARD BOX (mob / dungeon / card) ─── */
+        .mob-box,
+        .dungeon-box,
+        .card-box {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 14px 16px;
+            transition: border-color var(--transition), background var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .mob-box::before,
+        .dungeon-box::before,
+        .card-box::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+        }
+        .mob-box:hover,
+        .dungeon-box:hover,
+        .card-box:hover {
+            border-color: var(--gold-dark);
+            background: rgba(22,16,11,0.98);
+        }
+
+        .mob-title,
+        .dungeon-title,
+        .card-title {
+            font-family: var(--font-ui);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold-light);
+            margin-bottom: 10px;
+            padding-bottom: 8px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .mob-drop,
+        .dungeon-drop,
+        .card-drop {
+            font-family: var(--font-body);
+            font-size: 13.5px;
+            color: var(--text-muted);
+            padding: 3px 0 3px 14px;
+            position: relative;
+            line-height: 1.4;
+        }
+        .mob-drop::before,
+        .dungeon-drop::before,
+        .card-drop::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--gold-dark);
+            font-size: 10px;
+            top: 5px;
+        }
+
+        /* ─── METIN SECTION ─── */
+        .metin-section { margin-bottom: 24px; }
+
+        .metin-row {
+            display: flex;
+            gap: 14px;
+            overflow-x: auto;
+            padding: 10px 2px 14px;
+            scroll-snap-type: x proximity;
+            scrollbar-width: thin;
+            scrollbar-color: var(--gold-dark) var(--bg-deep);
+        }
+        .metin-row::-webkit-scrollbar { height: 5px; }
+        .metin-row::-webkit-scrollbar-track { background: var(--bg-deep); }
+        .metin-row::-webkit-scrollbar-thumb { background: var(--gold-dark); }
+
+        #metins .mob-box {
+            min-width: 240px;
+            max-width: 240px;
+            flex: 0 0 240px;
+            scroll-snap-align: start;
+        }
+
+        /* ─── MAPA VIP ─── */
+        #mapavip .mob-box {
+            border-color: var(--border-glow);
+        }
+        #mapavip .mob-box:hover {
+            border-color: var(--gold);
+            box-shadow: 0 0 14px rgba(200,168,75,0.08);
+        }
+        #mapavip .section-title {
+            border-left-color: var(--gold);
+        }
+        .vip-badge {
+            display: inline-block;
+            font-family: var(--font-ui);
+            font-size: 8px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            background: rgba(200,168,75,0.08);
+            border: 1px solid var(--border-glow);
+            padding: 2px 8px;
+            margin-bottom: 14px;
+        }
+
+        /* ─── TRANSMUTE GRID ─── */
+        .transmute-grid {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(0, 1fr));
+            gap: 14px;
+            margin-top: 14px;
+            margin-bottom: 14px;
+        }
+
+        .transmute-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            padding: 16px;
+            transition: border-color var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+        .transmute-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+        }
+        .transmute-card:hover { border-color: var(--gold-dark); }
+
+        .transmute-title {
+            font-family: var(--font-ui);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--gold);
+            text-align: center;
+            margin-bottom: 12px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .transmute-main-img {
+            width: 100%;
+            max-width: 220px;
+            height: 220px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 14px;
+            padding: 14px;
+            border: 1px solid var(--border-glow);
+            background: rgba(0,0,0,0.4);
+            cursor: zoom-in;
+            transition: border-color .3s, filter .3s;
+        }
+        .transmute-card:hover .transmute-main-img {
+            border-color: var(--gold-dark);
+            filter: drop-shadow(0 0 10px rgba(200,168,75,0.3));
+        }
+
+        .transmute-desc {
+            font-family: var(--font-ui);
+            font-size: 9px;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+            text-align: center;
+            margin-bottom: 12px;
+        }
+
+        .transmute-items {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .transmute-item {
+            width: 60px;
+            min-height: 76px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 5px;
+            padding: 7px 5px;
+            background: rgba(0,0,0,0.35);
+            border: 1px solid var(--border);
+            transition: border-color var(--transition);
+        }
+        .transmute-item:hover { border-color: var(--gold-dark); }
+        .transmute-item img { width: 38px; height: 38px; object-fit: contain; }
+        .transmute-item span {
+            font-family: var(--font-ui);
+            font-size: 9px;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        .transmute-highlight {
+            margin-top: 20px;
+            padding: 16px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--gold-dark);
+            font-family: var(--font-body);
+            font-size: 15px;
+            color: var(--text-muted);
+            line-height: 1.6;
+        }
+        .transmute-highlight strong { color: var(--gold); }
+
+        /* ─── QUEST STYLES ─── */
+        .quest-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 16px;
+        }
+        .quest-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            position: relative;
+            overflow: hidden;
+        }
+        .quest-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold-dark), transparent);
+        }
+        .quest-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 14px 16px 12px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(0,0,0,0.3);
+            flex-wrap: wrap;
+        }
+        .quest-level {
+            font-family: var(--font-ui);
+            font-size: 9px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            background: rgba(200,168,75,0.08);
+            border: 1px solid var(--border-glow);
+            padding: 3px 10px;
+            white-space: nowrap;
+        }
+        .quest-name {
+            font-family: var(--font-ui);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: var(--gold-light);
+        }
+        .quest-body { padding: 14px 16px; }
+        .quest-cols {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 14px;
+        }
+        .quest-col-title {
+            font-family: var(--font-ui);
+            font-size: 8px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            margin-bottom: 8px;
+        }
+        .quest-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .quest-item-icon {
+            width: 36px;
+            height: 36px;
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+        .quest-item-info { display: flex; flex-direction: column; justify-content: center; }
+        .quest-item-name {
+            font-family: var(--font-ui);
+            font-size: 10px;
+            letter-spacing: .5px;
+            color: var(--text-bright);
+            line-height: 1.3;
+        }
+        .quest-item-qty {
+            font-family: var(--font-ui);
+            font-size: 9px;
+            color: var(--gold-dark);
+            letter-spacing: 1px;
+        }
+        .quest-step {
+            font-family: var(--font-body);
+            font-size: 13px;
+            color: var(--text-muted);
+            padding: 2px 0 2px 14px;
+            position: relative;
+            line-height: 1.5;
+        }
+        .quest-step::before {
+            content: '▸';
+            position: absolute;
+            left: 0;
+            color: var(--gold-dark);
+            font-size: 10px;
+            top: 4px;
+        }
+        .quest-solution {
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--border);
+            border-left: 3px solid var(--gold-dark);
+        }
+        .quest-solution-label {
+            font-family: var(--font-ui);
+            font-size: 8px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            margin-bottom: 5px;
+        }
+        .quest-solution-text {
+            font-family: var(--font-body);
+            font-size: 13px;
+            color: var(--text-muted);
+            line-height: 1.5;
+        }
+        .quest-solution-text strong { color: var(--gold); }
+        .quest-reward {
+            margin-top: 12px;
+            padding: 10px 14px;
+            background: rgba(200,168,75,0.06);
+            border: 1px solid var(--border-glow);
+            border-left: 3px solid var(--gold);
+        }
+        .quest-reward-label {
+            font-family: var(--font-ui);
+            font-size: 8px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            color: var(--gold-dark);
+            margin-bottom: 4px;
+        }
+        .quest-reward-value {
+            font-family: var(--font-ui);
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--gold-light);
+            letter-spacing: 1px;
+        }
+
+        /* ─── IMAGE MODAL ─── */
+        .image-modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.92);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            opacity: 0;
+            visibility: hidden;
+            transition: all .22s ease;
+        }
+        .image-modal.active { opacity: 1; visibility: visible; }
+        .image-modal img {
+            max-width: 88vw;
+            max-height: 88vh;
+            object-fit: contain;
+            border: 1px solid var(--gold-dark);
+            padding: 16px;
+            background: var(--bg-card);
+            transform: scale(.92);
+            transition: transform .22s ease;
+        }
+        .image-modal.active img { transform: scale(1); }
+
+        /* ─── FOOTER ─── */
+        .site-footer {
+            background: #060402;
+            border-top: 2px solid var(--gold-dark);
+            position: relative;
+            margin-top: auto;
+        }
+        .site-footer::before {
+            content: '';
+            position: absolute;
+            top: -4px; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--blood), transparent);
+        }
+        .footer-content {
+            max-width: 1280px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 24px;
+        }
+        .footer-left p {
+            font-family: var(--font-ui);
+            font-size: 9px;
+            letter-spacing: 1.5px;
+            text-transform: uppercase;
+            color: var(--text-muted);
+        }
+        .footer-right { display: flex; gap: 16px; }
+        .footer-right a { color: var(--text-muted); font-size: 14px; text-decoration: none; transition: color .2s; }
+        .footer-right a:hover { color: var(--gold); }
+
+        /* ─── RESPONSIVE ─── */
+        @media (max-width: 1100px) {
+            .mob-grid, .transmute-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .quest-grid { grid-template-columns: 1fr; }
+        }
+        @media (max-width: 700px) {
+            .mob-grid, .transmute-grid, .dungeon-grid, .quest-grid { grid-template-columns: 1fr; }
+            .quest-cols { grid-template-columns: 1fr; }
+            .wiki-tab { width: 100%; }
+            .main-menu ul { flex-wrap: wrap; }
+            .main-menu li a { padding: 8px 12px; font-size: 8px; }
+            .transmute-main-img { max-width: 180px; height: 180px; }
+            .wiki-intro-badge { min-width: 90px; padding: 8px 14px; }
+            .wiki-intro-desc br { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    
+    <div class="image-modal" id="imageModal">
+        <img src="" alt="Imagem ampliada" id="modalImage">
+    </div>
+
+    
+    <header class="top-bar" role="banner">
+        <div class="top-left">
+            <a href="https://m2aura.com.br/register">⚔ Cadastrar</a>
+        </div>
+        <nav class="top-right" aria-label="Redes sociais">
+            <a href="https://www.youtube.com/@Metin2Aura-br" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+            <a href="https://www.facebook.com/profile.php?id=61576393350074" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+            <a href="https://www.instagram.com/metin2.aura/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+        </nav>
+    </header>
+
+    
+    <div class="site-hero">
+        <p class="site-hero-kanjis">⚜ 武侠傳說 — 神話の伝説 ⚜</p>
+        <h1>Metin2 <span>Aura</span></h1>
+        <p class="site-hero-sub">Servidor Privado · A Lenda Renasceu</p>
+        <div class="ornament-divider">✦ ✦ ✦</div>
+    </div>
+
+    
+    <nav class="main-menu" role="navigation" aria-label="Menu principal">
+        <div class="menu-left">
+            <ul>
+                <li><a href="https://m2aura.com.br"><span class="kanji" aria-hidden="true">開始</span>INÍCIO</a></li>
+                <li><a href="https://m2aura.com.br/register"><span class="kanji" aria-hidden="true">登記</span>CADASTRAR</a></li>
+                <li><a href="https://m2aura.com.br/ranking/jogadores"><span class="kanji" aria-hidden="true">人物</span>PLAYERS</a></li>
+                <li><a href="https://drive.google.com/file/d/1a-5WIZEUbc40B3tEoH7hAILwvsbpBAvI/view?usp=sharing" target="_blank" rel="noopener noreferrer"><span class="kanji" aria-hidden="true">下去</span>DOWNLOAD</a></li>
+            </ul>
+        </div>
+        <div class="menu-right">
+            <ul>
+                <li><a href="https://discord.gg/EJZBbX6T" target="_blank" rel="noopener noreferrer"><span class="kanji" aria-hidden="true">社群</span>DISCORD</a></li>
+                <li><a href="https://wa.link/87hm1d" target="_blank" rel="noopener noreferrer"><span class="kanji" aria-hidden="true">幫助</span>SUPORTE</a></li>
+                <li><a href="https://m2aura.com.br/ranking/guildas"><span class="kanji" aria-hidden="true">行會</span>GUILDS</a></li>
+                <li><a href="https://m2aura.com.br/wiki"><span class="kanji" aria-hidden="true">指導</span>WIKI</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    
+    <main class="wiki-main">
+
+        
+        <div class="wiki-intro">
+            <div class="wiki-intro-glow"></div>
+            <div class="wiki-intro-inner">
+                <div class="wiki-intro-ornament">✦ ✦ ✦</div>
+                <h1 class="wiki-intro-title">Introdução</h1>
+                <div class="wiki-intro-divider"></div>
+                <p class="wiki-intro-headline">
+                    Metin2 Aura é o campo de batalha definitivo.
+                </p>
+                <p class="wiki-intro-desc">
+                    Foco competitivo 50% PvP / 50% PvM, Arena Ranqueada,
+                    Rankings Globais e Sistemas modernos integrados ao jogo.
+                    Eventos diários, dungeons estratégicas e progressão justa,
+                    Taxa de Rodar Mediana !!
+                    Faça desse o melhor servidor atual e Viva a Nostagia !
+                </p>
+                <div class="wiki-intro-badges">
+                    <div class="wiki-intro-badge">
+                        <span class="badge-label">Lv. MAX</span>
+                        <span class="badge-value">99</span>
+                    </div>
+                    <div class="wiki-intro-badge">
+                        <span class="badge-label">Ranking</span>
+                        <span class="badge-value">Semanal</span>
+                    </div>
+                    <div class="wiki-intro-badge">
+                        <span class="badge-label">Modo</span>
+                        <span class="badge-value">Competitivo</span>
+                    </div>
+                    <div class="wiki-intro-badge">
+                        <span class="badge-label">Progressão</span>
+                        <span class="badge-value">Justa</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="wiki-tabs">
+            <button class="wiki-tab active" data-target="ouro">Baú Do Word Boss</button>
+            <button class="wiki-tab" data-target="epico">Tesouro Do Dragão D'água</button>
+            <button class="wiki-tab" data-target="normal">Tesouro Do Dragão De Fogo</button>
+            <button class="wiki-tab" data-target="minotauro">Tesouro Do Minotauro</button>
+            <button class="wiki-tab" data-target="mobs">Mini-Boss &amp; Bosses</button>
+            <button class="wiki-tab" data-target="metins">Metins</button>
+            <button class="wiki-tab" data-target="dungeons">Dungeons</button>
+            <button class="wiki-tab" data-target="transmutacoes">Transmutações</button>
+            <button class="wiki-tab" data-target="mapavip">Mapa VIP</button>
+            <button class="wiki-tab" data-target="quests">Quests do Biólogo</button>
+        </div>
+
+        
+        <section id="ouro" class="wiki-section active">
+            <h2 class="wiki-title">🏆 Baú Do Word Boss</h2>
+            <p class="wiki-subtitle">Recompensas Premium com os Melhores Prêmios (Aleatórios)</p>
+            <div class="wiki-table-wrap">
+                <table class="wiki-table">
+                    <thead><tr><th>Tipo</th><th>Item</th><th></th><th>Quantidade</th></tr></thead>
+                    <tbody>
+                        <tr><td>Consumível</td><td>Pacote Do Sábio</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Brinco Do Tigre (30d)</td><td></td><td>1x</td></tr>
+						<tr><td>Consumível</td><td>Bracelete Do Tigre (30d)</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Pets Cash (30d)</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Cupons de Cash (5 á 50k de cash)</td><td></td><td>1x</td></tr>
+                        <tr><td>Item</td><td>Escudo Sangrento</td><td></td><td>1x</td></tr>
+                        <tr><td>Item</td><td>Escudo Imperadores</td><td></td><td>1x</td></tr>
+                        <tr><td>Item</td><td>Montaria PvM (30d)</td><td></td><td>1x</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        
+        <section id="epico" class="wiki-section">
+            <h2 class="wiki-title">💠 Tesouro Dragão D'Água</h2>
+            <p class="wiki-subtitle">Versão intermediária com ótimos consumíveis e Refines (Aleatórios)</p>
+            <div class="wiki-table-wrap">
+                <table class="wiki-table">
+                    <thead><tr><th>Tipo</th><th>Item</th><th></th><th>Quantidade</th></tr></thead>
+                    <tbody>
+                        <tr><td>Refine</td><td>Símbolo Do Dragão</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Metal Mágico+</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Brinco do Tigre (7d)</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Brinco Do Dragão (7d)</td><td></td><td>1x</td></tr>
+						<tr><td>Consumível</td><td>Bracelete Do Tigre (7d)</td><td></td><td>1x</td></tr>
+						<tr><td>Consumível</td><td>Bracelete Do Dragão (7d)</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Livro Do Sábio</td><td></td><td>5x</td></tr>
+                        <tr><td>Consumível</td><td>Pedra Arco-Íris</td><td></td><td>1x</td></tr>
+                        <tr><td>Item</td><td>Montaria PvM (7d)</td><td></td><td>1x</td></tr>
+                        <tr><td>Item</td><td>Cabelo PvM (7d)</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Máscara da Fortuna</td><td></td><td>5x</td></tr>
+                        <tr><td>Consumível</td><td>Pot Helong e Yoora (S)</td><td></td><td>1x</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        
+        <section id="normal" class="wiki-section">
+            <h2 class="wiki-title">📦 Tesouro Dragão De Fogo</h2>
+            <p class="wiki-subtitle">Versão intermediária com ótimos consumíveis e Refines (Aleatórios)</p>
+            <div class="wiki-table-wrap">
+                <table class="wiki-table">
+                    <thead><tr><th>Tipo</th><th>Item</th><th>ID</th><th>Quantidade</th></tr></thead>
+                    <tbody>
+                        <tr><td>Refine</td><td>Amuleto Do Dragão</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Metal Mágico+</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Brinco do Tigre (7d)</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Brinco Do Dragão (7d)</td><td></td><td>1x</td></tr>
+						<tr><td>Consumível</td><td>Bracelete Do Tigre (7d)</td><td></td><td>1x</td></tr>
+						<tr><td>Consumível</td><td>Bracelete Do Dragão (7d)</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Livro Do Sábio</td><td></td><td>5x</td></tr>
+                        <tr><td>Consumível</td><td>Pedra Arco-Íris</td><td></td><td>1x</td></tr>
+                        <tr><td>Item</td><td>Montaria PvM (7d)</td><td></td><td>1x</td></tr>
+                        <tr><td>Item</td><td>Cabelo PvM (7d)</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Máscara da Fortuna</td><td></td><td>5x</td></tr>
+                        <tr><td>Consumível</td><td>Pot Helong e Yoora (S)</td><td></td><td>1x</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        
+        <section id="minotauro" class="wiki-section">
+            <h2 class="wiki-title">🪓 Tesouro Do Minotauro</h2>
+            <p class="wiki-subtitle">Premios Epicos com ótimos consumíveis e Refines (Aleatórios)</p>
+            <div class="wiki-table-wrap">
+                <table class="wiki-table">
+                    <thead><tr><th>Tipo</th><th>Item</th><th></th><th>Quantidade</th></tr></thead>
+                    <tbody>
+                        <tr><td>Consumível</td><td>Máscara Da Fortuna</td><td></td><td>10x</td></tr>
+                        <tr><td>Consumivel</td><td>Metal Mágico+</td><td></td><td>5x</td></tr>
+                        <tr><td>Consumível</td><td>Brinco Do Tigre (7d)</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Brinco Do Dragão (7d)</td><td></td><td>1x</td></tr>
+						<tr><td>Consumível</td><td>Bracelete Do Tigre (7d)</td><td></td><td>1x</td></tr>
+						<tr><td>Consumível</td><td>Bracelete Do Dragão (7d)</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Benção Helong (S)</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Benção Yoora (S)</td><td></td><td>1x</td></tr>
+                        <tr><td>Consumível</td><td>Cupom 5k De Cash</td><td></td><td>1x</td></tr>
+                        <tr><td>Refine</td><td>Cristal Vermelho</td><td></td><td>1x</td></tr>
+                        <tr><td>Refine</td><td>Cristal Azul</td><td></td><td>1x</td></tr>
+                        <tr><td>Refine</td><td>Chifre Do Minotauro</td><td></td><td>1x</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        
+        <section id="mobs" class="wiki-section">
+            <h2 class="wiki-title">🐉 Mini-Boss &amp; Bosses</h2>
+            <p class="wiki-subtitle">Lista completa de monstros e chefes com drops organizados em cards.</p>
+
+            <div class="mob-grid">
+                <div class="section-title">📍 Mini Boss / Respawn (1:30hr)</div>
+
+                <div class="mob-box"><div class="mob-title">🧌 Chefe Orc</div><div class="mob-drop">Baú Do Tier II</div><div class="mob-drop">Pedra Da Fundação 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Soro Da Persuação 1x</div><div class="mob-drop">Moedas Da Conquista 3x</div></div>
+                <div class="mob-box"><div class="mob-title">🐢 Tartaruga De Pedra</div><div class="mob-drop">Baú Do Tier II</div><div class="mob-drop">Compensado 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Soro Da Persuação 1x</div><div class="mob-drop">Moedas Da Conquista 3x</div></div>
+                <div class="mob-box"><div class="mob-title">🔮 Líder Fanático Zen</div><div class="mob-drop">Baú Do Tier II</div><div class="mob-drop">Compensado 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Soro Da Persuação 1x</div><div class="mob-drop">Moedas Da Conquista 3x</div></div>
+                <div class="mob-box"><div class="mob-title">🐯 Comandante Tigre</div><div class="mob-drop">Baú Do Tier II</div><div class="mob-drop">Pedra Da Fundação 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Soro Da Persuação 1x</div><div class="mob-drop">Moedas Da Conquista 3x</div></div>
+                <div class="mob-box"><div class="mob-title">🦊 Nove Caudas</div><div class="mob-drop">Baú Do Tier II</div><div class="mob-drop">Pedra Da Fundação 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Soro Da Persuação 1x</div><div class="mob-drop">Moedas Da Conquista 3x</div></div>
+                <div class="mob-box"><div class="mob-title">🌋 Rei Flamejante</div><div class="mob-drop">Baú Do Tier II</div><div class="mob-drop">Compensado 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Soro Da Persuação 1x</div><div class="mob-drop">Moedas Da Conquista 3x</div></div>
+                <div class="mob-box"><div class="mob-title">🕷️ Aranha Rainha</div><div class="mob-drop">Baú Do Tier II</div><div class="mob-drop">Tronco 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Soro Da Persuação 1x</div><div class="mob-drop">Moedas Da Conquista 3x</div></div>
+
+                <div class="section-title">🔥 Bosses / Respawn (6hrs) Horário Fixo</div>
+                <div class="mob-box"><div class="mob-title">🐲 Dragão D'água</div><div class="mob-drop">Tesouro do Dragão</div><div class="mob-drop">Máscara Da Fortuna 1x</div><div class="mob-drop">Moedas da Conquista 15x</div><div class="mob-drop">Esfera Da Bênção 2x</div></div>
+                <div class="mob-box"><div class="mob-title">🐉 Dragão De Fogo</div><div class="mob-drop">Tesouro do Dragão De Fogo</div><div class="mob-drop">Máscara Da Fortuna 1x</div><div class="mob-drop">Moedas da Conquista 15x</div><div class="mob-drop">Esfera Da Bênção 2x</div></div>
+
+                <div class="section-title">👑 Boss / Respawn (12hrs) Horário Fixo</div>
+                <div class="mob-box"><div class="mob-title">🪓 Minotauro</div><div class="mob-drop">Tesouro Do Minotauro</div><div class="mob-drop">Máscara Da Fortuna 2x</div><div class="mob-drop">Moedas da Conquista 30x</div><div class="mob-drop">Esfera Da Bênção 3x</div></div>
+
+                <div class="section-title">👑 Word Boss (Paz) e (PvP) — Toda Quinta às 21hrs</div>
+                <div class="mob-box"><div class="mob-title">🐗 Grande Ogro (Paz)</div><div class="mob-drop">Baú Do Word Boss</div><div class="mob-drop">Máscara Da Fortuna 5x</div><div class="mob-drop">Moedas da Conquista 100x</div><div class="mob-drop">Metal Mágico+ 3x</div></div>
+                <div class="mob-box"><div class="mob-title">⚔️ Jothum (PvP)</div><div class="mob-drop">Baú Do Word Boss</div><div class="mob-drop">Máscara Da Fortuna 5x</div><div class="mob-drop">Moedas da Conquista 100x</div><div class="mob-drop">Metal Mágico+ 3x</div></div>
+            </div>
+        </section>
+
+        
+        <section id="metins" class="wiki-section">
+            <h2 class="wiki-title">🗿 Metins</h2>
+            <p class="wiki-subtitle">Cards com scroll horizontal para navegação rápida e organizada.</p>
+
+            <div class="metin-section">
+                <div class="section-title" style="grid-column:unset;">🗿 Metins Baixo Nível (Lv 5–40)</div>
+                <div class="metin-row">
+                    <div class="mob-box"><div class="mob-title">Metin Lv 5</div><div class="mob-drop">Gold — 500k</div><div class="mob-drop">Moeda da Conquista 1x</div><div class="mob-drop">Aprimoramento Leve 1x</div><div class="mob-drop">Novo Aprim. Leve 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 10</div><div class="mob-drop">Gold — 500k</div><div class="mob-drop">Moeda da Conquista 1x</div><div class="mob-drop">Aprimoramento Leve 1x</div><div class="mob-drop">Novo Aprim. Leve 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 15</div><div class="mob-drop">Gold — 500k</div><div class="mob-drop">Moeda da Conquista 1x</div><div class="mob-drop">Aprimoramento Leve 1x</div><div class="mob-drop">Novo Aprim. Leve 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 20</div><div class="mob-drop">Gold — 1kk</div><div class="mob-drop">Moeda da Conquista 1x</div><div class="mob-drop">Aprimoramento Leve 1x</div><div class="mob-drop">Novo Aprim. Leve 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 25</div><div class="mob-drop">Gold — 2.5kk</div><div class="mob-drop">Moeda da Conquista 1x</div><div class="mob-drop">Aprimoramento Leve 1x</div><div class="mob-drop">Novo Aprim. Leve 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 30</div><div class="mob-drop">Gold — 3kk</div><div class="mob-drop">Moeda da Conquista 1x</div><div class="mob-drop">Aprimoramento Leve 1x</div><div class="mob-drop">Novo Aprim. Leve 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 35</div><div class="mob-drop">Gold — 3.5kk</div><div class="mob-drop">Moeda da Conquista 1x</div><div class="mob-drop">Aprimoramento Leve 1x</div><div class="mob-drop">Novo Aprim. Leve 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 40</div><div class="mob-drop">Gold — 4kk</div><div class="mob-drop">Moeda da Conquista 1x</div><div class="mob-drop">Aprimoramento Leve 1x</div><div class="mob-drop">Novo Aprim. Leve 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                </div>
+            </div>
+
+            <div class="metin-section">
+                <div class="section-title" style="grid-column:unset;">💰 Metins Avançados (Lv 45–90)</div>
+                <div class="metin-row">
+                    <div class="mob-box"><div class="mob-title">Metin Lv 45</div><div class="mob-drop">Gold — 4.5kk</div><div class="mob-drop">Moeda da Conquista 2x</div><div class="mob-drop">Perg. do Novo Aprimoramento 1x</div><div class="mob-drop">Perg. do Aprimoramento 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 50</div><div class="mob-drop">Gold — 5kk</div><div class="mob-drop">Moeda da Conquista 2x</div><div class="mob-drop">Perg. do Novo Aprimoramento 1x</div><div class="mob-drop">Perg. do Aprimoramento 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 55</div><div class="mob-drop">Gold — 5.5kk</div><div class="mob-drop">Moeda da Conquista 2x</div><div class="mob-drop">Perg. do Novo Aprimoramento 1x</div><div class="mob-drop">Perg. do Aprimoramento 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 60</div><div class="mob-drop">Gold — 6kk</div><div class="mob-drop">Moeda da Conquista 2x</div><div class="mob-drop">Perg. do Novo Aprimoramento 1x</div><div class="mob-drop">Perg. do Aprimoramento 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 65</div><div class="mob-drop">Gold — 6.5kk</div><div class="mob-drop">Moeda da Conquista 2x</div><div class="mob-drop">Perg. do Novo Aprimoramento 1x</div><div class="mob-drop">Perg. do Aprimoramento 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 70</div><div class="mob-drop">Gold — 7kk</div><div class="mob-drop">Moeda da Conquista 2x</div><div class="mob-drop">Perg. do Novo Aprimoramento 1x</div><div class="mob-drop">Perg. do Aprimoramento 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 75</div><div class="mob-drop">Gold — 7.6kk</div><div class="mob-drop">Moeda da Conquista 3x</div><div class="mob-drop">Perg. do Novo Aprimoramento 1x</div><div class="mob-drop">Perg. do Aprimoramento 1x</div><div class="mob-drop">Pergaminho da Paz 1x</div><div class="mob-drop">Anel da Experiência 1x</div><div class="mob-drop">Luva do Ladrão 1x</div><div class="mob-drop">Cofre de Treino 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 80</div><div class="mob-drop">Gold — 8kk</div><div class="mob-drop">Moeda da Conquista 3x</div><div class="mob-drop">Perg. do Novo Aprimoramento 1x</div><div class="mob-drop">Perg. do Aprimoramento 1x</div><div class="mob-drop">Pergaminho da Paz 1x</div><div class="mob-drop">Anel da Experiência 1x</div><div class="mob-drop">Luva do Ladrão 1x</div><div class="mob-drop">Cofre de Treino 1x</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 85</div><div class="mob-drop">Gold — 8.5kk</div><div class="mob-drop">Moeda da Conquista 3x</div><div class="mob-drop">Perg. do Novo Aprimoramento 3~5x</div><div class="mob-drop">Perg. do Aprimoramento 3~5x</div><div class="mob-drop">Pergaminho da Paz 1x</div><div class="mob-drop">Anel da Experiência 1x</div><div class="mob-drop">Luva do Ladrão 1x</div><div class="mob-drop">Cofre de Treino 1x</div><div class="mob-drop">Armaduras do Nível 61</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                    <div class="mob-box"><div class="mob-title">Metin Lv 90</div><div class="mob-drop">Gold — 10kk</div><div class="mob-drop">Moeda da Conquista 3x</div><div class="mob-drop">Perg. do Novo Aprimoramento 3~5x</div><div class="mob-drop">Perg. do Aprimoramento 3~5x</div><div class="mob-drop">Pergaminho da Paz 1x</div><div class="mob-drop">Anel da Experiência 1x</div><div class="mob-drop">Luva do Ladrão 1x</div><div class="mob-drop">Esfera da Bênção 1x</div><div class="mob-drop">Caixa de Treino 1x</div><div class="mob-drop">Armaduras do Nível 66</div><div class="mob-drop">Itens entre +0 e +3</div></div>
+                </div>
+            </div>
+
+            <div class="metin-section">
+                <div class="section-title" style="grid-column:unset;">🔥 Tochas Nível (99)</div>
+                <div class="metin-row">
+                    <div class="mob-box"><div class="mob-title">TOCHA</div><div class="mob-drop">Armas Do 75</div><div class="mob-drop">Armaduras Do 66</div><div class="mob-drop">Pérola Branca 1x</div><div class="mob-drop">Pérola Azul 1x</div><div class="mob-drop">Pérola Vermelha 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Pedra Arco-Íris 1x</div></div>
+                </div>
+            </div>
+        </section>
+
+        
+        <section id="dungeons" class="wiki-section">
+            <h2 class="wiki-title">🏰 Dungeons</h2>
+            <p class="wiki-subtitle">Cards compactos e organizados com drops de cada dungeon.</p>
+
+            <div class="dungeon-grid">
+                <div class="dungeon-section-title">💧 Todas as Dungeons</div>
+                <div class="dungeon-box"><div class="dungeon-title">Dungeons Disponíveis</div><div class="dungeon-drop">Torre Sakita</div><div class="dungeon-drop">Caverna Demoníaca</div></div>
+
+                <div class="dungeon-section-title">🗼 Torre Sakita</div>
+                <div class="dungeon-box"><div class="dungeon-title">☠️ Ceifadora da Morte</div><div class="dungeon-drop">Tesouro Do Ceifador 1x</div><div class="dungeon-drop">Esfera Da Bênção 2x</div><div class="dungeon-drop">Pergaminho Da Paz 1x</div><div class="dungeon-drop">Soro Da Persuação 1x</div><div class="dungeon-drop">Livro Do Sábio 1x</div><div class="dungeon-drop">Moedas Da Conquista 4x</div><div class="dungeon-drop">Insígnia Demoníaca 1x</div></div>
+                <div class="dungeon-box"><div class="dungeon-title">🎁 Tesouro Do Ceifador</div><div class="dungeon-drop">Máscara Da Fortuna 2x</div><div class="dungeon-drop">Armas Do Nível 75</div><div class="dungeon-drop">Metal Mágico+ 1x</div><div class="dungeon-drop">Pérola Branca 2x</div><div class="dungeon-drop">Pérola Azul 2x</div><div class="dungeon-drop">Pérola Vermelha 2x</div><div class="dungeon-drop">Fragmento De Cristal 1x</div></div>
+
+                <div class="dungeon-section-title">💀 Caverna Demoníaca</div>
+                <div class="dungeon-box"><div class="dungeon-title">😈 Lord Gahnasel</div><div class="dungeon-drop">Tesouro do Lord Gahnasel</div><div class="dungeon-drop">Moedas Da Conquista 15x</div><div class="dungeon-drop">Esfera Da Bênção 2x</div><div class="dungeon-drop">Soro Da Persuação 2x</div><div class="dungeon-drop">Livro Do Sábio 2x</div><div class="dungeon-drop">Máscara Da Fortuna 1x</div><div class="dungeon-drop">Pergaminho Da Paz 5x</div></div>
+                <div class="dungeon-box"><div class="dungeon-title">🎁 Tesouro do Lord Gahnasel</div><div class="dungeon-drop">Máscara Da Fortuna 2x</div><div class="dungeon-drop">Bênção De Helong (G) 1x</div><div class="dungeon-drop">Bênção De Yoora (G) 1x</div><div class="dungeon-drop">Chifres De Ghanasel (F)(7d) 1x</div><div class="dungeon-drop">Chifres De Ghanasel (M)(7d) 1x</div><div class="dungeon-drop">Traje Ghanasel (F)(7d) 1x</div><div class="dungeon-drop">Traje Ghanasel (M)(7d) 1x</div><div class="dungeon-drop">Pedra Arco-Íris 1x</div><div class="dungeon-drop">Pet Lord Ghanasel (7d) 1x</div><div class="dungeon-drop">Coração Do Ghanasel 1x</div></div>
+            </div>
+        </section>
+
+        
+        <section id="transmutacoes" class="wiki-section">
+            <h2 class="wiki-title">✨ Transmutações</h2>
+            <p class="wiki-subtitle">Veja visualmente como funcionam as transmutações de armas, armaduras e acessórios.</p>
+
+            <div class="dungeon-section-title" style="grid-column:unset; margin-bottom:14px;">⚒️ Sistema de Transmutações Das Armas</div>
+
+            <div class="transmute-grid">
+                
+                                <div class="transmute-card">
+                    <div class="transmute-title">⚔️ BATALHA → SUPREMA</div>
+                    <img src="https://m2aura.com.br/images/transmu/BATALHA-SUPREMA.png" alt="⚔️ BATALHA → SUPREMA" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/TOMO.png" alt="Tomo Divino 2x">
+                            <span>Tomo Divino 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLABRANCA.png" alt="Pérola Branca 5x">
+                            <span>Pérola Branca 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLAAZUL.png" alt="Pérola Azul 5x">
+                            <span>Pérola Azul 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLARED.png" alt="Pérola Red 5x">
+                            <span>Pérola Red 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="100%">
+                            <span>100%</span>
+                        </div>
+                                            </div>
+                </div>
+                                <div class="transmute-card">
+                    <div class="transmute-title">⚔️ SUPREMA → SAGRADA</div>
+                    <img src="https://m2aura.com.br/images/transmu/SUPREMA-SAGRADA.png" alt="⚔️ SUPREMA → SAGRADA" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/CRISTAL AZUL.png" alt="Cristal Azul 2x">
+                            <span>Cristal Azul 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SIMBOLO.png" alt="Símbolo Do Dragão 2x">
+                            <span>Símbolo Do Dragão 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/GOLD.png" alt="Gold 200KK">
+                            <span>Gold 200KK</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="100%">
+                            <span>100%</span>
+                        </div>
+                                            </div>
+                </div>
+                                <div class="transmute-card">
+                    <div class="transmute-title">⚔️ EXORCISTA → MILENAR</div>
+                    <img src="https://m2aura.com.br/images/transmu/EXORCISTA-MILENAR.png" alt="⚔️ EXORCISTA → MILENAR" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/TOMO.png" alt="Tomo Divino 2x">
+                            <span>Tomo Divino 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLABRANCA.png" alt="Pérola Branca 5x">
+                            <span>Pérola Branca 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLAAZUL.png" alt="Pérola Azul 5x">
+                            <span>Pérola Azul 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLARED.png" alt="Pérola Red 5x">
+                            <span>Pérola Red 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="100%">
+                            <span>100%</span>
+                        </div>
+                                            </div>
+                </div>
+                                <div class="transmute-card">
+                    <div class="transmute-title">⚔️ MILENAR → BARONESA</div>
+                    <img src="https://m2aura.com.br/images/transmu/MILENAR-BARONESA.png" alt="⚔️ MILENAR → BARONESA" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/CRISTAL AZUL.png" alt="Cristal Azul 2x">
+                            <span>Cristal Azul 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SIMBOLO.png" alt="Símbolo Do Dragão 2x">
+                            <span>Símbolo Do Dragão 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/GOLD.png" alt="Gold 200KK">
+                            <span>Gold 200KK</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="100%">
+                            <span>100%</span>
+                        </div>
+                                            </div>
+                </div>
+                                <div class="transmute-card">
+                    <div class="transmute-title">⚔️ PARTIZAN → USURPADORA</div>
+                    <img src="https://m2aura.com.br/images/transmu/PARTIZANUSURPADORA.png" alt="⚔️ PARTIZAN → USURPADORA" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/TOMO.png" alt="Tomo Divino 2x">
+                            <span>Tomo Divino 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLABRANCA.png" alt="Pérola Branca 5x">
+                            <span>Pérola Branca 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLAAZUL.png" alt="Pérola Azul 5x">
+                            <span>Pérola Azul 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLARED.png" alt="Pérola Red 5x">
+                            <span>Pérola Red 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="100%">
+                            <span>100%</span>
+                        </div>
+                                            </div>
+                </div>
+                                <div class="transmute-card">
+                    <div class="transmute-title">⚔️ USURPADORA → DEUS DRAGÃO</div>
+                    <img src="https://m2aura.com.br/images/transmu/USURPADORADEUSDRAGAO.png" alt="⚔️ USURPADORA → DEUS DRAGÃO" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/CRISTAL AZUL.png" alt="Cristal Azul 2x">
+                            <span>Cristal Azul 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SIMBOLO.png" alt="Símbolo Do Dragão 2x">
+                            <span>Símbolo Do Dragão 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/GOLD.png" alt="Gold 200KK">
+                            <span>Gold 200KK</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="100%">
+                            <span>100%</span>
+                        </div>
+                                            </div>
+                </div>
+                                <div class="transmute-card">
+                    <div class="transmute-title">🗡️ FACA DRAGÃO → FACA ECLIPSE</div>
+                    <img src="https://m2aura.com.br/images/transmu/FACADRAGAO-FACAECLIPSE.png" alt="🗡️ FACA DRAGÃO → FACA ECLIPSE" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/TOMO.png" alt="Tomo Divino 2x">
+                            <span>Tomo Divino 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLABRANCA.png" alt="Pérola Branca 5x">
+                            <span>Pérola Branca 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLAAZUL.png" alt="Pérola Azul 5x">
+                            <span>Pérola Azul 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLARED.png" alt="Pérola Red 5x">
+                            <span>Pérola Red 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="100%">
+                            <span>100%</span>
+                        </div>
+                                            </div>
+                </div>
+                                <div class="transmute-card">
+                    <div class="transmute-title">🗡️ FACA ECLIPSE → LUAS GÊMEAS</div>
+                    <img src="https://m2aura.com.br/images/transmu/ECLIPSE-LUASGEMEAS.png" alt="🗡️ FACA ECLIPSE → LUAS GÊMEAS" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/CRISTAL AZUL.png" alt="Cristal Azul 2x">
+                            <span>Cristal Azul 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SIMBOLO.png" alt="Símbolo Do Dragão 2x">
+                            <span>Símbolo Do Dragão 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/GOLD.png" alt="Gold 200KK">
+                            <span>Gold 200KK</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="100%">
+                            <span>100%</span>
+                        </div>
+                                            </div>
+                </div>
+                                <div class="transmute-card">
+                    <div class="transmute-title">🔱 SINO CÉU E TERRA → SINO HIBISCO</div>
+                    <img src="https://m2aura.com.br/images/transmu/CEUETERRAHIBISCO.png" alt="🔱 SINO CÉU E TERRA → SINO HIBISCO" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/TOMO.png" alt="Tomo Divino 2x">
+                            <span>Tomo Divino 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLABRANCA.png" alt="Pérola Branca 5x">
+                            <span>Pérola Branca 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLAAZUL.png" alt="Pérola Azul 5x">
+                            <span>Pérola Azul 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLARED.png" alt="Pérola Red 5x">
+                            <span>Pérola Red 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="100%">
+                            <span>100%</span>
+                        </div>
+                                            </div>
+                </div>
+                                <div class="transmute-card">
+                    <div class="transmute-title">🔱 SINO HIBISCO → CEIFADORA</div>
+                    <img src="https://m2aura.com.br/images/transmu/HIBISCOCEIFADORA.png" alt="🔱 SINO HIBISCO → CEIFADORA" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/CRISTAL AZUL.png" alt="Cristal Azul 2x">
+                            <span>Cristal Azul 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SIMBOLO.png" alt="Símbolo Do Dragão 2x">
+                            <span>Símbolo Do Dragão 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/GOLD.png" alt="Gold 200KK">
+                            <span>Gold 200KK</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="100%">
+                            <span>100%</span>
+                        </div>
+                                            </div>
+                </div>
+                                <div class="transmute-card">
+                    <div class="transmute-title">🏹 ARCO DRAGÃO AMARELO → PERFEIÇÃO</div>
+                    <img src="https://m2aura.com.br/images/transmu/DRAGAOAMARELOPERFEICAO.png" alt="🏹 ARCO DRAGÃO AMARELO → PERFEIÇÃO" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/TOMO.png" alt="Tomo Divino 2x">
+                            <span>Tomo Divino 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLABRANCA.png" alt="Pérola Branca 5x">
+                            <span>Pérola Branca 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLAAZUL.png" alt="Pérola Azul 5x">
+                            <span>Pérola Azul 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLARED.png" alt="Pérola Red 5x">
+                            <span>Pérola Red 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="100%">
+                            <span>100%</span>
+                        </div>
+                                            </div>
+                </div>
+                                <div class="transmute-card">
+                    <div class="transmute-title">🏹 ARCO DA PERFEIÇÃO → BALESTRA FANTASMA</div>
+                    <img src="https://m2aura.com.br/images/transmu/PERFEICAOBALESTRA.png" alt="🏹 ARCO DA PERFEIÇÃO → BALESTRA FANTASMA" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/CRISTAL AZUL.png" alt="Cristal Azul 2x">
+                            <span>Cristal Azul 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SIMBOLO.png" alt="Símbolo Do Dragão 2x">
+                            <span>Símbolo Do Dragão 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/GOLD.png" alt="Gold 200KK">
+                            <span>Gold 200KK</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="100%">
+                            <span>100%</span>
+                        </div>
+                                            </div>
+                </div>
+                                <div class="transmute-card">
+                    <div class="transmute-title">🪭 LEQUE DA SALVAÇÃO → ELEMENTAL</div>
+                    <img src="https://m2aura.com.br/images/transmu/SALVACAOELEMENTAL.png" alt="🪭 LEQUE DA SALVAÇÃO → ELEMENTAL" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/TOMO.png" alt="Tomo Divino 2x">
+                            <span>Tomo Divino 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLABRANCA.png" alt="Pérola Branca 5x">
+                            <span>Pérola Branca 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLAAZUL.png" alt="Pérola Azul 5x">
+                            <span>Pérola Azul 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/PEROLARED.png" alt="Pérola Red 5x">
+                            <span>Pérola Red 5x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="100%">
+                            <span>100%</span>
+                        </div>
+                                            </div>
+                </div>
+                                <div class="transmute-card">
+                    <div class="transmute-title">🪭 LEQUE ELEMENTAL → DRAGÃO DEITADO</div>
+                    <img src="https://m2aura.com.br/images/transmu/ELEMENTALDEITADO.png" alt="🪭 LEQUE ELEMENTAL → DRAGÃO DEITADO" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/CRISTAL AZUL.png" alt="Cristal Azul 2x">
+                            <span>Cristal Azul 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SIMBOLO.png" alt="Símbolo Do Dragão 2x">
+                            <span>Símbolo Do Dragão 2x</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/GOLD.png" alt="Gold 200KK">
+                            <span>Gold 200KK</span>
+                        </div>
+                                                <div class="transmute-item">
+                            <img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="100%">
+                            <span>100%</span>
+                        </div>
+                                            </div>
+                </div>
+                            </div>
+
+            <div class="dungeon-section-title" style="grid-column:unset; margin: 20px 0 14px;">🥋 Sistema de Transmutações Das Armaduras</div>
+
+            <div class="transmute-grid">
+                <div class="transmute-card">
+                    <div class="transmute-title">🥋 Armadura Nível 66 → Armadura Real</div>
+                    <img src="https://m2aura.com.br/images/transmu/ARMADURAREAL.png" alt="Armadura Real" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                        <div class="transmute-item"><img src="https://m2aura.com.br/images/transmu/SIMBOLO.png" alt="Símbolo Do Dragão"><span>Símbolo Do Dragão 2x</span></div>
+                        <div class="transmute-item"><img src="https://m2aura.com.br/images/transmu/CRISTALVERMELHO.png" alt="Cristal Vermelho"><span>Cristal Vermelho 2x</span></div>
+                        <div class="transmute-item"><img src="https://m2aura.com.br/images/transmu/GOLD.png" alt="Gold"><span>200KK</span></div>
+                        <div class="transmute-item"><img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="Sucesso"><span>100%</span></div>
+                    </div>
+                </div>
+                <div class="transmute-card">
+                    <div class="transmute-title">🥋 Armaduras Nível 61 → Armadura Dragão D'Água</div>
+                    <img src="https://m2aura.com.br/images/transmu/ARMADURADRAGAO.png" alt="Armadura Dragão" class="transmute-main-img">
+                    <div class="transmute-desc">Materiais necessários para a transmutação</div>
+                    <div class="transmute-items">
+                        <div class="transmute-item"><img src="https://m2aura.com.br/images/transmu/CORACAO.png" alt="Coração"><span>2x</span></div>
+                        <div class="transmute-item"><img src="https://m2aura.com.br/images/transmu/CHIFRE.png" alt="Chifre"><span>2x</span></div>
+                        <div class="transmute-item"><img src="https://m2aura.com.br/images/transmu/PEROLABRANCA.png" alt="Pérola Branca"><span>Pérola Branca 5x</span></div>
+                        <div class="transmute-item"><img src="https://m2aura.com.br/images/transmu/PEROLAAZUL.png" alt="Pérola Azul"><span>Pérola Azul 5x</span></div>
+                        <div class="transmute-item"><img src="https://m2aura.com.br/images/transmu/PEROLARED.png" alt="Pérola Vermelha"><span>Pérola Red 5x</span></div>
+                        <div class="transmute-item"><img src="https://m2aura.com.br/images/transmu/SUCESSO.png" alt="Sucesso"><span>100%</span></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="transmute-highlight">
+                <strong>Como funciona:</strong> você escolhe o item principal, aplica a aparência de outro item compatível e mantém os atributos do equipamento original. Assim, o jogador melhora o visual sem perder desempenho.
+            </div>
+        </section>
+
+        
+        <section id="mapavip" class="wiki-section">
+            <h2 class="wiki-title">🗺️ Mapa VIP</h2>
+            <p class="wiki-subtitle">Área exclusiva com spawns de elite — Bosses, Mini-Bosses e Metins especiais.</p>
+
+            <div class="mob-grid">
+
+                <div class="section-title">⚔️ Mini-Boss VIP / Respawn (1Hr)</div>
+
+                <div class="mob-box">
+                    <div class="mob-box"><div class="mob-title">🧌 Chefe Orc</div><div class="mob-drop">Baú Do Tier II</div><div class="mob-drop">Pedra Da Fundação 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Soro Da Persuação 1x</div><div class="mob-drop">Moedas Da Conquista 3x</div></div>
+                </div>
+
+                <div class="mob-box">
+                    <div class="mob-box"><div class="mob-title">🐢 Tartaruga De Pedra</div><div class="mob-drop">Baú Do Tier II</div><div class="mob-drop">Compensado 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Soro Da Persuação 1x</div><div class="mob-drop">Moedas Da Conquista 3x</div></div>
+                </div>
+
+                <div class="mob-box">
+                    <div class="mob-box"><div class="mob-title">🔮 Líder Fanático Zen</div><div class="mob-drop">Baú Do Tier II</div><div class="mob-drop">Compensado 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Soro Da Persuação 1x</div><div class="mob-drop">Moedas Da Conquista 3x</div></div>
+                </div>
+
+                <div class="mob-box">
+                    <div class="mob-box"><div class="mob-title">🐯 Comandante Tigre</div><div class="mob-drop">Baú Do Tier II</div><div class="mob-drop">Pedra Da Fundação 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Soro Da Persuação 1x</div><div class="mob-drop">Moedas Da Conquista 3x</div></div>
+                </div>
+
+                <div class="mob-box">
+                    <div class="mob-box"><div class="mob-title">🦊 Nove Caudas</div><div class="mob-drop">Baú Do Tier II</div><div class="mob-drop">Pedra Da Fundação 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Soro Da Persuação 1x</div><div class="mob-drop">Moedas Da Conquista 3x</div></div>
+                </div>
+
+                <div class="mob-box">
+                    <div class="mob-box"><div class="mob-title">🌋 Rei Flamejante</div><div class="mob-drop">Baú Do Tier II</div><div class="mob-drop">Compensado 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Soro Da Persuação 1x</div><div class="mob-drop">Moedas Da Conquista 3x</div></div>
+                </div>
+
+                <div class="mob-box">
+                    <div class="mob-box"><div class="mob-title">🕷️ Aranha Rainha</div><div class="mob-drop">Baú Do Tier II</div><div class="mob-drop">Tronco 1x</div><div class="mob-drop">Esfera Da Bênção 1x</div><div class="mob-drop">Soro Da Persuação 1x</div><div class="mob-drop">Moedas Da Conquista 3x</div></div>
+                </div>
+
+                <div class="section-title">👑 Boss VIP / Respawn (6 hrs)</div>
+
+                <div class="mob-box">
+                    <div class="mob-title">🐲 Dragão D'Agua</div>
+                    <div class="mob-drop">Tesouro Do Dragão D'agua</div>
+                    <div class="mob-drop">Máscara da Fortuna 1x</div>
+                    <div class="mob-drop">Moedas da Conquista 15x</div>
+                    <div class="mob-drop">Esfera da Bênção 2x</div>
+                </div>
+
+                <div class="mob-box">
+                    <div class="mob-title">🐉 Dragão De Fogo</div>
+                    <div class="mob-drop">Tesouro Do Dragão De Fogo</div>
+                    <div class="mob-drop">Máscara da Fortuna 1x</div>
+                    <div class="mob-drop">Moedas da Conquista 15x</div>
+                    <div class="mob-drop">Esfera da Bênção 2x</div>
+                </div>
+
+                <div class="section-title">🗿 Metins VIP / Respawn (10 Minutos)</div>
+
+                <div class="mob-box">
+                    <div class="mob-title">Metin Da Visibilidade (lv 85) x15</div>
+                    <div class="mob-drop">Gold — 8.5kk</div>
+                    <div class="mob-drop">Moedas da Conquista 3x</div>
+                    <div class="mob-drop">Perg. do Novo Aprimoramento 3~5x</div>
+                    <div class="mob-drop">Perg. do Aprimoramento 3~5x</div>
+                    <div class="mob-drop">Pergaminho Da Paz 1x</div>
+                    <div class="mob-drop">Anel Da Experiência 1x</div>
+                    <div class="mob-drop">Luva Do Ladrão 1x</div>
+                    <div class="mob-drop">Armaduras do 61</div>
+                    <div class="mob-drop">Itens entre +3 e +6</div>
+                </div>
+
+                <div class="mob-box">
+                    <div class="mob-title">Metin Do Trovão (Lv 90) x15</div>
+                    <div class="mob-drop">Gold — 10kk</div>
+                    <div class="mob-drop">Moedas da Conquista 3x</div>
+                    <div class="mob-drop">Perg. do Novo Aprimoramento 3~5x</div>
+                    <div class="mob-drop">Perg. do Aprimoramento 3~5x</div>
+                    <div class="mob-drop">Pergaminho Da Paz 1x</div>
+                    <div class="mob-drop">Anel Da Experiência 1x</div>
+                    <div class="mob-drop">Luva Do Ladrão 1x</div>
+                    <div class="mob-drop">Esfera Da Benção 1x</div>
+                    <div class="mob-drop">Armaduras do 66</div>
+                    <div class="mob-drop">Itens entre +3 e +6</div>
+                </div>
+
+                <div class="section-title">🗿 TOCHA E SAPO / Respawn (2 Hrs)</div>
+
+                <div class="mob-box">
+                    <div class="mob-title">Tocha x5</div>
+                    <div class="mob-drop">Armas Do 75</div>
+                    <div class="mob-drop">Armaduras Do 66</div>
+                    <div class="mob-drop">Perola Branca 1x</div>
+                    <div class="mob-drop">Perola Azul 1x</div>
+                    <div class="mob-drop">Perola Vermelha 1x</div>
+                    <div class="mob-drop">Esfera Da Benção 1x</div>
+                    <div class="mob-drop">Pedra Arco-iris 1x</div>
+                </div>
+
+                <div class="mob-box">
+                    <div class="mob-title">Sapo De Ouro x5</div>
+                    <div class="mob-drop">Mascara da Fortuna 1~2x</div>
+                </div>
+
+            </div>
+        </section>
+
+        
+        
+<section id="quests" class="wiki-section">
+    <h2 class="wiki-title">📜 Quests do Biólogo</h2>
+    <p class="wiki-subtitle">Missões dadas pelo Biólogo Girab — complete-as para obter recompensas permanentes e evoluir seu personagem.</p>
+
+    <div class="quest-grid">
+
+        
+        <div class="quest-card">
+            <div class="quest-header">
+                <span class="quest-level">Nível 30</span>
+                <span class="quest-name">🧪 Pesquisa do Biólogo — Dentes de Orc</span>
+            </div>
+            <div class="quest-body">
+                <div class="quest-cols">
+                    <div>
+                        <div class="quest-col-title">Itens Necessários</div>
+                        <div class="transmute-items">
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/dente.png" alt="Dente de Orc">
+                                <span>Dente de Orc 10x</span>
+                            </div>
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/pedraorc.png" alt="Pedra da Alma Orc">
+                                <span>Pedra Alma Orc 1x</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="quest-col-title">Breve Descrição</div>
+                        <div class="quest-step"></div>
+                        <div class="quest-step">Matar Orc, Orc Negro Bravo, Orc Negro até obter 10 Dentes de Orc</div>
+                        <div class="quest-step">Retornar ao Biólogo Girab para concluir a missão</div>
+                        <div class="quest-step">Matar Orc Negro Gigante, Orc Negro Gigante Bravo, Feiticeiro Orc Bravo para obter a Pedra da Alma Orc</div>
+                        <div class="quest-step">Ir ao Biólogo Girab</div>
+                        <div class="quest-step">Finalizar a missão no Baek-Go</div>
+                    </div>
+                </div>
+                <div class="quest-solution">
+                    <div class="quest-solution-label">Solução</div>
+                    <div class="quest-solution-text">
+                        É preciso pelo menos <strong>10 Dentes de Orc (sem o +)</strong>. Terás que os levar até o Biólogo Girab. Este examinará o Dente, mas às vezes ele pode ser Podre, e terás de esperar <strong>(06 horas)</strong> para entregar outro.
+                    </div>
+                </div>
+                <div class="quest-reward">
+                    <div class="quest-reward-label">Recompensa</div>
+                    <div class="quest-reward-value">⚡ +60 Velocidade de Movimento (Permanente)</div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="quest-card">
+            <div class="quest-header">
+                <span class="quest-level">Nível 40</span>
+                <span class="quest-name">🧪 Pesquisa do Biólogo — Livros da Maldição</span>
+            </div>
+            <div class="quest-body">
+                <div class="quest-cols">
+                    <div>
+                        <div class="quest-col-title">Itens Necessários</div>
+                        <div class="transmute-items">
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/livro.png" alt="Livro de Maldições">
+                                <span>Livro Maldição 15x</span>
+                            </div>
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/pedrafanatica.png" alt="Pedra da Alma Fanática">
+                                <span>Pedra Alma Fanática 1x</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="quest-col-title">Breve Descrição</div>
+                        <div class="quest-step"></div>
+                        <div class="quest-step">Matar Fanático Torturador Zen, Fanático Torturador até que consigas 15 Livros de Maldições</div>
+                        <div class="quest-step">Ir novamente ao Biólogo Girab</div>
+                        <div class="quest-step">Matar Fanático Torturador, Fanático Torturador Zen até dropar a Pedra da Alma Fanática</div>
+                        <div class="quest-step">Voltar ao Biólogo Girab</div>
+                        <div class="quest-step">Finalizar a missão no Baek-Go</div>
+                    </div>
+                </div>
+                <div class="quest-solution">
+                    <div class="quest-solution-label">Solução</div>
+                    <div class="quest-solution-text">
+                        Junte os <strong>15 Livros de Maldições</strong> matando Fanáticos Torturadores Zen e Fanáticos Torturadores. Após entregar os livros, caçe novamente para obter a <strong>Pedra da Alma Fanática</strong> e conclua a quest.
+                    </div>
+                </div>
+                <div class="quest-reward">
+                    <div class="quest-reward-label">Recompensa</div>
+                    <div class="quest-reward-value">⚡ +10% De Bonus Crítico (Permanente)</div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="quest-card">
+            <div class="quest-header">
+                <span class="quest-level">Nível 50</span>
+                <span class="quest-name">🧪 Pesquisa do Biólogo — Lembranças Demoníacas</span>
+            </div>
+            <div class="quest-body">
+                <div class="quest-cols">
+                    <div>
+                        <div class="quest-col-title">Itens Necessários</div>
+                        <div class="transmute-items">
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/lembrança.png" alt="Lembranças Demoníacas">
+                                <span>Lembranças Dem. 15x</span>
+                            </div>
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/pedrademoniaca.png" alt="Pedra da Alma Demoníaca">
+                                <span>Pedra Alma Dem. 1x</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="quest-col-title">Breve Descrição</div>
+                        <div class="quest-step"></div>
+                        <div class="quest-step">Matar mobs Demônio, Demônio Arqueiro, Demônio Lanceiro e Demônio Shaman até dropar 15 Lembranças Demoníacas</div>
+                        <div class="quest-step">Retornar ao Biólogo Girab</div>
+                        <div class="quest-step">Matar mobs Demônio, Demônio Arqueiro, Demônio Lanceiro para dropar a Pedra da Alma Demoníaca</div>
+                        <div class="quest-step">Finalizar a missão no Baek-Go</div>
+                    </div>
+                </div>
+                <div class="quest-solution">
+                    <div class="quest-solution-label">Solução</div>
+                    <div class="quest-solution-text">
+                        Caçe os Demônios nas áreas de nível 50 para juntar as <strong>15 Lembranças</strong>. A Pedra da Alma Demoníaca pode demorar — tenha paciência e continue farmando os mobs elite da região.
+                    </div>
+                </div>
+                <div class="quest-reward">
+                    <div class="quest-reward-label">Recompensa</div>
+                    <div class="quest-reward-value">⚡ +60 De Defesa (Permanente)</div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="quest-card">
+            <div class="quest-header">
+                <span class="quest-level">Nível 60</span>
+                <span class="quest-name">🧪 Pesquisa do Biólogo — Esferas De Gelo</span>
+            </div>
+            <div class="quest-body">
+                <div class="quest-cols">
+                    <div>
+                        <div class="quest-col-title">Itens Necessários</div>
+                        <div class="transmute-items">
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/esferadegelo.png" alt="Esferas De Gelo">
+                                <span>Esfera De Gelo 20x</span>
+                            </div>
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/pedragelada.png" alt="Pedra da Alma Gelada">
+                                <span>Pedra Alma Gelada 1x</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="quest-col-title">Breve Descrição</div>
+                        <div class="quest-step"></div>
+                        <div class="quest-step">Matar Golem de Gelo até obter 20 Esferas de Gelo</div>
+                        <div class="quest-step">Retornar ao Biólogo Girab</div>
+                        <div class="quest-step">Matar Golem De Gelo para dropar a Pedra da Alma Gelada</div>
+                        <div class="quest-step">Finalizar a missão no Baek-Go</div>
+                    </div>
+                </div>
+                <div class="quest-solution">
+                    <div class="quest-solution-label">Solução</div>
+                    <div class="quest-solution-text">
+                        Procure os Golens nas áreas de nível 60. As <strong>Esferas De Gelo</strong> dropam com frequência razoável, porém a <strong>Pedra da Alma Gelada</strong> é mais rara e exige farm dos mobs líderes da área.
+                    </div>
+                </div>
+                <div class="quest-reward">
+                    <div class="quest-reward-label">Recompensa</div>
+                    <div class="quest-reward-value">⚡ +50 de Ataque (Permanente)</div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="quest-card">
+            <div class="quest-header">
+                <span class="quest-level">Nível 70</span>
+                <span class="quest-name">🧪 Pesquisa do Biólogo — Galhos Folhados</span>
+            </div>
+            <div class="quest-body">
+                <div class="quest-cols">
+                    <div>
+                        <div class="quest-col-title">Itens Necessários</div>
+                        <div class="transmute-items">
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/galho.png" alt="Galho Folhado">
+                                <span>Galho Folhado 25x</span>
+                            </div>
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/pedrafantasma.png" alt="Pedra da Alma Fantasma">
+                                <span>Pedra Alma Fantasma 1x</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="quest-col-title">Breve Descrição</div>
+                        <div class="quest-step"></div>
+                        <div class="quest-step">Matar os Mobs da Floresta até obter 25 Galhos Folhados</div>
+                        <div class="quest-step">Retornar ao Biólogo Girab</div>
+                        <div class="quest-step">Matar mobs da Floresta Fantasma para dropar a Pedra da Alma Fantasma</div>
+                        <div class="quest-step">Finalizar a missão no Baek-Go</div>
+                    </div>
+                </div>
+                <div class="quest-solution">
+                    <div class="quest-solution-label">Solução</div>
+                    <div class="quest-solution-text">
+                        Explore a Floresta Fantasma do nível 70 para farmar os <strong>Galhos Folhados</strong>. A <strong>Pedra da Alma Fantasma</strong> só dropa dos mobs chefe da área — pode demorar algumas tentativas.
+                    </div>
+                </div>
+                <div class="quest-reward">
+                    <div class="quest-reward-label">Recompensa</div>
+                    <div class="quest-reward-value">⚡ +15 Bônus Monstro + 10 Dano de Skills</div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="quest-card">
+            <div class="quest-header">
+                <span class="quest-level">Nível 80</span>
+                <span class="quest-name">🧪 Pesquisa do Biólogo — Símbolos Fantasmas</span>
+            </div>
+            <div class="quest-body">
+                <div class="quest-cols">
+                    <div>
+                        <div class="quest-col-title">Itens Necessários</div>
+                        <div class="transmute-items">
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/simbolofantasma.png" alt="Símbolo Fantasma">
+                                <span>Símbolo Fantasma 30x</span>
+                            </div>
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/pedragigante.png" alt="Pedra da Alma Gigante">
+                                <span>Pedra Alma Gigante 1x</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="quest-col-title">Breve Descrição</div>
+                        <div class="quest-step"></div>
+                        <div class="quest-step">Matar Os Gigantes para obter 30 Símbolos Fantasmas</div>
+                        <div class="quest-step">Retornar ao Biólogo Girab</div>
+                        <div class="quest-step">Matar Os Gigantes Ancião para a Pedra da Alma Gigante</div>
+                        <div class="quest-step">Finalizar a missão no Baek-Go</div>
+                    </div>
+                </div>
+                <div class="quest-solution">
+                    <div class="quest-solution-label">Solução</div>
+                    <div class="quest-solution-text">
+                        Os <strong>Símbolos Fantasmas</strong> são raros — farm na Cidade do Jotun do nível 80. A <strong>Pedra da Alma Gigante</strong> é exclusiva do Gigante Ancião. Recomenda-se ir em grupo para aumentar a eficiência.
+                    </div>
+                </div>
+                <div class="quest-reward">
+                    <div class="quest-reward-label">Recompensa</div>
+                    <div class="quest-reward-value">⚡ +1.500 de HP + 15 Bônus Humanoides</div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="quest-card">
+            <div class="quest-header">
+                <span class="quest-level">Nível 85</span>
+                <span class="quest-name">🧪 Pesquisa do Biólogo — Galhos Fantasmas</span>
+            </div>
+            <div class="quest-body">
+                <div class="quest-cols">
+                    <div>
+                        <div class="quest-col-title">Itens Necessários</div>
+                        <div class="transmute-items">
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/galhofantasma.png" alt="Galho Fantasma">
+                                <span>Galho Fantasma 40x</span>
+                            </div>
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/pedrafantasma.png" alt="Pedra Fantasma">
+                                <span>Pedra Fantasma 1x</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="quest-col-title">Breve Descrição</div>
+                        <div class="quest-step"></div>
+                        <div class="quest-step">Matar Árvore Maldita, Árvore Fantasma Roxa, Tronco Fantasma Roxo para obter 40 Galhos Fantasmas</div>
+                        <div class="quest-step">Retornar ao Biólogo Girab</div>
+                        <div class="quest-step">Matar Árvore Maldita, Árvore Fantasma Roxa, Tronco Fantasma Roxo, Driade Roxa, Salgueiro Fantasma Roxo e Árvore Maligna Roxa até dropar a Pedra Fantasma</div>
+                        <div class="quest-step">Finalizar a missão no Baek-Go</div>
+                    </div>
+                </div>
+                <div class="quest-solution">
+                    <div class="quest-solution-label">Solução</div>
+                    <div class="quest-solution-text">
+                        Os <strong>Galhos Fantasmas</strong> são raros — farm na Floresta Vermelha do nível 85. A <strong>Pedra Fantasma</strong> é exclusiva das Árvores. Recomenda-se ir em grupo para aumentar a eficiência.
+                    </div>
+                </div>
+                <div class="quest-reward">
+                    <div class="quest-reward-label">Recompensa</div>
+                    <div class="quest-reward-value">⚡ +10 De Redução Cada Classe</div>
+                </div>
+            </div>
+        </div>
+
+        
+        <div class="quest-card">
+            <div class="quest-header">
+                <span class="quest-level">Nível 90</span>
+                <span class="quest-name">🧪 Pesquisa do Biólogo — Emblema do Rei Negro</span>
+            </div>
+            <div class="quest-body">
+                <div class="quest-cols">
+                    <div>
+                        <div class="quest-col-title">Itens Necessários</div>
+                        <div class="transmute-items">
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/emblemarei.png" alt="Emblema do Rei Negro">
+                                <span>Emblema Rei Negro 50x</span>
+                            </div>
+                            <div class="transmute-item">
+                                <img src="https://m2aura.com.br/images/transmu/pedrareal.png" alt="Pedra da Alma Real">
+                                <span>Pedra Alma Real 1x</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="quest-col-title">Breve Descrição</div>
+                        <div class="quest-step"></div>
+                        <div class="quest-step">Matar Líder Fanáticos, Rei Flamejante, Orkus, Comandante Tigre, Tartaruga de Pedra, Aranha Rainha, Nove Caudas, Orc Chefe, Ceifadora da Morte até obter 50 Emblemas do Rei Negro</div>
+                        <div class="quest-step">Retornar ao Biólogo Girab</div>
+                        <div class="quest-step">Continuar matando os mesmos mobs até dropar a Pedra da Alma Real</div>
+                        <div class="quest-step">Finalizar a missão no Baek-Go</div>
+                    </div>
+                </div>
+                <div class="quest-solution">
+                    <div class="quest-solution-label">Solução</div>
+                    <div class="quest-solution-text">
+                        Os <strong>Emblemas do Rei Negro</strong> são raros — farm em todos os Bosses e Mini-bosses. A <strong>Pedra da Alma Real</strong> é exclusiva dos Mini-bosses. Recomenda-se ir em grupo para aumentar a eficiência.
+                    </div>
+                </div>
+                <div class="quest-reward">
+                    <div class="quest-reward-label">Recompensa</div>
+                    <div class="quest-reward-value">⚡ +15 Bônus Cada Classe</div>
+                </div>
+            </div>
+        </div>
+		
+
+    </div>
+</section>
+
+    </main>
+
+    
+    <footer class="site-footer" role="contentinfo">
+        <div class="footer-content">
+            <div class="footer-left">
+                <p>Isometric Games &copy; 2026 Metin2 Aura — Organização sem fins lucrativos</p>
+            </div>
+            <nav class="footer-right" aria-label="Redes sociais">
+                <a href="https://discord.gg/EJZBbX6T" target="_blank" rel="noopener noreferrer" aria-label="Discord"><i class="fab fa-discord" aria-hidden="true"></i></a>
+                <a href="https://www.facebook.com/profile.php?id=61576393350074" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f" aria-hidden="true"></i></a>
+                <a href="https://www.instagram.com/metin2.aura/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram" aria-hidden="true"></i></a>
+                <a href="https://www.youtube.com/@Metin2Aura-br" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube" aria-hidden="true"></i></a>
+            </nav>
+        </div>
+    </footer>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', () => {
+
+        /* ── TABS ── */
+        const tabs     = document.querySelectorAll('.wiki-tab');
+        const sections = document.querySelectorAll('.wiki-section');
+
+        tabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                tabs.forEach(t => t.classList.remove('active'));
+                sections.forEach(s => s.classList.remove('active'));
+                tab.classList.add('active');
+                const target = document.getElementById(tab.dataset.target);
+                if (target) target.classList.add('active');
+            });
+        });
+
+        /* ── IMAGE MODAL ── */
+        const modal      = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
+
+        document.querySelectorAll('.transmute-main-img').forEach(img => {
+            img.addEventListener('click', () => {
+                modalImage.src = img.src;
+                modal.classList.add('active');
+            });
+        });
+
+        modal.addEventListener('click', () => modal.classList.remove('active'));
+    });
+    </script>
+
+</body>
+</html>
