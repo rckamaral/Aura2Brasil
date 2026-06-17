@@ -532,6 +532,7 @@ const baus = [
       { tipo: "Consumível", item: "Pacote do Sábio", qty: "1x" },
       { tipo: "Consumível", item: "Brinco do Tigre (30d)", qty: "1x" },
       { tipo: "Consumível", item: "Bracelete do Tigre (30d)", qty: "1x" },
+      { tipo: "Consumível", item: "Bracelete do Dragão (30d)", qty: "1x" },
       { tipo: "Consumível", item: "Pets Cash (30d)", qty: "1x" },
       { tipo: "Consumível", item: "Cupons de Cash (5 á 50k de cash)", qty: "1x" },
       { tipo: "Item", item: "Escudo Sangrento", qty: "1x" },
