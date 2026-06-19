@@ -292,7 +292,7 @@ const miniBosses = [
     icon: "/chefe-orc.png",
     color: "#8B4513",
     drops: [
-      "Baú do Tier II",
+      "Baú Tier II",
       "Pedra da Fundação 1x",
       "Esfera da Benção 1x",
       "Soro da Persuação 1x",
@@ -304,7 +304,7 @@ const miniBosses = [
     icon: "/tartaruga-pedra.png",
     color: "#4A7C59",
     drops: [
-      "Baú do Tier II",
+      "Baú Tier II",
       "Compensado 1x",
       "Esfera da Benção 1x",
       "Soro da Persuação 1x",
@@ -316,7 +316,7 @@ const miniBosses = [
     icon: "/lider-fanatico.png",
     color: "#6A5ACD",
     drops: [
-      "Baú do Tier II",
+      "Baú Tier II",
       "Compensado 1x",
       "Esfera da Benção 1x",
       "Soro da Persuação 1x",
@@ -328,7 +328,7 @@ const miniBosses = [
     icon: "/comandante-tigre.png",
     color: "#D4700A",
     drops: [
-      "Baú do Tier II",
+      "Baú Tier II",
       "Pedra da Fundação 1x",
       "Esfera da Benção 1x",
       "Soro da Persuação 1x",
@@ -340,7 +340,7 @@ const miniBosses = [
     icon: "/nove-caudas.png",
     color: "#C0392B",
     drops: [
-      "Baú do Tier II",
+      "Baú Tier II",
       "Pedra da Fundação 1x",
       "Esfera da Benção 1x",
       "Soro da Persuação 1x",
@@ -352,7 +352,7 @@ const miniBosses = [
     icon: "/rei-flamejante.png",
     color: "#E74C3C",
     drops: [
-      "Baú do Tier II",
+      "Baú Tier II",
       "Compensado 1x",
       "Esfera da Benção 1x",
       "Soro da Persuação 1x",
@@ -386,7 +386,7 @@ const bosses6h = [
     ],
   },
   {
-    name: "Dragão De Fogo",
+    name: "Dragão de Fogo",
     icon: "/dragao-vermelho.png",
     color: "#FF4500",
     drops: [
@@ -464,7 +464,7 @@ const baus = [
     ],
   },
   {
-    name: "Tesouro Dragão De Fogo",
+    name: "Tesouro Dragão de Fogo",
     icon: "/cofre.png",
     color: "#FF4500",
     desc: "Forjado nas chamas do Dragão de Fogo — repleto de Refines e consumíveis de alto valor — (Aleatórios)",
@@ -504,7 +504,7 @@ const baus = [
     ],
   },
   {
-    name: "Tesouro Do Minotauro",
+    name: "Tesouro do Minotauro",
     icon: "/cofre.png",
     color: "#8B0000",
     desc: "Conquistado do lendário Lord Minotauro — recompensas raras para guerreiros de elite — (Aleatórios)",
@@ -524,7 +524,7 @@ const baus = [
     ],
   },
   {
-    name: "Baú Do World Boss",
+    name: "Baú do World Boss",
     icon: "/bau-world-boss-facil.png",
     color: "#FFD700",
     desc: "O tesouro supremo do servidor — itens exclusivos e recompensas premium para os mais corajosos — (Aleatórios)",
@@ -561,7 +561,7 @@ const dungeons = [
       ],
     },
     tesouro: {
-      name: "Tesouro Do Ceifador",
+      name: "Tesouro do Ceifador",
       icon: "/cofre.png",
       drops: [
         "Máscara da Fortuna x2",
