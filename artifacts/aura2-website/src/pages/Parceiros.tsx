@@ -282,7 +282,7 @@ export default function Parceiros() {
                 <Input
                   id="avgViewers"
                   name="avgViewers"
-                  placeholder="Ex: 80"
+                  placeholder="Ex.: 80"
                   value={form.avgViewers}
                   onChange={handleChange}
                   className="bg-black/50 border-white/15 focus-visible:ring-primary"
@@ -308,7 +308,7 @@ export default function Parceiros() {
               <Input
                 id="schedule"
                 name="schedule"
-                placeholder="Ex: Seg/Qua/Sex às 20h"
+                placeholder="Ex.: seg./qua./sex. às 20h"
                 value={form.schedule}
                 onChange={handleChange}
                 className="bg-black/50 border-white/15 focus-visible:ring-primary"

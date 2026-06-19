@@ -18,7 +18,7 @@ export default function Footer() {
             href="/"
             className="text-sm text-muted-foreground hover:text-primary transition-colors uppercase tracking-wider"
           >
-            Inicio
+            Início
           </Link>
           <Link
             href="/download"

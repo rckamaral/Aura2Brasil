@@ -136,7 +136,7 @@ function PayModal({
             <CreditCard className="w-6 h-6 text-primary shrink-0" />
             <div>
               <p className="font-bold text-white">Cartão de Crédito</p>
-              <p className="text-xs text-muted-foreground">Em breve disponível</p>
+                  <p className="text-xs text-muted-foreground">Disponível em breve</p>
             </div>
           </button>
         </div>
@@ -272,7 +272,7 @@ function PayModal({
         <div className="rounded-xl border border-yellow-500/20 bg-yellow-950/20 p-4 text-sm text-yellow-400/80 space-y-1">
           <p className="font-semibold text-yellow-400">Instruções:</p>
           <p>1. Escaneie o QR Code acima ou copie o código</p>
-          <p>2. Abra o app do seu banco e escolha PIX</p>
+                  <p>2. Abra o app do seu banco e escolha a opção PIX</p>
           <p>3. Use o valor exato: <strong className="text-white">{pkg.price}</strong></p>
           <p>4. As moedas serão creditadas <strong className="text-white">automaticamente</strong></p>
         </div>

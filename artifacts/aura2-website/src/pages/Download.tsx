@@ -15,7 +15,7 @@ export default function DownloadPage() {
           <CardContent className="p-8 md:p-12 flex flex-col items-center text-center space-y-6">
             <div className="space-y-2">
               <h2 className="text-2xl font-bold text-white">AURA2 Client v1.0 - Season 1</h2>
-              <p className="text-muted-foreground">Tamanho: 2.1 GB - Fase Beta Fechada</p>
+              <p className="text-muted-foreground">Tamanho: 2,1 GB - Fase Beta Fechada</p>
             </div>
 
             <div className="w-full max-w-md space-y-2">
@@ -50,7 +50,7 @@ export default function DownloadPage() {
                 <Layers className="w-6 h-6 text-primary shrink-0" />
                 <div>
                   <h4 className="font-semibold text-white">Memória RAM</h4>
-                  <p className="text-sm text-muted-foreground">Mínimo 2GB (4GB recomendado)</p>
+                  <p className="text-sm text-muted-foreground">Mínimo: 2 GB (4 GB recomendados)</p>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -64,7 +64,7 @@ export default function DownloadPage() {
                 <HardDrive className="w-6 h-6 text-primary shrink-0" />
                 <div>
                   <h4 className="font-semibold text-white">Armazenamento</h4>
-                  <p className="text-sm text-muted-foreground">5GB de espaço livre em disco</p>
+                  <p className="text-sm text-muted-foreground">5 GB de espaço livre em disco</p>
                 </div>
               </div>
             </div>
@@ -75,7 +75,7 @@ export default function DownloadPage() {
             <ol className="space-y-4 list-decimal list-inside text-muted-foreground ml-4">
               <li className="pl-2"><span className="text-white font-medium">Aguarde a liberação</span> do link oficial nesta página.</li>
               <li className="pl-2"><span className="text-white font-medium">Desative temporariamente seu antivírus</span> caso haja falsos positivos (comum em clientes de Metin2).</li>
-              <li className="pl-2"><span className="text-white font-medium">Extraia o arquivo</span> usando WinRAR ou 7Zip em uma pasta de sua escolha.</li>
+              <li className="pl-2"><span className="text-white font-medium">Extraia o arquivo</span> usando WinRAR ou 7-Zip em uma pasta de sua escolha.</li>
               <li className="pl-2"><span className="text-white font-medium">Execute o "Aura2Patcher.exe"</span> como administrador para atualizar o jogo.</li>
               <li className="pl-2"><span className="text-white font-medium">Clique em Jogar</span> e divirta-se!</li>
             </ol>

@@ -396,7 +396,7 @@ export default function Ranking() {
       .then((res) => res.ok ? res.json() : Promise.reject())
       .then((data: { players?: RankedPlayer[] }) => setPlayers(data.players || []))
       .catch((err) => {
-        if (err?.name !== "AbortError") setError("Nao foi possivel carregar o ranking agora.");
+        if (err?.name !== "AbortError") setError("Não foi possível carregar o ranking agora.");
       })
       .finally(() => {
         if (!controller.signal.aborted) setLoading(false);
@@ -420,7 +420,7 @@ export default function Ranking() {
       .then((res) => res.ok ? res.json() : Promise.reject())
       .then((data: { guilds?: RankedGuild[] }) => setGuilds(data.guilds || []))
       .catch((err) => {
-        if (err?.name !== "AbortError") setError("Nao foi possivel carregar o ranking agora.");
+        if (err?.name !== "AbortError") setError("Não foi possível carregar o ranking agora.");
       })
       .finally(() => {
         if (!controller.signal.aborted) setLoading(false);
@@ -444,7 +444,7 @@ export default function Ranking() {
       .then((res) => res.ok ? res.json() : Promise.reject())
       .then((data: { players?: RankedPvp[] }) => setPvpPlayers(data.players || []))
       .catch((err) => {
-        if (err?.name !== "AbortError") setError("Nao foi possivel carregar o ranking agora.");
+        if (err?.name !== "AbortError") setError("Não foi possível carregar o ranking agora.");
       })
       .finally(() => {
         if (!controller.signal.aborted) setLoading(false);
@@ -468,7 +468,7 @@ export default function Ranking() {
       .then((res) => res.ok ? res.json() : Promise.reject())
       .then((data: { players?: RankedBoss[] }) => setBossPlayers(data.players || []))
       .catch((err) => {
-        if (err?.name !== "AbortError") setError("Nao foi possivel carregar o ranking agora.");
+        if (err?.name !== "AbortError") setError("Não foi possível carregar o ranking agora.");
       })
       .finally(() => {
         if (!controller.signal.aborted) setLoading(false);

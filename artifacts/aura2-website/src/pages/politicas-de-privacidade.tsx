@@ -10,7 +10,7 @@ export default function PoliticasDePrivacidade() {
             Política de Privacidade
           </h1>
           <p className="text-muted-foreground mt-3 text-sm">
-            Última atualização: Janeiro de 2026
+            Última atualização: janeiro de 2026
           </p>
         </div>
 
@@ -58,7 +58,7 @@ export default function PoliticasDePrivacidade() {
             <p>
               O Aura 2 não vende, aluga ou compartilha suas informações pessoais
               com terceiros, exceto quando exigido por lei ou para proteger os
-              direitos e segurança do servidor e de seus jogadores.
+              direitos e a segurança do servidor e de seus jogadores.
             </p>
           </section>
 
@@ -118,7 +118,7 @@ export default function PoliticasDePrivacidade() {
               Podemos atualizar esta Política de Privacidade periodicamente.
               Notificaremos os jogadores sobre mudanças significativas por meio
               do site ou do Discord oficial. O uso continuado do servidor após
-              as alterações implica na aceitação da nova política.
+              as alterações implica a aceitação da nova política.
             </p>
           </section>
 

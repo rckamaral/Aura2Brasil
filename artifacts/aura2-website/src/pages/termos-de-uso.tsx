@@ -8,7 +8,7 @@ export default function TermosDeUso() {
           </p>
           <h1 className="text-4xl font-bold text-primary">Termos de Uso</h1>
           <p className="text-muted-foreground mt-3 text-sm">
-            Última atualização: Janeiro de 2026
+            Última atualização: janeiro de 2026
           </p>
         </div>
 
@@ -89,7 +89,7 @@ export default function TermosDeUso() {
           </section>
 
           <section>
-            <h2 className="text-lg font-semibent text-foreground mb-3">
+            <h2 className="text-lg font-semibold text-foreground mb-3">
               6. Propriedade Intelectual
             </h2>
             <p>
@@ -131,7 +131,7 @@ export default function TermosDeUso() {
             <p>
               Estes Termos de Uso podem ser modificados a qualquer momento. As
               alterações entram em vigor assim que publicadas no site. O uso
-              continuado do servidor após as alterações implica na aceitação dos
+              continuado do servidor após as alterações implica a aceitação dos
               novos termos.
             </p>
           </section>

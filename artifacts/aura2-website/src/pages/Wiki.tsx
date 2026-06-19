@@ -260,7 +260,7 @@ const metinGroups: Record<
         "Pergaminho da Paz 1x",
         "Anel da Experiência 1x",
         "Luva do Ladrão 1x",
-        "Esfera da Benção 1x",
+        "Esfera da Bênção 1x",
         "Caixa de Treino 1x",
         "Armaduras do Nível 66",
         "Itens entre +0 e +3",
@@ -294,8 +294,8 @@ const miniBosses = [
     drops: [
       "Baú Tier II",
       "Pedra da Fundação 1x",
-      "Esfera da Benção 1x",
-      "Soro da Persuação 1x",
+      "Esfera da Bênção 1x",
+      "Soro da Persuasão 1x",
       "Moedas da Conquista 3x",
     ],
   },
@@ -306,8 +306,8 @@ const miniBosses = [
     drops: [
       "Baú Tier II",
       "Compensado 1x",
-      "Esfera da Benção 1x",
-      "Soro da Persuação 1x",
+      "Esfera da Bênção 1x",
+      "Soro da Persuasão 1x",
       "Moedas da Conquista 3x",
     ],
   },
@@ -318,8 +318,8 @@ const miniBosses = [
     drops: [
       "Baú Tier II",
       "Compensado 1x",
-      "Esfera da Benção 1x",
-      "Soro da Persuação 1x",
+      "Esfera da Bênção 1x",
+      "Soro da Persuasão 1x",
       "Moedas da Conquista 3x",
     ],
   },
@@ -330,8 +330,8 @@ const miniBosses = [
     drops: [
       "Baú Tier II",
       "Pedra da Fundação 1x",
-      "Esfera da Benção 1x",
-      "Soro da Persuação 1x",
+      "Esfera da Bênção 1x",
+      "Soro da Persuasão 1x",
       "Moedas da Conquista 3x",
     ],
   },
@@ -342,8 +342,8 @@ const miniBosses = [
     drops: [
       "Baú Tier II",
       "Pedra da Fundação 1x",
-      "Esfera da Benção 1x",
-      "Soro da Persuação 1x",
+      "Esfera da Bênção 1x",
+      "Soro da Persuasão 1x",
       "Moedas da Conquista 3x",
     ],
   },
@@ -354,8 +354,8 @@ const miniBosses = [
     drops: [
       "Baú Tier II",
       "Compensado 1x",
-      "Esfera da Benção 1x",
-      "Soro da Persuação 1x",
+      "Esfera da Bênção 1x",
+      "Soro da Persuasão 1x",
       "Moedas da Conquista 3x",
     ],
   },
@@ -366,8 +366,8 @@ const miniBosses = [
     drops: [
       "Baú do Tier II",
       "Tronco 1x",
-      "Esfera da Benção 1x",
-      "Soro da Persuação 1x",
+      "Esfera da Bênção 1x",
+      "Soro da Persuasão 1x",
       "Moedas da Conquista 3x",
     ],
   },
@@ -375,14 +375,14 @@ const miniBosses = [
 
 const bosses6h = [
   {
-    name: "Dragão D'Agua",
+    name: "Dragão D'Água",
     icon: "/dragao-dagua.png",
     color: "#1E90FF",
     drops: [
       "Tesouro do Dragão",
       "Máscara da Fortuna 1x",
       "Moedas da Conquista 15x",
-      "Esfera da Benção 2x",
+      "Esfera da Bênção 2x",
     ],
   },
   {
@@ -393,7 +393,7 @@ const bosses6h = [
       "Tesouro do Dragão De Fogo",
       "Máscara da Fortuna 1x",
       "Moedas da Conquista 15x",
-      "Esfera da Benção 2x",
+      "Esfera da Bênção 2x",
     ],
   },
 ];
@@ -407,7 +407,7 @@ const bosses12h = [
       "Tesouro do Minotauro",
       "Máscara da Fortuna 2x",
       "Moedas da Conquista 30x",
-      "Esfera da Benção 3x",
+      "Esfera da Bênção 3x",
     ],
   },
 ];
@@ -455,7 +455,7 @@ const baus = [
       { tipo: "Consumível", item: "Vida do Deus Dragão", qty: "2x" },
       { tipo: "Consumível", item: "Defesa do Deus Dragão", qty: "2x" },
       { tipo: "Consumível", item: "Máscara da Fortuna", qty: "1x" },
-      { tipo: "Consumível", item: "Esfera da Benção", qty: "5x" },
+      { tipo: "Consumível", item: "Esfera da Bênção", qty: "5x" },
       { tipo: "Consumível", item: "Poção Verde G", qty: "5x" },
       { tipo: "Consumível", item: "Soro da Persuasão", qty: "2x" },
       { tipo: "Consumível", item: "Poção Sagaz", qty: "2x" },
@@ -484,7 +484,7 @@ const baus = [
     ],
   },
   {
-    name: "Tesouro Dragão D'Agua",
+    name: "Tesouro Dragão D'Água",
     icon: "/cofre.png",
     color: "#1E90FF",
     desc: "Guardado nas profundezas do Dragão D'Água — cheio de Refines e consumíveis valiosos — (Aleatórios)",
@@ -515,8 +515,8 @@ const baus = [
       { tipo: "Consumível", item: "Brinco do Dragão (7d)", qty: "1x" },
       { tipo: "Consumível", item: "Bracelete do Tigre (7d)", qty: "1x" },
       { tipo: "Consumível", item: "Bracelete do Dragão (7d)", qty: "1x" },
-      { tipo: "Consumível", item: "Benção Helong (S)", qty: "1x" },
-      { tipo: "Consumível", item: "Benção Yoora (S)", qty: "1x" },
+      { tipo: "Consumível", item: "Bênção Helong (S)", qty: "1x" },
+      { tipo: "Consumível", item: "Bênção Yoora (S)", qty: "1x" },
       { tipo: "Consumível", item: "Cupom 5k de Cash", qty: "1x" },
       { tipo: "Refine", item: "Cristal Vermelho", qty: "1x" },
       { tipo: "Refine", item: "Cristal Azul", qty: "1x" },
@@ -534,7 +534,7 @@ const baus = [
       { tipo: "Consumível", item: "Bracelete do Tigre (30d)", qty: "1x" },
       { tipo: "Consumível", item: "Bracelete do Dragão (30d)", qty: "1x" },
       { tipo: "Consumível", item: "Pets Cash (30d)", qty: "1x" },
-      { tipo: "Consumível", item: "Cupons de Cash (5 á 50k de cash)", qty: "1x" },
+      { tipo: "Consumível", item: "Cupons de Cash (5 a 50 mil de Cash)", qty: "1x" },
       { tipo: "Item", item: "Escudo Sangrento", qty: "1x" },
       { tipo: "Item", item: "Escudo Imperadores", qty: "1x" },
       { tipo: "Item", item: "Montaria PvM (30d)", qty: "1x" },
@@ -552,9 +552,9 @@ const dungeons = [
       icon: "/ceifadora.png",
       drops: [
         "Tesouro do Ceifador 1x",
-        "Esfera da Benção x2",
+        "Esfera da Bênção x2",
         "Pergaminho da Paz 1x",
-        "Soro da Persuação 1x",
+        "Soro da Persuasão 1x",
         "Livro do Sábio 1x",
         "Moedas da Conquista x4",
         "Insígnia Demoníaca 1x",
@@ -584,8 +584,8 @@ const dungeons = [
       drops: [
         "Tesouro do Lord Gahnasel 1x",
         "Moedas da Conquista x15",
-        "Esfera da Benção x2",
-        "Soro da Persuação x2",
+        "Esfera da Bênção x2",
+        "Soro da Persuasão x2",
         "Livro do Sábio x2",
         "Máscara da Fortuna 1x",
         "Pergaminho da Paz x5",
@@ -596,8 +596,8 @@ const dungeons = [
       icon: "/cofre.png",
       drops: [
         "Máscara da Fortuna x2",
-        "Benção de Helong (G) 1x",
-        "Benção de Yoora (G) 1x",
+        "Bênção de Helong (G) 1x",
+        "Bênção de Yoora (G) 1x",
         "Chifres de Ghanasel (F)(7d) 1x",
         "Chifres de Ghanasel (M)(7d) 1x",
         "Traje Ghanasel (F)(7d) 1x",
@@ -667,17 +667,17 @@ const gameplayList = [
 ];
 
 const mapaVipMiniBosses = [
-  { name: "Chefe Orc", icon: "/chefe-orc.png", color: "#c084fc", respawn: "a cada 1h", drops: ["Baú do Tier II", "Pedra da Fundação 1x", "Esfera da Bênção 1x", "Soro da Persuação 1x", "Moedas da Conquista 3x"] },
-  { name: "Tartaruga De Pedra", icon: "/tartaruga-pedra.png", color: "#86efac", respawn: "a cada 1h", drops: ["Baú do Tier II", "Compensado 1x", "Esfera da Bênção 1x", "Soro da Persuação 1x", "Moedas da Conquista 3x"] },
-  { name: "Líder Fanático Zen", icon: "/lider-fanatico.png", color: "#a78bfa", respawn: "a cada 1h", drops: ["Baú do Tier II", "Compensado 1x", "Esfera da Bênção 1x", "Soro da Persuação 1x", "Moedas da Conquista 3x"] },
-  { name: "Comandante Tigre", icon: "/comandante-tigre.png", color: "#fb923c", respawn: "a cada 1h", drops: ["Baú do Tier II", "Pedra da Fundação 1x", "Esfera da Bênção 1x", "Soro da Persuação 1x", "Moedas da Conquista 3x"] },
-  { name: "Nove Caudas", icon: "/nove-caudas.png", color: "#f9a8d4", respawn: "a cada 1h", drops: ["Baú do Tier II", "Pedra da Fundação 1x", "Esfera da Bênção 1x", "Soro da Persuação 1x", "Moedas da Conquista 3x"] },
-  { name: "Rei Flamejante", icon: "/rei-flamejante.png", color: "#f87171", respawn: "a cada 1h", drops: ["Baú do Tier II", "Compensado 1x", "Esfera da Bênção 1x", "Soro da Persuação 1x", "Moedas da Conquista 3x"] },
-  { name: "Aranha Rainha", icon: "/rainha-aranha.png", color: "#94a3b8", respawn: "a cada 1h", drops: ["Baú do Tier II", "Tronco 1x", "Esfera da Bênção 1x", "Soro da Persuação 1x", "Moedas da Conquista 3x"] },
+  { name: "Chefe Orc", icon: "/chefe-orc.png", color: "#c084fc", respawn: "a cada 1h", drops: ["Baú do Tier II", "Pedra da Fundação 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 3x"] },
+  { name: "Tartaruga De Pedra", icon: "/tartaruga-pedra.png", color: "#86efac", respawn: "a cada 1h", drops: ["Baú do Tier II", "Compensado 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 3x"] },
+  { name: "Líder Fanático Zen", icon: "/lider-fanatico.png", color: "#a78bfa", respawn: "a cada 1h", drops: ["Baú do Tier II", "Compensado 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 3x"] },
+  { name: "Comandante Tigre", icon: "/comandante-tigre.png", color: "#fb923c", respawn: "a cada 1h", drops: ["Baú do Tier II", "Pedra da Fundação 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 3x"] },
+  { name: "Nove Caudas", icon: "/nove-caudas.png", color: "#f9a8d4", respawn: "a cada 1h", drops: ["Baú do Tier II", "Pedra da Fundação 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 3x"] },
+  { name: "Rei Flamejante", icon: "/rei-flamejante.png", color: "#f87171", respawn: "a cada 1h", drops: ["Baú do Tier II", "Compensado 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 3x"] },
+  { name: "Aranha Rainha", icon: "/rainha-aranha.png", color: "#94a3b8", respawn: "a cada 1h", drops: ["Baú do Tier II", "Tronco 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 3x"] },
 ];
 
 const mapaVipBosses = [
-  { name: "Dragão D'Água", icon: "/dragao-dagua.png", color: "#38bdf8", respawn: "6 Hrs", drops: ["Tesouro do Dragão D'Agua", "Máscara da Fortuna 1x", "Moedas da Conquista 15x", "Esfera da Bênção 2x"] },
+  { name: "Dragão D'Água", icon: "/dragao-dagua.png", color: "#38bdf8", respawn: "6 Hrs", drops: ["Tesouro do Dragão D'Água", "Máscara da Fortuna 1x", "Moedas da Conquista 15x", "Esfera da Bênção 2x"] },
   { name: "Dragão de Fogo", icon: "/dragao-vermelho.png", color: "#f87171", respawn: "6 Hrs", drops: ["Tesouro do Dragão De Fogo", "Máscara da Fortuna 1x", "Moedas da Conquista 15x", "Esfera da Bênção 2x"] },
 ];
 
@@ -727,28 +727,28 @@ const armorPvmPairs = [
     class: "Guerreiro",
     tiers: [
       { name: "Placa Deus Dragão", img: "/items/61_de_guerreiro.png" },
-      { name: "Placa Dragão D'Agua", img: "/items/aquatica.png" },
+      { name: "Placa Dragão D'Água", img: "/items/aquatica.png" },
     ],
   },
   {
     class: "Ninja",
     tiers: [
       { name: "Vestimenta Rosa", img: "/items/61_de_ninja.png" },
-      { name: "Veste Dragão D'Agua", img: "/items/dragao_azul.png" },
+      { name: "Veste Dragão D'Água", img: "/items/dragao_azul.png" },
     ],
   },
   {
     class: "Shura",
     tiers: [
       { name: "Malha Espiritual", img: "/items/61_de_shura.png" },
-      { name: "Malha Dragão D'Agua", img: "/items/armadura_aura_negra.png" },
+      { name: "Malha Dragão D'Água", img: "/items/armadura_aura_negra.png" },
     ],
   },
   {
     class: "Shaman",
     tiers: [
       { name: "Túnica Baronesa", img: "/items/61_de_shaman.png" },
-      { name: "Túnica Dragão D'Agua", img: "/items/robe_dragao.png" },
+      { name: "Túnica Dragão D'Água", img: "/items/robe_dragao.png" },
     ],
   },
 ];
@@ -1179,7 +1179,7 @@ export default function Wiki() {
                   "Pérola Branca 1x",
                   "Pérola Azul 1x",
                   "Pérola Vermelha 1x",
-                  "Esfera Da Benção 1x",
+                  "Esfera Da Bênção 1x",
                   "Pedra Arco-Íris 1x",
                 ].map((d) => (
                   <DropRow key={d} label={d} color="#f97316" />

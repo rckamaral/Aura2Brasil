@@ -67,11 +67,11 @@ export default function Conta() {
     if (emailChange === "success") {
       toast({ title: "E-mail alterado!", description: "A troca de e-mail da conta foi confirmada." });
     } else if (emailChange === "used") {
-      toast({ title: "E-mail em uso", description: "Esse e-mail ja esta vinculado a outra conta.", variant: "destructive" });
+      toast({ title: "E-mail em uso", description: "Esse e-mail já está vinculado a outra conta.", variant: "destructive" });
     } else if (emailChange === "invalid") {
       toast({ title: "Link expirado", description: "Solicite a troca de e-mail novamente.", variant: "destructive" });
     } else {
-      toast({ title: "Erro", description: "Nao foi possivel confirmar a troca de e-mail.", variant: "destructive" });
+      toast({ title: "Erro", description: "Não foi possível confirmar a troca de e-mail.", variant: "destructive" });
     }
 
     window.history.replaceState(null, "", location);
@@ -582,7 +582,7 @@ function OldSectionPersonagens({ token }: { token: string | null }) {
         const data = await response.json().catch(() => ({}));
 
         if (!response.ok) {
-          throw new Error(data.error || "Nao foi possivel carregar os personagens agora.");
+          throw new Error(data.error || "Não foi possível carregar os personagens agora.");
         }
 
         if (!cancelled) {
@@ -590,7 +590,7 @@ function OldSectionPersonagens({ token }: { token: string | null }) {
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err instanceof Error ? err.message : "Nao foi possivel carregar os personagens agora.");
+          setError(err instanceof Error ? err.message : "Não foi possível carregar os personagens agora.");
           setCharacters([]);
         }
       } finally {
@@ -635,7 +635,7 @@ function OldSectionPersonagens({ token }: { token: string | null }) {
           <div className="hidden md:grid grid-cols-[1.3fr_0.8fr_0.6fr_1fr_0.8fr] gap-4 px-4 py-3 border-b border-white/10 text-xs uppercase tracking-wider text-primary font-bold">
             <span>Nome</span>
             <span>Classe</span>
-            <span>Nivel</span>
+            <span>Nível</span>
             <span>Guild</span>
             <span>Tempo</span>
           </div>
@@ -668,7 +668,7 @@ function OldSectionPersonagens({ token }: { token: string | null }) {
           A ligação ao servidor de jogo será necessária para mostrar os personagens.
         </p>
         <p className="text-xs text-muted-foreground mt-1">
-          Em breve disponível.
+          Disponível em breve.
         </p>
       </div>
     </FormSection>
@@ -727,7 +727,7 @@ function SectionPersonagens({ token }: { token: string | null }) {
         const data = await response.json().catch(() => ({}));
 
         if (!response.ok) {
-          throw new Error(data.error || "Nao foi possivel carregar os personagens agora.");
+          throw new Error(data.error || "Não foi possível carregar os personagens agora.");
         }
 
         if (!cancelled) {
@@ -735,7 +735,7 @@ function SectionPersonagens({ token }: { token: string | null }) {
         }
       } catch (err) {
         if (!cancelled) {
-          setError(err instanceof Error ? err.message : "Nao foi possivel carregar os personagens agora.");
+          setError(err instanceof Error ? err.message : "Não foi possível carregar os personagens agora.");
           setCharacters([]);
         }
       } finally {
@@ -762,7 +762,7 @@ function SectionPersonagens({ token }: { token: string | null }) {
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data.error || "Nao foi possivel mover o personagem agora.");
+        throw new Error(data.error || "Não foi possível mover o personagem agora.");
       }
 
       toast({
@@ -772,7 +772,7 @@ function SectionPersonagens({ token }: { token: string | null }) {
     } catch (err) {
       toast({
         title: "Erro",
-        description: err instanceof Error ? err.message : "Nao foi possivel mover o personagem agora.",
+        description: err instanceof Error ? err.message : "Não foi possível mover o personagem agora.",
         variant: "destructive",
       });
     } finally {
@@ -785,7 +785,7 @@ function SectionPersonagens({ token }: { token: string | null }) {
       <div className="space-y-5">
         <div className="flex items-start gap-3 rounded-lg border border-primary/30 bg-primary/10 p-4 text-sm text-muted-foreground">
           <Info className="mt-0.5 h-4 w-4 shrink-0 text-primary" />
-          <p>Para mover o personagem para a cidade, aguarde 5 minutos apos deslogar.</p>
+          <p>Para mover o personagem para a cidade, aguarde 5 minutos após desconectar.</p>
         </div>
 
         {loading && (
@@ -817,7 +817,7 @@ function SectionPersonagens({ token }: { token: string | null }) {
                   <div>
                     <h3 className="font-serif text-2xl font-bold text-white uppercase">{character.name}</h3>
                     <div className="mt-3 grid gap-2 text-sm text-muted-foreground sm:grid-cols-2 lg:grid-cols-5">
-                      <span><Star className="mr-1 inline h-4 w-4 text-primary" />Nivel {character.level}</span>
+                      <span><Star className="mr-1 inline h-4 w-4 text-primary" />Nível {character.level}</span>
                       <span>Classe: {character.class}</span>
                       <span>Guild: {character.guild || "-"}</span>
                       <span>Tempo: {formatPlaytime(character.playtime)}</span>
@@ -887,7 +887,7 @@ function CharacterDeleteCodeForm({ token }: { token: string | null }) {
       const data = await response.json().catch(() => ({}));
 
       if (!response.ok) {
-        throw new Error(data.error || "Nao foi possivel salvar a senha agora.");
+        throw new Error(data.error || "Não foi possível salvar a senha agora.");
       }
 
       setCode("");
@@ -899,7 +899,7 @@ function CharacterDeleteCodeForm({ token }: { token: string | null }) {
     } catch (err) {
       toast({
         title: "Erro",
-        description: err instanceof Error ? err.message : "Nao foi possivel salvar a senha agora.",
+        description: err instanceof Error ? err.message : "Não foi possível salvar a senha agora.",
         variant: "destructive",
       });
     } finally {
@@ -1140,7 +1140,7 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
               <CreditCard className="w-6 h-6 text-primary shrink-0" />
               <div>
                 <p className="font-bold text-white">Cartão de Crédito</p>
-                <p className="text-xs text-muted-foreground">Em breve disponível</p>
+                <p className="text-xs text-muted-foreground">Disponível em breve</p>
               </div>
             </button>
           </div>
@@ -1254,7 +1254,7 @@ function SectionComprarCash({ token, onBalanceUpdate }: { token: string | null; 
               <div className="rounded-xl border border-yellow-500/20 bg-yellow-950/20 p-4 text-sm text-yellow-400/80 space-y-1">
                 <p className="font-semibold text-yellow-400">Instruções:</p>
                 <p>1. Escaneia o QR code acima ou copia o código</p>
-                <p>2. Abra o app do seu banco e escolha PIX</p>
+                <p>2. Abra o app do seu banco e escolha a opção PIX</p>
                 <p>3. Usa o valor exato: <strong className="text-white">{selected.price}</strong></p>
                 <p>4. As moedas serão creditadas <strong className="text-white">automaticamente</strong></p>
               </div>

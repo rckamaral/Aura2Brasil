@@ -95,7 +95,7 @@ export default function ResetPassword() {
               <Input
                 id="confirm-password"
                 type="password"
-                placeholder="Repete a nova senha"
+                placeholder="Repita a nova senha"
                 value={confirm}
                 onChange={(e) => setConfirm(e.target.value)}
                 className="bg-black/50 border-primary/30 focus-visible:ring-primary"
@@ -107,7 +107,7 @@ export default function ResetPassword() {
               disabled={loading}
               className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider"
             >
-              {loading ? "A redefinir..." : "Redefinir Senha"}
+              {loading ? "Redefinindo..." : "Redefinir Senha"}
             </Button>
           </form>
         )}
