@@ -488,6 +488,7 @@ function RegisterForm({
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirm, setConfirm] = useState("");
+  const [deletionPassword, setDeletionPassword] = useState("");
   const [betaKey, setBetaKey] = useState("");
   const [loading, setLoading] = useState(false);
   const { toast } = useToast();
@@ -502,12 +503,16 @@ function RegisterForm({
       toast({ title: "Erro", description: "A senha deve ter pelo menos 6 caracteres.", variant: "destructive" });
       return;
     }
+    if (!/^\d{7}$/.test(deletionPassword)) {
+      toast({ title: "Erro", description: "A senha de exclusão deve ter exatamente 7 números.", variant: "destructive" });
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ username, email, password, betaKey }),
+        body: JSON.stringify({ username, email, password, deletionPassword, betaKey }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -587,6 +592,25 @@ function RegisterForm({
           className="bg-black/50 border-primary/30 focus-visible:ring-primary"
           required
         />
+      </div>
+      <div className="space-y-2">
+        <Label htmlFor="reg-deletion-password">Senha para excluir personagem</Label>
+        <Input
+          id="reg-deletion-password"
+          type="password"
+          inputMode="numeric"
+          autoComplete="off"
+          maxLength={7}
+          pattern="[0-9]{7}"
+          placeholder="7 números"
+          value={deletionPassword}
+          onChange={(e) => setDeletionPassword(e.target.value.replace(/\D/g, "").slice(0, 7))}
+          className="bg-black/50 border-primary/30 focus-visible:ring-primary font-mono tracking-wider"
+          required
+        />
+        <p className="text-xs text-muted-foreground leading-relaxed">
+          Use exatamente 7 números. Exemplo: <span className="text-primary font-semibold">1234567</span>. Para sua segurança, escolha outra sequência e guarde-a.
+        </p>
       </div>
       <Button
         type="submit"

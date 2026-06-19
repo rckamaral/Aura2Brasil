@@ -28,10 +28,6 @@ function mysqlIdent(name: string): string {
 const METIN_ACCOUNT_TABLE = `${mysqlIdent(MYSQL_GAME_ACCOUNT_DB)}.\`account\``;
 const METIN_PASSWORD_EXPR = "CONCAT('*', UPPER(SHA1(UNHEX(SHA1(?)))))";
 
-function createSocialId(): string {
-  return String(Math.floor(1000000 + Math.random() * 9000000));
-}
-
 function apiBaseUrl(): string {
   const domain = process.env.REPLIT_DOMAINS?.split(",")[0];
   return domain ? `https://${domain}` : "https://api.aura2.com.br";
@@ -41,6 +37,7 @@ const registerSchema = z.object({
   username: z.string().min(3).max(30).regex(/^[a-zA-Z0-9_]+$/),
   email: z.string().email(),
   password: z.string().min(6),
+  deletionPassword: z.string().regex(/^\d{7}$/),
   betaKey: z.string().min(1),
 });
 
@@ -69,7 +66,7 @@ router.post("/auth/register", async (req, res) => {
     return;
   }
 
-  const { username, email, password, betaKey } = parsed.data;
+  const { username, email, password, deletionPassword, betaKey } = parsed.data;
 
   // Validate beta key
   const key = await db.select().from(betaKeysTable)
@@ -99,12 +96,11 @@ router.post("/auth/register", async (req, res) => {
         return;
       }
 
-      const socialId = createSocialId();
       await pool.execute(
         `INSERT INTO ${METIN_ACCOUNT_TABLE}
           (login, password, social_id, email, create_time, status, securitycode, deletion_token, passlost_token, email_token, new_email)
          VALUES (?, ${METIN_PASSWORD_EXPR}, ?, ?, NOW(), 'OK', '', '', '', '', '')`,
-        [username, password, socialId, email]
+        [username, password, deletionPassword, email]
       );
       await db.update(betaKeysTable).set({ usedBy: username, usedAt: new Date() }).where(eq(betaKeysTable.id, key[0].id));
       req.log.info({ username }, "New beta account registered (MySQL)");

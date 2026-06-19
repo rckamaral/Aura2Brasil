@@ -102,10 +102,18 @@ components:
         password:
           type: string
           minLength: 6
+        deletionPassword:
+          type: string
+          pattern: "^[0-9]{7}$"
+        betaKey:
+          type: string
+          minLength: 1
       required:
         - username
         - email
         - password
+        - deletionPassword
+        - betaKey
     LoginRequest:
       type: object
       properties:
