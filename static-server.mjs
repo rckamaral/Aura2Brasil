@@ -8,6 +8,16 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const PORT = parseInt(process.env.PORT || "3000", 10);
 const PUBLIC_DIR = path.join(__dirname, "public");
 const API_URL = process.env.API_URL?.replace(/\/$/, "");
+const ROOT_DOMAIN = "aura2.com.br";
+const CANONICAL_DOMAIN = "www.aura2.com.br";
+
+const SECURITY_HEADERS = {
+  "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+  "X-Content-Type-Options": "nosniff",
+  "X-Frame-Options": "DENY",
+  "Referrer-Policy": "strict-origin-when-cross-origin",
+  "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+};
 
 const MIME = {
   ".html": "text/html",
@@ -37,7 +47,10 @@ function streamFile(req, res, filePath, stat) {
   if (range) {
     const match = /^bytes=(\d*)-(\d*)$/.exec(range);
     if (!match) {
-      res.writeHead(416, { "Content-Range": `bytes */${stat.size}` });
+      res.writeHead(416, {
+        ...SECURITY_HEADERS,
+        "Content-Range": `bytes */${stat.size}`,
+      });
       res.end();
       return;
     }
@@ -51,6 +64,7 @@ function streamFile(req, res, filePath, stat) {
     }
 
     res.writeHead(206, {
+      ...SECURITY_HEADERS,
       "Accept-Ranges": "bytes",
       "Content-Range": `bytes ${start}-${end}/${stat.size}`,
       "Content-Length": end - start + 1,
@@ -66,6 +80,7 @@ function streamFile(req, res, filePath, stat) {
   }
 
   res.writeHead(200, {
+    ...SECURITY_HEADERS,
     "Content-Type": contentType,
     "Content-Length": stat.size,
     ...(isVideo ? { "Accept-Ranges": "bytes" } : {}),
@@ -78,6 +93,25 @@ function streamFile(req, res, filePath, stat) {
 }
 
 function serve(req, res) {
+  const forwardedHost = req.headers["x-forwarded-host"];
+  const requestHost = (Array.isArray(forwardedHost)
+    ? forwardedHost[0]
+    : forwardedHost || req.headers.host || ""
+  )
+    .split(",")[0]
+    .trim()
+    .split(":")[0]
+    .toLowerCase();
+
+  if (requestHost === ROOT_DOMAIN) {
+    res.writeHead(308, {
+      ...SECURITY_HEADERS,
+      Location: `https://${CANONICAL_DOMAIN}${req.url || "/"}`,
+    });
+    res.end();
+    return;
+  }
+
   if (API_URL && req.url.startsWith("/api")) {
     const upstream = new URL(req.url, API_URL);
     const client = upstream.protocol === "https:" ? https : http;
@@ -97,7 +131,10 @@ function serve(req, res) {
     );
 
     proxyReq.on("error", () => {
-      res.writeHead(502, { "Content-Type": "application/json" });
+      res.writeHead(502, {
+        ...SECURITY_HEADERS,
+        "Content-Type": "application/json",
+      });
       res.end(JSON.stringify({ error: "API unavailable" }));
     });
 
@@ -112,7 +149,11 @@ function serve(req, res) {
     if (err) {
       const indexPath = path.join(PUBLIC_DIR, "index.html");
       fs.stat(indexPath, (err2, indexStat) => {
-        if (err2) { res.writeHead(500); res.end("error"); return; }
+        if (err2) {
+          res.writeHead(500, SECURITY_HEADERS);
+          res.end("error");
+          return;
+        }
         streamFile(req, res, indexPath, indexStat);
       });
       return;
