@@ -517,7 +517,7 @@ const baus = [
       { tipo: "Consumível", item: "Bracelete do Dragão (7d)", qty: "1x" },
       { tipo: "Consumível", item: "Benção Helong (S)", qty: "1x" },
       { tipo: "Consumível", item: "Benção Yoora (S)", qty: "1x" },
-      { tipo: "Consumível", item: "Cupom 5k De Cash", qty: "1x" },
+      { tipo: "Consumível", item: "Cupom 5k de Cash", qty: "1x" },
       { tipo: "Refine", item: "Cristal Vermelho", qty: "1x" },
       { tipo: "Refine", item: "Cristal Azul", qty: "1x" },
       { tipo: "Refine", item: "Chifre do Minotauro", qty: "1x" },
@@ -2013,8 +2013,8 @@ export default function Wiki() {
                             name: "Cristal Vermelho ×2",
                           },
                           {
-                            img: "/items/simbolo_dragao.png",
-                            name: "Símbolo do Dragão ×2",
+                            img: "/items/amuleto_dragao.png",
+                            name: "Amuleto do Dragão ×2",
                           },
                         ].map((c) => (
                           <span
@@ -2994,8 +2994,8 @@ export default function Wiki() {
                     label: "Cristal Vermelho ×2",
                   },
                   {
-                    img: "/items/simbolo_dragao.png",
-                    label: "Símbolo do Dragão ×2",
+                    img: "/items/amuleto_dragao.png",
+                    label: "Amuleto do Dragão ×2",
                   },
                 ].map((item) => (
                   <div
