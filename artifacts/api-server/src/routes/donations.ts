@@ -1,8 +1,9 @@
 import { Router } from "express";
+import { createHmac, timingSafeEqual } from "node:crypto";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
 import { db, donationsTable, accountsTable } from "@workspace/db";
-import { eq, desc } from "drizzle-orm";
+import { and, eq, desc } from "drizzle-orm";
 import { notifyDonation } from "../discord/notifications.js";
 import pool from "../lib/mysql";
 
@@ -10,6 +11,7 @@ const router = Router();
 const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
 const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
 const MP_ACCESS_TOKEN = process.env.MP_ACCESS_TOKEN || "";
+const MP_WEBHOOK_SECRET = process.env.MP_WEBHOOK_SECRET || "";
 const MYSQL_GAME_ACCOUNT_DB = process.env.MYSQL_GAME_ACCOUNT_DB || "account";
 
 function mysqlIdent(name: string): string {
@@ -20,6 +22,18 @@ function mysqlIdent(name: string): string {
 }
 
 const METIN_ACCOUNT_TABLE = `${mysqlIdent(MYSQL_GAME_ACCOUNT_DB)}.\`account\``;
+
+const CASH_PACKAGES = [
+  { packageLabel: "10.000 Moedas Cash", coinsAmount: 10000, priceBrl: 10 },
+  { packageLabel: "22.000 Moedas Cash", coinsAmount: 22000, priceBrl: 20 },
+  { packageLabel: "65.000 Moedas Cash", coinsAmount: 65000, priceBrl: 50 },
+  { packageLabel: "135.000 Moedas Cash", coinsAmount: 135000, priceBrl: 100 },
+  { packageLabel: "275.000 Moedas Cash", coinsAmount: 275000, priceBrl: 200 },
+  { packageLabel: "420.000 Moedas Cash", coinsAmount: 420000, priceBrl: 300 },
+  { packageLabel: "700.000 Moedas Cash", coinsAmount: 700000, priceBrl: 500 },
+  { packageLabel: "1.000.000 Moedas Cash", coinsAmount: 1000000, priceBrl: 700 },
+  { packageLabel: "1.500.000 Moedas Cash", coinsAmount: 1500000, priceBrl: 1000 },
+] as const;
 
 function verifyToken(authHeader: string | undefined): string | null {
   if (!authHeader?.startsWith("Bearer ")) return null;
@@ -37,6 +51,37 @@ function getWebhookUrl(): string {
     process.env.REPLIT_DOMAINS?.split(",")[0] ||
     "www.aura2.com.br";
   return `https://${domain}/api/webhooks/mercadopago`;
+}
+
+function getHeaderValue(value: string | string[] | undefined): string {
+  return Array.isArray(value) ? value[0] || "" : value || "";
+}
+
+function hasValidMercadoPagoSignature(
+  xSignature: string,
+  xRequestId: string,
+  dataId: string,
+): boolean {
+  if (!MP_WEBHOOK_SECRET) return true;
+
+  const signatureParts = Object.fromEntries(
+    xSignature.split(",").map((part) => {
+      const [key, ...value] = part.trim().split("=");
+      return [key, value.join("=")];
+    }),
+  );
+  const timestamp = signatureParts.ts;
+  const receivedHash = signatureParts.v1;
+  if (!timestamp || !receivedHash || !xRequestId || !dataId) return false;
+
+  const manifest = `id:${dataId.toLowerCase()};request-id:${xRequestId};ts:${timestamp};`;
+  const expectedHash = createHmac("sha256", MP_WEBHOOK_SECRET)
+    .update(manifest)
+    .digest("hex");
+
+  const received = Buffer.from(receivedHash, "utf8");
+  const expected = Buffer.from(expectedHash, "utf8");
+  return received.length === expected.length && timingSafeEqual(received, expected);
 }
 
 type RouteLogger = {
@@ -61,7 +106,10 @@ async function approveDonationAndCreditCash(
   const [updated] = await db
     .update(donationsTable)
     .set({ status: "approved", notes, updatedAt: new Date() })
-    .where(eq(donationsTable.id, donation.id))
+    .where(and(
+      eq(donationsTable.id, donation.id),
+      eq(donationsTable.status, "pending"),
+    ))
     .returning();
 
   if (!updated) return null;
@@ -101,7 +149,6 @@ async function approveDonationAndCreditCash(
 }
 
 const createPixSchema = z.object({
-  packageLabel: z.string().min(1).max(60),
   coinsAmount: z.number().int().positive(),
   priceBrl: z.number().int().positive(),
 });
@@ -119,7 +166,22 @@ router.post("/donations/create-pix", async (req, res) => {
     return;
   }
 
-  const { packageLabel, coinsAmount, priceBrl } = parsed.data;
+  const selectedPackage = CASH_PACKAGES.find(
+    (pkg) =>
+      pkg.coinsAmount === parsed.data.coinsAmount &&
+      pkg.priceBrl === parsed.data.priceBrl,
+  );
+
+  if (!selectedPackage) {
+    req.log.warn(
+      { username, body: parsed.data },
+      "Rejected PIX request with invalid package values",
+    );
+    res.status(400).json({ error: "Pacote invÃ¡lido." });
+    return;
+  }
+
+  const { packageLabel, coinsAmount, priceBrl } = selectedPackage;
 
   // Fetch real email from the database
   const [account] = await db
@@ -196,10 +258,26 @@ router.post("/donations/create-pix", async (req, res) => {
 });
 
 router.post("/webhooks/mercadopago", async (req, res) => {
-  res.status(200).send("OK");
-
   try {
     const body = req.body as { type?: string; data?: { id?: string }; action?: string };
+    const queryDataId = typeof req.query["data.id"] === "string"
+      ? req.query["data.id"]
+      : "";
+    const signatureDataId = queryDataId || String(body.data?.id || "");
+    const signatureIsValid = hasValidMercadoPagoSignature(
+      getHeaderValue(req.headers["x-signature"]),
+      getHeaderValue(req.headers["x-request-id"]),
+      signatureDataId,
+    );
+
+    if (!signatureIsValid) {
+      req.log.warn({ requestId: req.headers["x-request-id"] }, "Rejected invalid Mercado Pago webhook signature");
+      res.status(401).send("Invalid signature");
+      return;
+    }
+
+    res.status(200).send("OK");
+
     if (body.type !== "payment" && body.action !== "payment.updated") return;
 
     const paymentId = body.data?.id;
@@ -210,7 +288,12 @@ router.post("/webhooks/mercadopago", async (req, res) => {
     });
     if (!mpRes.ok) return;
 
-    const payment = await mpRes.json() as { status?: string; id?: number };
+    const payment = await mpRes.json() as {
+      status?: string;
+      id?: number;
+      transaction_amount?: number;
+      currency_id?: string;
+    };
     const mpStatus = payment.status;
     const isTerminal = mpStatus === "approved" || mpStatus === "cancelled" || mpStatus === "rejected";
     if (!isTerminal) return;
@@ -222,6 +305,23 @@ router.post("/webhooks/mercadopago", async (req, res) => {
       .limit(1);
 
     if (!donations.length || donations[0].status !== "pending") return;
+
+    if (
+      Number(payment.transaction_amount) !== donations[0].priceBrl ||
+      payment.currency_id !== "BRL"
+    ) {
+      req.log.error(
+        {
+          donationId: donations[0].id,
+          paymentId,
+          expectedAmount: donations[0].priceBrl,
+          receivedAmount: payment.transaction_amount,
+          currency: payment.currency_id,
+        },
+        "Rejected Mercado Pago payment with mismatched amount",
+      );
+      return;
+    }
 
     const newStatus = mpStatus === "approved" ? "approved" : "cancelled";
     if (newStatus === "approved") {
@@ -263,9 +363,29 @@ router.get("/donations/:id/status", async (req, res) => {
           headers: { Authorization: `Bearer ${MP_ACCESS_TOKEN}` },
         });
         if (mpRes.ok) {
-          const mpData = await mpRes.json() as { status?: string };
+          const mpData = await mpRes.json() as {
+            status?: string;
+            transaction_amount?: number;
+            currency_id?: string;
+          };
           const mpStatus = mpData.status;
           if (mpStatus === "approved") {
+            if (
+              Number(mpData.transaction_amount) !== donation.priceBrl ||
+              mpData.currency_id !== "BRL"
+            ) {
+              req.log.error(
+                {
+                  donationId: donation.id,
+                  expectedAmount: donation.priceBrl,
+                  receivedAmount: mpData.transaction_amount,
+                  currency: mpData.currency_id,
+                },
+                "Rejected polled Mercado Pago payment with mismatched amount",
+              );
+              res.status(409).json({ status: "pending" });
+              return;
+            }
             await approveDonationAndCreditCash(donation, "Confirmado via polling", req.log);
             res.json({ status: "approved" });
             return;
