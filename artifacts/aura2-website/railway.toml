@@ -1,3 +1,4 @@
 [build]
+# The web image also includes the shared static server from the repository root.
 builder = "dockerfile"
 dockerfilePath = "Dockerfile.web"
