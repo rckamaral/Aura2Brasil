@@ -450,7 +450,7 @@ export default function Home() {
   return (
     <div className="w-full flex-1 flex flex-col">
       {/* HERO */}
-      <div className="relative flex flex-col">
+      <div className="relative isolate flex flex-col">
         <div className="absolute inset-0 -z-10 overflow-hidden pointer-events-none">
           {ALL_VIDEOS.map(({ key, src }) => (
             <video
