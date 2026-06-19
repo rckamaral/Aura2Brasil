@@ -32,7 +32,10 @@ function verifyToken(authHeader: string | undefined): string | null {
 }
 
 function getWebhookUrl(): string {
-  const domain = process.env.REPLIT_DOMAINS?.split(",")[0] || "aura2.com.br";
+  const domain =
+    process.env.RAILWAY_PUBLIC_DOMAIN ||
+    process.env.REPLIT_DOMAINS?.split(",")[0] ||
+    "www.aura2.com.br";
   return `https://${domain}/api/webhooks/mercadopago`;
 }
 

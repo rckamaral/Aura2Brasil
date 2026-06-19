@@ -364,7 +364,7 @@ const miniBosses = [
     icon: "/rainha-aranha.png",
     color: "#2C3E50",
     drops: [
-      "Baú do Tier II",
+      "Baú Tier II",
       "Tronco 1x",
       "Esfera da Bênção 1x",
       "Soro da Persuasão 1x",
@@ -390,7 +390,7 @@ const bosses6h = [
     icon: "/dragao-vermelho.png",
     color: "#FF4500",
     drops: [
-      "Tesouro do Dragão De Fogo",
+      "Tesouro do Dragão de Fogo",
       "Máscara da Fortuna 1x",
       "Moedas da Conquista 15x",
       "Esfera da Bênção 2x",
