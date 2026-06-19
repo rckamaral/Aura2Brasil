@@ -292,6 +292,31 @@ function VideoControls({ hidden }: { hidden: boolean }) {
   const [isMuted, setIsMuted] = useState(true);
   const [volume, setVolume] = useState(0.5);
 
+  useEffect(() => {
+    function enableAudio() {
+      const video = document.getElementById(
+        "hero-video",
+      ) as HTMLVideoElement | null;
+      if (!video) return;
+
+      video.muted = false;
+      video.volume = 0.5;
+      video.play().catch(() => {});
+      setIsMuted(false);
+      setVolume(0.5);
+      document.removeEventListener("pointerdown", enableAudio);
+      document.removeEventListener("keydown", enableAudio);
+    }
+
+    document.addEventListener("pointerdown", enableAudio, { once: true });
+    document.addEventListener("keydown", enableAudio, { once: true });
+
+    return () => {
+      document.removeEventListener("pointerdown", enableAudio);
+      document.removeEventListener("keydown", enableAudio);
+    };
+  }, []);
+
   function getVideo() {
     return document.getElementById("hero-video") as HTMLVideoElement | null;
   }
