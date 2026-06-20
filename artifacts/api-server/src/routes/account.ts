@@ -1,9 +1,10 @@
 import { Router } from "express";
 import jwt from "jsonwebtoken";
 import pool from "../lib/mysql";
+import { getJwtSecret } from "../lib/security";
 
 const router = Router();
-const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
+const JWT_SECRET = getJwtSecret();
 const MYSQL_GAME_ACCOUNT_DB = process.env.MYSQL_GAME_ACCOUNT_DB || "account";
 
 function mysqlIdent(name: string): string {

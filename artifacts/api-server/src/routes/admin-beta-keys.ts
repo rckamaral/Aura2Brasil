@@ -3,10 +3,11 @@ import { randomBytes } from "crypto";
 import jwt from "jsonwebtoken";
 import { db, betaKeysTable } from "@workspace/db";
 import { eq } from "drizzle-orm";
+import { getAdminUsername, getJwtSecret } from "../lib/security";
 
 const router = Router();
-const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
+const JWT_SECRET = getJwtSecret();
+const ADMIN_USERNAME = getAdminUsername();
 
 function verifyAdmin(authHeader: string | undefined): boolean {
   if (!authHeader?.startsWith("Bearer ")) return false;
@@ -42,7 +43,7 @@ router.post("/admin/beta-keys/generate", async (req, res) => {
     res.status(403).json({ error: "Acesso negado." });
     return;
   }
-  const count = Math.min(Number(req.body?.count) || 1, 50);
+  const count = Math.min(Math.max(Math.trunc(Number(req.body?.count) || 1), 1), 50);
   try {
     const codes = Array.from({ length: count }, () => ({ code: generateCode() }));
     const inserted = await db.insert(betaKeysTable).values(codes).returning();
@@ -60,6 +61,10 @@ router.delete("/admin/beta-keys/:id", async (req, res) => {
     return;
   }
   const id = Number(req.params.id);
+  if (!Number.isInteger(id) || id <= 0) {
+    res.status(400).json({ error: "ID invÃ¡lido." });
+    return;
+  }
   try {
     const deleted = await db.delete(betaKeysTable).where(eq(betaKeysTable.id, id)).returning();
     if (!deleted.length) {

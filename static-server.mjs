@@ -17,6 +17,9 @@ const SECURITY_HEADERS = {
   "X-Frame-Options": "DENY",
   "Referrer-Policy": "strict-origin-when-cross-origin",
   "Permissions-Policy": "camera=(), microphone=(), geolocation=()",
+  "Cross-Origin-Opener-Policy": "same-origin",
+  "Cross-Origin-Resource-Policy": "same-site",
+  "Content-Security-Policy": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: https:; media-src 'self'; connect-src 'self'; upgrade-insecure-requests",
 };
 
 const MIME = {
@@ -142,11 +145,32 @@ function serve(req, res) {
     return;
   }
 
-  const url = req.url.split("?")[0];
-  const filePath = path.join(PUBLIC_DIR, url === "/" ? "index.html" : url);
+  if (req.method !== "GET" && req.method !== "HEAD") {
+    res.writeHead(405, { ...SECURITY_HEADERS, Allow: "GET, HEAD" });
+    res.end();
+    return;
+  }
+
+  let pathname;
+  try {
+    pathname = decodeURIComponent(new URL(req.url || "/", "http://localhost").pathname);
+  } catch {
+    res.writeHead(400, SECURITY_HEADERS);
+    res.end("bad request");
+    return;
+  }
+
+  const relativePath = pathname.replace(/^[/\\]+/, "") || "index.html";
+  const filePath = path.resolve(PUBLIC_DIR, relativePath);
+  const publicRoot = `${path.resolve(PUBLIC_DIR)}${path.sep}`;
+  if (!filePath.startsWith(publicRoot)) {
+    res.writeHead(404, SECURITY_HEADERS);
+    res.end("not found");
+    return;
+  }
 
   fs.stat(filePath, (err, stat) => {
-    if (err) {
+    if (err || !stat.isFile()) {
       const indexPath = path.join(PUBLIC_DIR, "index.html");
       fs.stat(indexPath, (err2, indexStat) => {
         if (err2) {

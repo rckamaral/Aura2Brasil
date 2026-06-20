@@ -6,14 +6,22 @@ import { logger } from "./lib/logger";
 
 const app: Express = express();
 app.set("trust proxy", 1);
+app.disable("x-powered-by");
 
 type RateLimitEntry = { count: number; resetAt: number };
 
 function rateLimit(windowMs: number, maxRequests: number): RequestHandler {
   const requests = new Map<string, RateLimitEntry>();
+  let nextCleanupAt = Date.now() + windowMs;
 
   return (req, res, next) => {
     const now = Date.now();
+    if (now >= nextCleanupAt) {
+      for (const [key, entry] of requests) {
+        if (entry.resetAt <= now) requests.delete(key);
+      }
+      nextCleanupAt = now + windowMs;
+    }
     const key = req.ip || req.socket.remoteAddress || "unknown";
     const current = requests.get(key);
 
@@ -44,6 +52,8 @@ app.use((_req, res, next) => {
   res.setHeader("X-Frame-Options", "DENY");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
   res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  res.setHeader("Cross-Origin-Opener-Policy", "same-origin");
+  res.setHeader("Cross-Origin-Resource-Policy", "same-site");
   next();
 });
 
@@ -85,8 +95,8 @@ app.use("/api/auth/forgot-password", rateLimit(60 * 60 * 1000, 8));
 app.use("/api/auth/reset-password", rateLimit(60 * 60 * 1000, 12));
 app.use("/api/partners/apply", rateLimit(60 * 60 * 1000, 8));
 app.use("/api/donations/create-pix", rateLimit(5 * 60 * 1000, 20));
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.json({ limit: "32kb" }));
+app.use(express.urlencoded({ extended: true, limit: "32kb", parameterLimit: 100 }));
 
 app.use("/api", router);
 

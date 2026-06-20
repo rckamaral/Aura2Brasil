@@ -3,10 +3,11 @@ import jwt from "jsonwebtoken";
 import { z } from "zod";
 import { db, newsTable } from "@workspace/db";
 import { eq, desc } from "drizzle-orm";
+import { getAdminUsername, getJwtSecret } from "../lib/security";
 
 const router = Router();
-const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
+const JWT_SECRET = getJwtSecret();
+const ADMIN_USERNAME = getAdminUsername();
 
 function verifyToken(authHeader: string | undefined): { username: string; role: string } | null {
   if (!authHeader?.startsWith("Bearer ")) return null;
@@ -25,8 +26,8 @@ function isAdmin(auth: { username: string; role: string } | null): boolean {
 
 const newsSchema = z.object({
   title: z.string().min(1).max(120),
-  content: z.string().min(1),
-  imageUrl: z.string().url().optional().or(z.literal("")),
+  content: z.string().min(1).max(10000),
+  imageUrl: z.string().url().max(500).refine((value) => /^https?:\/\//i.test(value)).optional().or(z.literal("")),
   published: z.boolean().optional(),
 });
 

@@ -4,10 +4,11 @@ import { z } from "zod";
 import { db, ticketsTable } from "@workspace/db";
 import { eq, desc } from "drizzle-orm";
 import { notifyNewTicket } from "../discord/notifications.js";
+import { getAdminUsername, getJwtSecret } from "../lib/security";
 
 const router = Router();
-const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
+const JWT_SECRET = getJwtSecret();
+const ADMIN_USERNAME = getAdminUsername();
 
 function verifyToken(authHeader: string | undefined): { username: string; role: string } | null {
   if (!authHeader?.startsWith("Bearer ")) return null;

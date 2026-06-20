@@ -9,11 +9,12 @@ import { createResetToken, consumeResetToken } from "../lib/resetTokens";
 import { createEmailChangeToken, consumeEmailChangeToken } from "../lib/emailChangeTokens";
 import { sendEmailChangeConfirmationEmail, sendPasswordResetEmail } from "../lib/mailer";
 import { notifyNewUser } from "../discord/notifications.js";
+import { getAdminUsername, getJwtSecret } from "../lib/security";
 
 const router = Router();
-const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
+const JWT_SECRET = getJwtSecret();
 const JWT_EXPIRES = "7d";
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
+const ADMIN_USERNAME = getAdminUsername();
 const SITE_URL = (process.env.SITE_URL || "https://www.aura2.com.br").replace(/\/$/, "");
 const MYSQL_GAME_ACCOUNT_DB = process.env.MYSQL_GAME_ACCOUNT_DB || "account";
 const REQUIRE_METIN_MYSQL = process.env.REQUIRE_METIN_MYSQL !== "false";
@@ -35,15 +36,31 @@ function apiBaseUrl(): string {
 
 const registerSchema = z.object({
   username: z.string().min(3).max(30).regex(/^[a-zA-Z0-9_]+$/),
-  email: z.string().email(),
-  password: z.string().min(6),
+  email: z.string().email().max(254),
+  password: z.string().min(6).max(128),
   deletionPassword: z.string().regex(/^\d{7}$/),
   betaKey: z.string().min(1),
 });
 
 const loginSchema = z.object({
   username: z.string().min(1).max(30),
-  password: z.string().min(1),
+  password: z.string().min(1).max(128),
+});
+
+const changePasswordSchema = z.object({
+  currentPassword: z.string().min(1).max(128),
+  newPassword: z.string().min(6).max(128),
+});
+
+const changeEmailSchema = z.object({
+  newEmail: z.string().email().max(254),
+  currentPassword: z.string().min(1).max(128),
+});
+
+const forgotPasswordSchema = z.object({ email: z.string().email().max(254) });
+const resetPasswordSchema = z.object({
+  token: z.string().regex(/^[a-f0-9]{64}$/i),
+  password: z.string().min(6).max(128),
 });
 
 function signToken(username: string, role: string = "player") {
@@ -231,11 +248,12 @@ router.post("/auth/change-password", async (req, res) => {
     return;
   }
 
-  const { currentPassword, newPassword } = req.body;
-  if (!currentPassword || !newPassword || newPassword.length < 6) {
+  const parsed = changePasswordSchema.safeParse(req.body);
+  if (!parsed.success) {
     res.status(400).json({ error: "Dados inválidos. A nova senha deve ter pelo menos 6 caracteres." });
     return;
   }
+  const { currentPassword, newPassword } = parsed.data;
 
   const mysqlOk = await isMySQLAvailable();
 
@@ -301,12 +319,13 @@ router.post("/auth/change-email", async (req, res) => {
     return;
   }
 
-  const { newEmail, currentPassword } = req.body;
-  if (!newEmail || typeof newEmail !== "string" || !currentPassword) {
+  const parsed = changeEmailSchema.safeParse(req.body);
+  if (!parsed.success) {
     res.status(400).json({ error: "Dados inválidos." });
     return;
   }
 
+  const { newEmail, currentPassword } = parsed.data;
   const emailSchema = z.string().email();
   if (!emailSchema.safeParse(newEmail).success) {
     res.status(400).json({ error: "E-mail inválido." });
@@ -452,11 +471,13 @@ router.get("/auth/me", async (req, res) => {
 });
 
 router.post("/auth/forgot-password", async (req, res) => {
-  const { email } = req.body;
-  if (!email || typeof email !== "string") {
+  const parsed = forgotPasswordSchema.safeParse(req.body);
+  if (!parsed.success) {
     res.status(400).json({ error: "E-mail inválido." });
     return;
   }
+
+  const { email } = parsed.data;
 
   try {
     const mysqlOk = await isMySQLAvailable();
@@ -492,12 +513,13 @@ router.post("/auth/forgot-password", async (req, res) => {
 });
 
 router.post("/auth/reset-password", async (req, res) => {
-  const { token, password } = req.body;
-  if (!token || !password || password.length < 6) {
+  const parsed = resetPasswordSchema.safeParse(req.body);
+  if (!parsed.success) {
     res.status(400).json({ error: "Dados inválidos." });
     return;
   }
 
+  const { token, password } = parsed.data;
   const entry = consumeResetToken(token);
   if (!entry) {
     res.status(400).json({ error: "Link inválido ou expirado." });

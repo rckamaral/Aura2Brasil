@@ -6,10 +6,11 @@ import { db, donationsTable, accountsTable } from "@workspace/db";
 import { and, eq, desc } from "drizzle-orm";
 import { notifyDonation } from "../discord/notifications.js";
 import pool from "../lib/mysql";
+import { getAdminUsername, getJwtSecret } from "../lib/security";
 
 const router = Router();
-const JWT_SECRET = process.env.SESSION_SECRET || "aura2-secret-fallback";
-const ADMIN_USERNAME = process.env.ADMIN_USERNAME || "admin";
+const JWT_SECRET = getJwtSecret();
+const ADMIN_USERNAME = getAdminUsername();
 const MP_ACCESS_TOKEN = process.env.MP_ACCESS_TOKEN || "";
 const MP_WEBHOOK_SECRET = process.env.MP_WEBHOOK_SECRET || "";
 const MYSQL_GAME_ACCOUNT_DB = process.env.MYSQL_GAME_ACCOUNT_DB || "account";
@@ -62,7 +63,7 @@ function hasValidMercadoPagoSignature(
   xRequestId: string,
   dataId: string,
 ): boolean {
-  if (!MP_WEBHOOK_SECRET) return true;
+  if (!MP_WEBHOOK_SECRET) return false;
 
   const signatureParts = Object.fromEntries(
     xSignature.split(",").map((part) => {
@@ -453,7 +454,7 @@ router.get("/admin/donations", async (req, res) => {
 });
 
 const actionSchema = z.object({
-  notes: z.string().optional(),
+  notes: z.string().max(2000).optional(),
 });
 
 router.post("/admin/donations/:id/approve", async (req, res) => {
