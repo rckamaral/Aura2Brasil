@@ -61,7 +61,10 @@ function streamFile(req, res, filePath, stat) {
     const start = match[1] ? Number(match[1]) : 0;
     const end = match[2] ? Math.min(Number(match[2]), stat.size - 1) : stat.size - 1;
     if (start > end || start >= stat.size) {
-      res.writeHead(416, { "Content-Range": `bytes */${stat.size}` });
+      res.writeHead(416, {
+        ...SECURITY_HEADERS,
+        "Content-Range": `bytes */${stat.size}`,
+      });
       res.end();
       return;
     }
@@ -161,6 +164,15 @@ function serve(req, res) {
   }
 
   const relativePath = pathname.replace(/^[/\\]+/, "") || "index.html";
+  const hasHiddenSegment = relativePath
+    .split(/[/\\]/)
+    .some((segment) => segment.startsWith("."));
+  if (hasHiddenSegment) {
+    res.writeHead(404, SECURITY_HEADERS);
+    res.end("not found");
+    return;
+  }
+
   const filePath = path.resolve(PUBLIC_DIR, relativePath);
   const publicRoot = `${path.resolve(PUBLIC_DIR)}${path.sep}`;
   if (!filePath.startsWith(publicRoot)) {
@@ -171,6 +183,12 @@ function serve(req, res) {
 
   fs.stat(filePath, (err, stat) => {
     if (err || !stat.isFile()) {
+      if (path.extname(relativePath)) {
+        res.writeHead(404, SECURITY_HEADERS);
+        res.end("not found");
+        return;
+      }
+
       const indexPath = path.join(PUBLIC_DIR, "index.html");
       fs.stat(indexPath, (err2, indexStat) => {
         if (err2) {

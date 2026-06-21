@@ -1,4 +1,4 @@
 [build]
-# The web image includes the hardened static server from the repository root.
+# The web image includes the hardened static server and strict fallback rules.
 builder = "dockerfile"
 dockerfilePath = "Dockerfile.web"
