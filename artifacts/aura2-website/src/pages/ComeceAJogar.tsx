@@ -59,7 +59,7 @@ export default function ComeceAJogar() {
         <img
           src="/reinos.png"
           alt="Mapa dos reinos do Aura 2"
-          className="absolute inset-0 h-full w-full object-cover object-center"
+          className="absolute inset-0 h-full w-full object-contain object-right"
         />
         <div className="absolute inset-0 bg-black/65" />
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,7,4,0.98)_0%,rgba(8,7,4,0.78)_45%,rgba(8,7,4,0.32)_100%)]" />
