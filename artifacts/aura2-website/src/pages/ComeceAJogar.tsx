@@ -57,8 +57,8 @@ export default function ComeceAJogar() {
     <div className="min-h-screen bg-background pt-20">
       <section className="relative min-h-[620px] overflow-hidden border-b border-primary/20 flex items-center">
         <img
-          src="/posts/boas-vindas.png"
-          alt="Personagens do Aura 2"
+          src="/reinos.png"
+          alt="Mapa dos reinos do Aura 2"
           className="absolute inset-0 h-full w-full object-cover object-center"
         />
         <div className="absolute inset-0 bg-black/65" />
