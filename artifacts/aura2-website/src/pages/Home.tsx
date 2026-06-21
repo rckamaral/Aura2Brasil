@@ -93,6 +93,17 @@ type Post = {
   fullContent: string;
 };
 
+const POST_IMAGE_OVERRIDES: Record<number, { src: string; position: string }> = {
+  10: { src: "/posts/pix-logo.png", position: "left center" },
+  11: { src: "/posts/discord-logo.png", position: "center" },
+  16: { src: "/posts/anticheat-logo.png", position: "center" },
+};
+
+function getPostImage(post: Post) {
+  return POST_IMAGE_OVERRIDES[post.id] ??
+    (post.image ? { src: post.image, position: "center" } : undefined);
+}
+
 type ApiNewsItem = {
   id: number;
   title: string;
@@ -747,8 +758,10 @@ export default function Home() {
 
             {/* 3 compact posts */}
             <div className="lg:col-span-2 flex flex-col gap-3">
-              {visiblePosts.slice(1, 4).map((post) => (
-                <div
+              {visiblePosts.slice(1, 4).map((post) => {
+                const postImage = getPostImage(post);
+                return (
+                  <div
                   key={post.id}
                   onClick={() => setSelectedPost(post)}
                   className="group flex gap-4 items-start rounded-xl p-4 cursor-pointer transition-all duration-200"
@@ -761,9 +774,14 @@ export default function Home() {
                 >
                   {/* Thumbnail */}
                   <div className="flex-shrink-0 w-16 h-16 rounded-lg overflow-hidden relative"
-                    style={{ background: post.image ? "#0d0a06" : post.gradient }}>
-                    {post.image && (
-                      <img src={post.image} alt="" className="w-full h-full object-cover" />
+                    style={{ background: postImage ? "#0d0a06" : post.gradient }}>
+                    {postImage && (
+                      <img
+                        src={postImage.src}
+                        alt=""
+                        className="h-full w-full object-cover"
+                        style={{ objectPosition: postImage.position }}
+                      />
                     )}
                   </div>
 
@@ -781,8 +799,9 @@ export default function Home() {
                   <div className="flex-shrink-0 text-gray-700 group-hover:text-primary transition-colors duration-200 mt-1">
                     <span className="text-sm">→</span>
                   </div>
-                </div>
-              ))}
+                  </div>
+                );
+              })}
             </div>
 
           </div>
