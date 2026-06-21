@@ -17,6 +17,7 @@ import ResetPassword from "@/pages/ResetPassword";
 import Loja from "@/pages/Loja";
 import Admin from "@/pages/Admin";
 import Parceiros from "@/pages/Parceiros";
+import ComeceAJogar from "@/pages/ComeceAJogar";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +44,7 @@ function Router() {
         <Route path="/loja" component={Loja} />
         <Route path="/admin" component={Admin} />
         <Route path="/parceiros" component={Parceiros} />
+        <Route path="/comece-a-jogar" component={ComeceAJogar} />
         <Route path="/" component={Home} />
         <Route>
           <NotFound />

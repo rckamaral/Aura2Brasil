@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -34,6 +34,15 @@ export default function Navbar() {
   function closeMobile() {
     setMobileOpen(false);
   }
+
+  useEffect(() => {
+    function openRegistration() {
+      openAs("register");
+    }
+
+    window.addEventListener("aura2:open-register", openRegistration);
+    return () => window.removeEventListener("aura2:open-register", openRegistration);
+  }, []);
 
   const titles: Record<ModalMode, string> = {
     login: "Acessar Conta",
@@ -141,7 +150,7 @@ export default function Navbar() {
             <>
               <Button
                 className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(212,160,23,0.4)] transition-all duration-200 hover:scale-110"
-                onClick={() => openAs("register")}
+                onClick={() => navigate("/comece-a-jogar")}
                 data-testid="button-jogar-agora"
               >
                 <Play className="w-4 h-4 mr-2 fill-current" /> Jogar Agora
@@ -232,7 +241,7 @@ export default function Navbar() {
                 </Button>
                 <Button
                   className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider w-full"
-                  onClick={() => { openAs("register"); closeMobile(); }}
+                  onClick={() => { navigate("/comece-a-jogar"); closeMobile(); }}
                 >
                   <Play className="w-4 h-4 mr-2 fill-current" /> Jogar Agora
                 </Button>
