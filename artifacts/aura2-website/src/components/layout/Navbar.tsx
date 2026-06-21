@@ -53,23 +53,20 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-background/80 backdrop-blur-md border-b border-primary/20">
       <div className="container mx-auto px-4 h-20 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3">
+        <Link href="/" className="flex min-w-0 items-center gap-2 sm:gap-3">
           <img
             src="/a2-logo.png"
             alt="M2"
-            className="animate-amber-pulse"
+            className="h-10 w-10 shrink-0 animate-amber-pulse object-contain sm:h-12 sm:w-12"
             style={{
-              width: "48px",
-              height: "48px",
-              objectFit: "contain",
               filter: "drop-shadow(0 0 12px rgba(212,160,23,0.8))",
             }}
           />
-          <div className="flex flex-col">
-            <span className="font-display font-bold text-2xl text-primary leading-none tracking-wider">
-              AURA 2 <span className="text-sm font-normal text-muted-foreground uppercase tracking-normal">- Beta Fechado</span>
+          <div className="flex min-w-0 flex-col">
+            <span className="whitespace-nowrap font-display text-xl font-bold leading-none tracking-wider text-primary sm:text-2xl">
+              AURA 2 <span className="hidden text-sm font-normal uppercase tracking-normal text-muted-foreground sm:inline">- Beta Fechado</span>
             </span>
-            <span className="text-[10px] text-muted-foreground uppercase tracking-widest">
+            <span className="whitespace-nowrap text-[8px] uppercase tracking-widest text-muted-foreground sm:text-[10px]">
               Reviva a essência do Metin2
             </span>
           </div>
@@ -122,7 +119,7 @@ export default function Navbar() {
 
         <div className="flex items-center gap-4">
           <button
-            className="md:hidden text-muted-foreground hover:text-primary transition-colors p-1"
+            className="shrink-0 p-1 text-muted-foreground transition-colors hover:text-primary md:hidden"
             onClick={() => setMobileOpen((v) => !v)}
             aria-label="Menu"
           >
