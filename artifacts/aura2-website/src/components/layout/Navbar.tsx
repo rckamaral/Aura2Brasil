@@ -149,7 +149,7 @@ export default function Navbar() {
           ) : (
             <>
               <Button
-                className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(212,160,23,0.4)] transition-all duration-200 hover:scale-110"
+                className="hidden sm:flex bg-primary text-primary-foreground hover:bg-primary/90 font-bold uppercase tracking-wider shadow-[0_0_15px_rgba(212,160,23,0.4)] transition-all duration-200 hover:scale-110"
                 onClick={() => navigate("/comece-a-jogar")}
                 data-testid="button-jogar-agora"
               >
