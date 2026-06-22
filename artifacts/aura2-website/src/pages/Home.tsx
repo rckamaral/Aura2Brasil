@@ -702,10 +702,18 @@ export default function Home() {
                   className="lg:col-span-3 group relative rounded-2xl overflow-hidden cursor-pointer"
                   style={{
                     minHeight: "360px",
-                    backgroundImage: featured.image ? `url(${featured.image})` : undefined,
-                    backgroundSize: featured.id === 13 ? "contain" : "cover",
-                    backgroundRepeat: "no-repeat",
-                    backgroundPosition: featured.id === 9 ? "center top" : "center",
+                    backgroundImage: featured.image
+                      ? featured.id === 13
+                        ? `url(${featured.image}), url(${featured.image})`
+                        : `url(${featured.image})`
+                      : undefined,
+                    backgroundSize: featured.id === 13 ? "contain, cover" : "cover",
+                    backgroundRepeat: featured.id === 13 ? "no-repeat, no-repeat" : "no-repeat",
+                    backgroundPosition: featured.id === 13
+                      ? "center, center"
+                      : featured.id === 9
+                        ? "center top"
+                        : "center",
                     backgroundColor: "#1a1000",
                     boxShadow: "0 0 40px rgba(212,160,23,0.12), 0 4px 32px rgba(0,0,0,0.6)",
                   }}
