@@ -94,7 +94,7 @@ type Post = {
 };
 
 const POST_IMAGE_OVERRIDES: Record<number, { src: string; position: string }> = {
-  10: { src: "/posts/pix-logo.png", position: "left center" },
+  10: { src: "/posts/pix-icon.png", position: "center" },
   11: { src: "/posts/discord-logo.png", position: "center" },
   16: { src: "/posts/anticheat-logo.png", position: "center" },
 };
