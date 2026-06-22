@@ -164,6 +164,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#c0860a",
       title: "Cash de Recompensa no Lançamento Oficial",
       ago: "hoje",
+      image: "/posts/beta-recompensa.jpg",
       gradient: "linear-gradient(135deg, #7a4800ee 0%, #c07000dd 60%, #8a5000ee 100%)",
 
       desc: "Os testadores poderão receber uma recompensa no lançamento oficial, de acordo com a participação durante o Beta Fechado.",
@@ -176,6 +177,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#b8860b",
       title: "Reporte de Bugs — Como Participar",
       ago: "hoje",
+      image: "/posts/beta-reporte-bugs.jpg",
       gradient: "linear-gradient(135deg, #6a4000ee 0%, #a86000dd 100%)",
 
       desc: "Encontrou algo errado? Reporte pelo Discord com imagens, vídeo e uma descrição detalhada para a equipe avaliar.",
@@ -187,6 +189,7 @@ const POSTS: Record<Tab, Post[]> = {
       categoryColor: "#b8860b",
       title: "Regras e Conduta na Fase Beta",
       ago: "hoje",
+      image: "/posts/beta-regras.jpg",
       gradient: "linear-gradient(135deg, #5a3200ee 0%, #904e00dd 100%)",
 
       desc: "Respeite os outros testadores, não explore bugs intencionalmente e colabore com a equipe. Violações podem resultar em exclusão e perda da recompensa.",
