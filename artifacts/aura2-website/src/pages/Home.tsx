@@ -703,7 +703,8 @@ export default function Home() {
                   style={{
                     minHeight: "360px",
                     backgroundImage: featured.image ? `url(${featured.image})` : undefined,
-                    backgroundSize: "cover",
+                    backgroundSize: featured.id === 13 ? "contain" : "cover",
+                    backgroundRepeat: "no-repeat",
                     backgroundPosition: featured.id === 9 ? "center top" : "center",
                     backgroundColor: "#1a1000",
                     boxShadow: "0 0 40px rgba(212,160,23,0.12), 0 4px 32px rgba(0,0,0,0.6)",
