@@ -235,6 +235,7 @@ const POSTS: Record<Tab, Post[]> = {
       title: "Suporte via Tickets no Site",
       ago: "hoje",
       gradient: "linear-gradient(135deg, #061468ee 0%, #0e309add 100%)",
+      image: "/posts/suporte-ticket.png",
 
       desc: "Agora você pode abrir tickets de suporte diretamente pela sua conta no site.",
       fullContent: `O sistema de suporte via tickets está disponível diretamente no site do Aura2!\n\nComo abrir um ticket:\n1. Faça login na sua conta no site\n2. Acesse "Minha Conta" no menu\n3. Clique em "Abrir Ticket de Suporte"\n4. Selecione a categoria do problema\n5. Descreva o problema com detalhes\n6. Aguarde a resposta da equipe\n\nCategorias disponíveis:\n• Problema técnico (não consigo entrar, crash, bug)\n• Conta (senha, e-mail, dados)\n• Pagamento (Cash não creditado, cobrança indevida)\n• Denúncia (hack, exploit, comportamento abusivo)\n• Outros\n\nTempo de resposta:\n• Problemas de pagamento: até 2 horas\n• Problemas técnicos: até 24 horas\n• Outros: até 48 horas\n\nSe precisar falar com a equipe pelo Discord, abra um atendimento no canal #abrir-ticket e descreva o problema com todos os detalhes.\n\nO sistema de tickets substitui o antigo método de suporte por e-mail e é muito mais rápido e eficiente.`,
@@ -259,20 +260,10 @@ const POSTS: Record<Tab, Post[]> = {
       title: "Dungeon: Caverna Demoníaca — Lord Gahnasel",
       ago: "há 1 semana",
       gradient: "linear-gradient(135deg, #0a3a10ee 0%, #187030dd 100%)",
+      image: "/posts/caverna-demoniaca.png",
 
       desc: "A Caverna Demoníaca é a dungeon de alto nível do Aura2. Boss final: Lord Gahnasel, com drops exclusivos e cosméticos únicos.",
       fullContent: `A Caverna Demoníaca é uma das duas dungeons do Aura2 — e a mais desafiadora para jogadores de alto nível!\n\nBoss Final — Lord Gahnasel:\nUm dos inimigos mais temidos do servidor. Lord Gahnasel guarda tesouros exclusivos que não aparecem em nenhum outro lugar do jogo.\n\nDrops do Lord Gahnasel:\n• Tesouro do Lord Gahnasel\n• Moedas da Conquista x15\n• Esfera da Bênção x2\n• Soro da Persuasão x2\n• Livro do Sábio x2\n• Máscara da Fortuna\n• Pergaminho da Paz x5\n\nO que há no Tesouro do Lord Gahnasel (aleatório):\n• Máscara da Fortuna x2\n• Bênção de Helong (G) ou Yoora (G)\n• Chifres de Ghanasel (Feminino ou Masculino) — 7 dias\n• Traje Ghanasel (Feminino ou Masculino) — 7 dias\n• Pedra Arco-Íris\n• Pet Lord Ghanasel — 7 dias\n• Coração do Ghanasel (item exclusivo)\n\nDicas:\n• Leve poção regeneradora e mantos em abundância\n• O tesouro final contém cosméticos exclusivos que não existem em nenhum outro lugar\n• Forme grupo para maximizar eficiência e chances de drop\n\nBoa sorte na Caverna Demoníaca!`,
-    },
-    {
-      id: 15,
-      category: "Update",
-      categoryColor: "#1a7a4a",
-      title: "Classe Shaman Rebalanceada",
-      ago: "há 1 semana",
-      gradient: "linear-gradient(135deg, #0a4018ee 0%, #18903add 100%)",
-
-      desc: "Habilidades de cura e suporte da Shaman foram ajustadas para melhor equilíbrio no PvP.",
-      fullContent: `Com base no feedback da comunidade e nos dados de balanceamento coletados, realizamos ajustes significativos na classe Shaman.\n\nSobre a Shaman no Aura2:\nA Shaman é a única classe de Suporte/Buff do servidor. Seu papel é curar aliados e amplificar o poder do grupo — indispensável em dungeons e combates em grupo.\n\nMudanças no PvP:\n• Poder de cura individual reduzido em 12% (era muito forte em duelos prolongados)\n• Buffs defensivos com duração levemente reduzida\n• Dano mágico aumentado em 10% para compensar a redução defensiva\n\nMudanças no PvE (dungeons Torre Sakita e Caverna Demoníaca):\n• Eficiência de cura em área aumentada em 20%\n• Duração dos buffs de grupo aumentada de 15 para 20 minutos\n• Mana base aumentada em 8% para suportar combates mais longos\n\nMudanças gerais:\n• Velocidade de cast levemente aumentada (+5%)\n• Animações de habilidades suavizadas\n• Correção: buffs de grupo não desapareciam corretamente ao trocar de mapa\n\nObjetivo do rebalanceamento:\nO Shaman deve ser essencial no PvE e competitiva no PvP, sem dominar duelos individuais. Continuaremos monitorando as estatísticas durante a Fase Beta.\n\nFeedback? Participe da discussão no canal #balanceamento do Discord.`,
     },
     {
       id: 16,
