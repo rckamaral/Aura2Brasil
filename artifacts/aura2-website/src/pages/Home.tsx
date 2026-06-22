@@ -246,12 +246,13 @@ const POSTS: Record<Tab, Post[]> = {
       id: 13,
       category: "Update",
       categoryColor: "#1a7a4a",
-      title: "Servidor Atualizado para v3.4",
+      title: "Servidor Atualizado — Versão BETA",
       ago: "há 3 dias",
       gradient: "linear-gradient(135deg, #0a5a25ee 0%, #14a040dd 100%)",
+      image: "/posts/rei-da-insignia.png",
 
-      desc: "Atualização de estabilidade, correção de crashes e melhorias no sistema de PvP.",
-      fullContent: `Versão 3.4 — lançada em 24 de maio\n\nPrincipais mudanças:\n\nEstabilidade:\n• Melhorado o sistema de gerenciamento de memória — menos desconexões inesperadas\n• Atualizado o motor de física do servidor para reduzir lag em combates com muitos jogadores\n• Otimização do sistema de spawn de mobs e bosses\n\nSistemas:\n• Filtro de Drop: adicionadas novas categorias de itens para filtragem\n• Loja Offline: corrigido bug onde itens não apareciam após reconexão do vendedor\n• Detalhes do Personagem: agora exibe resistências elementais corretamente\n• Corrigido bug onde ataques à distância atravessavam obstáculos\n\nInterface:\n• Melhorada a leitura de dano nos números flutuantes\n• Indicador de buffs ativos mais visível\n• Teletransporte entre mapas com animação mais suave\n\nOutras correções:\n• Corrigida sincronização de animações em grupos grandes\n• Normalizado o spawn de Metins após reinicialização do servidor\n• Corrigido drop incorreto de Moedas da Conquista em Metins de nível 45–60\n• Set Inicial +9 sendo entregue corretamente para todos os novos personagens\n\nA equipe continua trabalhando para entregar um servidor cada vez mais estável. Obrigado pelo feedback de todos!`,
+      desc: "A versão Beta está em testes de estabilidade, correção de problemas e ajustes nos sistemas do servidor.",
+      fullContent: `Versão BETA — fase atual de testes do Aura2\n\nO servidor está em Beta Fechado para que a equipe e os testadores selecionados possam avaliar os sistemas antes do lançamento oficial.\n\nO que está sendo avaliado:\n• Estabilidade e desempenho do servidor\n• Combate PvP e PvE\n• Balanceamento das classes\n• Itens, drops e progressão dos personagens\n• Mapas, monstros e dungeons\n• Economia e sistemas do jogo\n• Interface e experiência dos jogadores\n\nDurante essa fase, erros podem acontecer e alguns conteúdos ainda podem receber ajustes. Os testadores devem enviar problemas e sugestões pelo canal #abrir-ticket no Discord oficial.\n\nA versão Beta continuará sendo atualizada com base nos testes e reportes confirmados pela equipe. Obrigado pela participação!`,
     },
     {
       id: 14,
