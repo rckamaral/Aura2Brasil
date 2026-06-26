@@ -524,7 +524,7 @@ export default function Home() {
 
         <VideoControls hidden={!!activeClass} />
 
-        <div className="container mx-auto px-4 pt-10 lg:pt-16 flex flex-col lg:flex-row items-start gap-8">
+        <div className="container mx-auto px-4 pt-16 sm:pt-20 lg:pt-16 flex flex-col lg:flex-row items-start gap-8">
           <div className="flex-1 max-w-2xl space-y-6 animate-in fade-in slide-in-from-bottom-8 duration-1000">
             <div className="inline-flex items-center rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-sm font-semibold text-primary backdrop-blur-sm">
               <span className="mr-2 flex h-2 w-2 rounded-full bg-primary animate-pulse" />
