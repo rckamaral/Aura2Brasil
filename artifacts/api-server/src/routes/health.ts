@@ -28,9 +28,56 @@ async function tableExists(schema: string, table: string): Promise<boolean> {
   return Number(rows[0]?.total || 0) > 0;
 }
 
+function publicMysqlConfig() {
+  return {
+    hostConfigured: Boolean(process.env.MYSQL_HOST),
+    portConfigured: Boolean(process.env.MYSQL_PORT),
+    userConfigured: Boolean(process.env.MYSQL_USER),
+    passwordConfigured: Boolean(process.env.MYSQL_PASSWORD),
+    defaultDatabaseConfigured: Boolean(process.env.MYSQL_DATABASE),
+    accountDatabaseConfigured: Boolean(MYSQL_GAME_ACCOUNT_DB),
+  };
+}
+
+function safeMysqlError(err: unknown) {
+  const mysqlError = err as {
+    code?: string;
+    errno?: number;
+    sqlState?: string;
+    name?: string;
+  };
+
+  return {
+    name: mysqlError.name || "Error",
+    code: mysqlError.code || null,
+    errno: mysqlError.errno || null,
+    sqlState: mysqlError.sqlState || null,
+  };
+}
+
 router.get("/healthz", (_req, res) => {
   const data = HealthCheckResponse.parse({ status: "ok" });
   res.json(data);
+});
+
+router.get("/db-health", async (_req, res) => {
+  try {
+    await pool.execute("SELECT 1");
+
+    const tables = {
+      account: await tableExists(MYSQL_GAME_ACCOUNT_DB, "account"),
+      player: await tableExists("player", "player"),
+      playerIndex: await tableExists("player", "player_index"),
+    };
+
+    res.json({ mysql: "ok", config: publicMysqlConfig(), tables });
+  } catch (err) {
+    res.status(503).json({
+      mysql: "error",
+      config: publicMysqlConfig(),
+      error: safeMysqlError(err),
+    });
+  }
 });
 
 router.get("/admin/db-health", async (req, res) => {
