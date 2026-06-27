@@ -512,7 +512,13 @@ router.post("/admin/donations/:id/approve", async (req, res) => {
     }
     req.log.info({ adminUsername: username, donationId: id }, "Donation approved manually");
     res.json({ message: "Doação aprovada!", donation: updated });
-    notifyDonation(updated.username, updated.packageLabel, updated.coinsAmount, updated.priceBrl).catch(() => {});
+    notifyDonation(
+      updated.username,
+      updated.packageLabel,
+      updated.coinsAmount,
+      updated.priceBrl,
+      "Aprovado manualmente",
+    ).catch(() => {});
   } catch (err) {
     req.log.error({ err }, "DB error approving donation");
     res.status(503).json({ error: "Erro ao aprovar doação." });

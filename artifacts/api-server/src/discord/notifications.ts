@@ -115,6 +115,7 @@ export async function notifyDonation(
   packageLabel: string,
   coinsAmount: number,
   priceBrl: number,
+  statusText = "Cash creditado automaticamente",
 ): Promise<void> {
   const channel = await getTextChannel(process.env.DISCORD_DOADORES_CHANNEL_ID);
   if (!channel) return;
@@ -130,7 +131,7 @@ export async function notifyDonation(
       .addFields(
         { name: "Pacote", value: packageLabel, inline: true },
         { name: "Valor", value: formattedPrice, inline: true },
-        { name: "Status", value: "Cash creditado automaticamente", inline: false },
+        { name: "Status", value: statusText, inline: false },
       )
       .setColor(0x9b59b6)
       .setTimestamp()
