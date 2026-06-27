@@ -517,7 +517,7 @@ router.post("/admin/donations/:id/approve", async (req, res) => {
       updated.packageLabel,
       updated.coinsAmount,
       updated.priceBrl,
-      "Aprovado manualmente",
+      "Cash creditado manualmente",
     ).catch(() => {});
   } catch (err) {
     req.log.error({ err }, "DB error approving donation");
