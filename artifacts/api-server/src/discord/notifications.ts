@@ -129,7 +129,7 @@ export async function notifyDonation(
       .setDescription(`**${username}** apoiou o servidor Aura2! Muito obrigado! 🙏`)
       .addFields(
         { name: "Pacote", value: packageLabel, inline: true },
-        { name: "Moedas", value: `${coinsAmount.toLocaleString("pt-BR")} Moedas Cash`, inline: true },
+        { name: "Cash creditado", value: coinsAmount.toLocaleString("pt-BR"), inline: true },
         { name: "Valor", value: formattedPrice, inline: true },
       )
       .setColor(0x9b59b6)
