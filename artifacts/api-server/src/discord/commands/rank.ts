@@ -32,7 +32,7 @@ export const rank: Command = {
 
       const lines = rows.map((r, i) => {
         const coins = Number(r.total ?? 0).toLocaleString("pt-BR");
-        return `${MEDALS[i]} **${r.username}** — ${coins} AC`;
+        return `${MEDALS[i]} **${r.username}** — ${coins} Moedas Cash`;
       });
 
       const embed = new EmbedBuilder()

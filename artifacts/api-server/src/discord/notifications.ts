@@ -119,13 +119,18 @@ export async function notifyDonation(
   const channel = await getTextChannel(process.env.DISCORD_DOADORES_CHANNEL_ID);
   if (!channel) return;
   try {
+    const formattedPrice = priceBrl.toLocaleString("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+    });
+
     const embed = new EmbedBuilder()
       .setTitle("💎 Doação Aprovada!")
       .setDescription(`**${username}** apoiou o servidor Aura2! Muito obrigado! 🙏`)
       .addFields(
         { name: "Pacote", value: packageLabel, inline: true },
-        { name: "Moedas", value: `${coinsAmount.toLocaleString("pt-BR")} AC`, inline: true },
-        { name: "Valor", value: `R$ ${(priceBrl / 100).toFixed(2)}`, inline: true },
+        { name: "Moedas", value: `${coinsAmount.toLocaleString("pt-BR")} Moedas Cash`, inline: true },
+        { name: "Valor", value: formattedPrice, inline: true },
       )
       .setColor(0x9b59b6)
       .setTimestamp()
