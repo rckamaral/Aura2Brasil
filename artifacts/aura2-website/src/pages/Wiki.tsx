@@ -667,28 +667,28 @@ const gameplayList = [
 ];
 
 const mapaVipMiniBosses = [
-  { name: "Chefe Orc", icon: "/chefe-orc.png", color: "#c084fc", respawn: "a cada 1h", drops: ["Baú do Tier II", "Pedra da Fundação 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 3x"] },
-  { name: "Tartaruga De Pedra", icon: "/tartaruga-pedra.png", color: "#86efac", respawn: "a cada 1h", drops: ["Baú do Tier II", "Compensado 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 3x"] },
-  { name: "Líder Fanático Zen", icon: "/lider-fanatico.png", color: "#a78bfa", respawn: "a cada 1h", drops: ["Baú do Tier II", "Compensado 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 3x"] },
-  { name: "Comandante Tigre", icon: "/comandante-tigre.png", color: "#fb923c", respawn: "a cada 1h", drops: ["Baú do Tier II", "Pedra da Fundação 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 3x"] },
-  { name: "Nove Caudas", icon: "/nove-caudas.png", color: "#f9a8d4", respawn: "a cada 1h", drops: ["Baú do Tier II", "Pedra da Fundação 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 3x"] },
-  { name: "Rei Flamejante", icon: "/rei-flamejante.png", color: "#f87171", respawn: "a cada 1h", drops: ["Baú do Tier II", "Compensado 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 3x"] },
-  { name: "Aranha Rainha", icon: "/rainha-aranha.png", color: "#94a3b8", respawn: "a cada 1h", drops: ["Baú do Tier II", "Tronco 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 3x"] },
+  { name: "Chefe Orc", icon: "/chefe-orc.png", color: "#c084fc", respawn: "a cada 1h", drops: ["Baú do Tier II", "Pedra da Fundação 1x", "Esfera da Bênção 1x", "Soro da Persuasão 1x", "Moedas da Conquista 5x"] },
+  { name: "Tartaruga De Pedra", icon: "/tartaruga-pedra.png", color: "#86efac", respawn: "a cada 1h", drops: ["Baú do Tier II", "Compensado 1x", "Esfera da Bênção 2x", "Soro da Persuasão 1x", "Moedas da Conquista 5x"] },
+  { name: "Líder Fanático Zen", icon: "/lider-fanatico.png", color: "#a78bfa", respawn: "a cada 1h", drops: ["Baú do Tier II", "Compensado 1x", "Esfera da Bênção 2x", "Soro da Persuasão 1x", "Moedas da Conquista 5x"] },
+  { name: "Comandante Tigre", icon: "/comandante-tigre.png", color: "#fb923c", respawn: "a cada 1h", drops: ["Baú do Tier II", "Pedra da Fundação 1x", "Esfera da Bênção 2x", "Soro da Persuasão 1x", "Moedas da Conquista 5x"] },
+  { name: "Nove Caudas", icon: "/nove-caudas.png", color: "#f9a8d4", respawn: "a cada 1h", drops: ["Baú do Tier II", "Pedra da Fundação 1x", "Esfera da Bênção 2x", "Soro da Persuasão 1x", "Moedas da Conquista 5x"] },
+  { name: "Rei Flamejante", icon: "/rei-flamejante.png", color: "#f87171", respawn: "a cada 1h", drops: ["Baú do Tier II", "Compensado 1x", "Esfera da Bênção 2x", "Soro da Persuasão 1x", "Moedas da Conquista 5x"] },
+  { name: "Aranha Rainha", icon: "/rainha-aranha.png", color: "#94a3b8", respawn: "a cada 1h", drops: ["Baú do Tier II", "Tronco 1x", "Esfera da Bênção 2x", "Soro da Persuasão 1x", "Moedas da Conquista 5x"] },
 ];
 
 const mapaVipBosses = [
-  { name: "Dragão D'Água", icon: "/dragao-dagua.png", color: "#38bdf8", respawn: "6 Hrs", drops: ["Tesouro do Dragão D'Água", "Máscara da Fortuna 1x", "Moedas da Conquista 15x", "Esfera da Bênção 2x"] },
-  { name: "Dragão de Fogo", icon: "/dragao-vermelho.png", color: "#f87171", respawn: "6 Hrs", drops: ["Tesouro do Dragão De Fogo", "Máscara da Fortuna 1x", "Moedas da Conquista 15x", "Esfera da Bênção 2x"] },
+  { name: "Dragão D'Água", icon: "/dragao-dagua.png", color: "#38bdf8", respawn: "6 Hrs", drops: ["Tesouro do Dragão D'Água", "Máscara da Fortuna 10x", "Moedas da Conquista 50x", "Esfera da Bênção 5x"] },
+  { name: "Dragão de Fogo", icon: "/dragao-vermelho.png", color: "#f87171", respawn: "6 Hrs", drops: ["Tesouro do Dragão De Fogo", "Máscara da Fortuna 10x", "Moedas da Conquista 50x", "Esfera da Bênção 5x"] },
 ];
 
 const mapaVipMetins = [
-  { name: "Metin da Visibilidade", level: "Lv 85", icon: "/metin-lv85.png", color: "#a78bfa", count: "Spawn x15", respawn: "10 Min", drops: ["Gold — 8.5kk", "Moedas da Conquista 3x", "Perg. do Novo Aprimoramento 3~5x", "Perg. do Aprimoramento 3~5x", "Pergaminho da Paz 1x", "Anel da Experiência 1x", "Luva do Ladrão 1x", "Armaduras do 61", "Itens entre +3 e +6"] },
-  { name: "Metin do Trovão", level: "Lv 90", icon: "/metin-lv90.png", color: "#fbbf24", count: "Spawn x15", respawn: "10 Min", drops: ["Gold — 10kk", "Moedas da Conquista 3x", "Perg. do Novo Aprimoramento 3~5x", "Perg. do Aprimoramento 3~5x", "Pergaminho da Paz 1x", "Anel da Experiência 1x", "Luva do Ladrão 1x", "Esfera da Bênção 1x", "Armaduras do 66", "Itens entre +3 e +6"] },
+  { name: "Metin da Visibilidade", level: "Lv 85", icon: "/metin-lv85.png", color: "#a78bfa", count: "Spawn x50", respawn: "5 Min", drops: ["Gold — 8.5kk", "Moedas da Conquista 3x", "Perg. do Novo Aprimoramento 3~5x", "Perg. do Aprimoramento 3~5x", "Pergaminho da Paz 1x", "Anel da Experiência 1x", "Luva do Ladrão 1x", "Armaduras do 61", "Itens entre +3 e +6"] },
+  { name: "Metin do Trovão", level: "Lv 90", icon: "/metin-lv90.png", color: "#fbbf24", count: "Spawn x50", respawn: "5 Min", drops: ["Gold — 10kk", "Moedas da Conquista 3x", "Perg. do Novo Aprimoramento 3~5x", "Perg. do Aprimoramento 3~5x", "Pergaminho da Paz 1x", "Anel da Experiência 1x", "Luva do Ladrão 1x", "Esfera da Bênção 1x", "Armaduras do 66", "Itens entre +3 e +6"] },
 ];
 
 const mapaVipEspeciais = [
-  { name: "Tocha", icon: "/tochas.png", color: "#fb923c", count: "Spawn x5", respawn: "2 Hrs", drops: ["Armas do 75", "Armaduras do 66", "Perola Branca 1x", "Perola Azul 1x", "Perola Vermelha 1x", "Esfera da Bênção 1x", "Pedra Arco-iris 1x"] },
-  { name: "Sapo de Ouro", icon: "/sapo-dourado.png", color: "#86efac", count: "Spawn x5", respawn: "2 Hrs", drops: ["Mascara da Fortuna 1~2x"] },
+  { name: "Tocha", icon: "/tochas.png", color: "#fb923c", count: "Spawn x5", respawn: "30 Min", drops: ["Armas do 75", "Armaduras do 66", "Perola Branca 1x", "Perola Azul 1x", "Perola Vermelha 1x", "Pedra Arco-iris 1x"] },
+  { name: "Sapo de Ouro", icon: "/sapo-dourado.png", color: "#86efac", count: "Spawn x5", respawn: "30 Min", drops: ["Mascara da Fortuna 1~2x"] },
 ];
 
 const armorPairs = [
@@ -1006,7 +1006,7 @@ export default function Wiki() {
                 },
                 {
                   title: "Caixa do Aventureiro",
-                  desc: "Aberta a cada 10 níveis (10, 20... até 90) com itens exclusivos.",
+                  desc: "Aberta a cada 10 níveis (10, 20... até 80) com itens exclusivos.",
                   icon: "📦",
                 },
               ].map((item) => (
@@ -1179,7 +1179,6 @@ export default function Wiki() {
                   "Pérola Branca 1x",
                   "Pérola Azul 1x",
                   "Pérola Vermelha 1x",
-                  "Esfera Da Bênção 1x",
                   "Pedra Arco-Íris 1x",
                 ].map((d) => (
                   <DropRow key={d} label={d} color="#f97316" />
