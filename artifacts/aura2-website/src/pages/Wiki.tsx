@@ -2443,7 +2443,7 @@ export default function Wiki() {
                 Download em breve
               </a>
               <a
-                href="https://discord.gg/BN6XbbqsM"
+                href="https://discord.gg/PRTpgj28Dw"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="px-6 py-3 border border-primary/40 text-primary font-bold rounded uppercase tracking-wider text-sm hover:border-primary hover:bg-primary/10 transition-colors"

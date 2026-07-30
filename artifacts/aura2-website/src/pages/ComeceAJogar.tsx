@@ -200,7 +200,7 @@ export default function ComeceAJogar() {
           </p>
           <div className="mt-7 flex flex-col justify-center gap-3 sm:flex-row">
             <Button className="bg-[#5865f2] font-bold uppercase tracking-wider text-white hover:bg-[#4752c4]" asChild>
-              <a href="https://discord.gg/BN6XbbqsM" target="_blank" rel="noreferrer">
+              <a href="https://discord.gg/PRTpgj28Dw" target="_blank" rel="noreferrer">
                 <MessageCircle className="mr-2 h-4 w-4" /> Entrar no Discord
                 <ExternalLink className="ml-2 h-3.5 w-3.5" />
               </a>
